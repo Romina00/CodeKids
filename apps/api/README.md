@@ -1,98 +1,147 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Code Kids Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS backend for the Code Kids project.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tech Stack
 
-## Description
+- NestJS
+- TypeORM
+- MySQL
+- Swagger / OpenAPI
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Project Setup
 
-## Project setup
+Install dependencies from the repository root:
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+## Run the Backend
+
+Development:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run dev --workspace @codekids/backend
 ```
 
-## Run tests
+Watch mode:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Debug mode:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run start:debug --workspace @codekids/backend
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Production build:
 
-## Resources
+```bash
+npm run build
+npm run start:prod --workspace @codekids/backend
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+## Swagger API Documentation
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+This backend uses Swagger for API documentation.
 
-## Support
+Swagger is available after starting the server at:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```text
+http://localhost:3000/api/docs
+```
 
-## Stay in touch
+OpenAPI JSON can be accessed at:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```text
+http://localhost:3000/api-json
+```
 
-## License
+Current Swagger setup:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- Title: `Code Kids API`
+- Description: `API documentation for the Code Kids backend`
+- Version: `1.0`
+- Swagger route: `/api/docs`
+
+Relevant package dependencies:
+
+- `@nestjs/swagger`
+- `swagger-ui-express`
+
+## Useful Commands
+
+Format code:
+
+```bash
+npm run format
+```
+
+Run lint:
+
+```bash
+npm run lint
+```
+
+Run unit tests:
+
+```bash
+npm run test
+```
+
+Run e2e tests:
+
+```bash
+npm run test:e2e --workspace @codekids/backend
+```
+
+Run test coverage:
+
+```bash
+npm run test:cov --workspace @codekids/backend
+```
+
+## Environment Variables
+
+The backend currently uses these environment variables:
+
+```env
+PORT=3000
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=
+DB_DATABASE=code_kids
+JWT_SECRET=change-me
+JWT_EXPIRES_IN=1d
+NODE_ENV=development
+```
+
+## Main Entry Points
+
+- Application bootstrap: [src/main.ts](./src/main.ts)
+- Root module: [src/app.module.ts](./src/app.module.ts)
+- Swagger setup: [src/main.ts](./src/main.ts)
+
+## Folder Structure
+
+The backend follows this module structure inside `src/`:
+
+- `config/`
+- `common/`
+- `auth/`
+- `users/`
+- `learning/`
+- `parents/`
+- `admin/`
+- `upload/`
+- `database/`
+
+## Notes
+
+- Start the backend before opening Swagger.
+- Default local port is `3000` unless `PORT` is changed.
+- If the database is required for startup, make sure MySQL is running and the `.env` values are correct.

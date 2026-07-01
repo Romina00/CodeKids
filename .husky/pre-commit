@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+
+set -e
+
+for file in $(git diff --cached --name-only --diff-filter=ACMR); do
+  case "$file" in
+    apps/api/src/*.ts|apps/api/src/**/*.ts|apps/api/test/*.ts|apps/api/test/**/*.ts)
+      if git diff --cached -- "$file" | grep -n 'console\.log' >/dev/null; then
+        echo "Commit blocked: remove console.log from $file before committing."
+        exit 1
+      fi
+      ;;
+  esac
+done
+
+npm run lint

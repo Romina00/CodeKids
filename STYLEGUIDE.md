@@ -1,5 +1,8 @@
 # Project Styleguide - codeKids
 
+This is the canonical style guide for the entire `codeKids` repository.
+App-specific duplicates should not be maintained separately unless they define truly additional rules that cannot live here.
+
 This styleguide defines coding conventions and workflow practices for the project **"codeKids"**.
 
 `codeKids` is developed as part of a **Bachelorarbeit** and is currently maintained by **one developer**. The workflow rules below therefore focus on clarity, traceability, and consistency rather than team review processes.

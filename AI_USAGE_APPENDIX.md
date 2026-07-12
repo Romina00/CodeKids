@@ -1,90 +1,90 @@
 # AI Usage Appendix
 
-Dieser Anhang uebertraegt die Regelidee aus der bereitgestellten Vereinbarung auf das Projekt `codeKids`.
-Er ist so formuliert, dass er als Arbeitsgrundlage fuer die Bachelorarbeit und fuer die laufende Entwicklung nutzbar ist.
+This appendix transfers the underlying rule concept from the provided agreement to the `codeKids` project.
+It is written so that it can be used as a working basis for the bachelor's thesis and for ongoing development.
 
-## 1. Ziel
+## 1. Goal
 
-Generative KI darf die Arbeit unterstuetzen, aber nicht die eigenstaendige Kernleistung ersetzen.
-Massgeblich bleibt, dass fachliche Entscheidungen, Begruendungen, Auswahlprozesse und die bewertungsrelevante Konzeption von der Autorin selbst durchdrungen und vertreten werden koennen.
+Generative AI may support the work, but it must not replace the independent core contribution.
+What remains decisive is that domain decisions, justifications, selection processes, and the concept relevant for evaluation can be fully understood and defended by the author herself.
 
-## 2. Zulaessige KI-Unterstuetzung
+## 2. Permitted AI Support
 
-Fuer `codeKids` ist KI-Unterstuetzung in den folgenden Bereichen zulaessig:
+For `codeKids`, AI support is permitted in the following areas:
 
-- technische Strukturierung von Code,
-- Refactoring-Vorschlaege,
-- Erklaerung bestehender Framework-Funktionen,
-- Unterstuetzung bei UI-Prototypen,
-- Unterstuetzung bei Landing-Page-Umsetzung,
-- Unterstuetzung bei Animationen und visueller Verfeinerung,
-- Unterstuetzung bei Backend-Implementierung,
-- sprachliche Ueberarbeitung bereits selbst verfasster Texte,
-- Ideen fuer Rechercheeinstiege oder fuer Vergleichskriterien bei verwandten Produkten.
+- technical code structuring,
+- refactoring suggestions,
+- explanation of existing framework features,
+- support for UI prototypes,
+- support for landing page implementation,
+- support for animations and visual refinement,
+- support for backend implementation,
+- linguistic revision of texts already written independently,
+- ideas for starting research or for comparison criteria regarding related products.
 
-## 3. Nicht zulaessige KI-Nutzung
+## 3. Non-Permitted AI Usage
 
-Nicht zulaessig ist die Nutzung fuer:
+AI usage is not permitted for:
 
-- vollstaendige Generierung wissenschaftlicher Textpassagen,
-- fachliche Argumentation, die nicht selbst erarbeitet wurde,
-- Beschreibung von Loesungskonzepten ohne eigene Herleitung,
-- Interpretation von Ergebnissen ohne eigene Analyse,
-- Begruendung technischer oder methodischer Entscheidungen, die nicht selbst verstanden wurden,
-- Ausarbeitung der zu bewertenden Kernleistung durch Delegation an KI.
+- fully generating academic text passages,
+- domain argumentation that was not developed independently,
+- describing solution concepts without one's own derivation,
+- interpreting results without one's own analysis,
+- justifying technical or methodological decisions that were not personally understood,
+- delegating the core work to be evaluated to AI.
 
-## 4. Eigenstaendig zu erbringende Kernleistungen
+## 4. Core Contributions That Must Be Produced Independently
 
-Die folgenden Punkte bleiben inhaltlich eigenstaendig:
+The following points remain the author's own intellectual work:
 
-- Recherche und Auswahl relevanter Quellen,
-- methodische Begruendung der Recherche,
-- Analyse aehnlicher Produkte,
-- fachliche Zieldefinition,
-- Begruendung der Zielgruppe und ihrer Anforderungen,
-- fachliche UI- und UX-Konzeption,
-- Konzeption der Lernlogik fuer Kinder,
-- Konzeption der Eltern-Funktionen,
-- Authentifikations- und Rollenlogik auf konzeptioneller Ebene,
-- Begruendung der Technologieauswahl,
-- Strukturentscheidungen der Gesamtloesung,
-- Bewertung und Einordnung der Ergebnisse.
+- researching and selecting relevant sources,
+- methodologically justifying the research,
+- analyzing similar products,
+- defining the domain goals,
+- justifying the target group and its requirements,
+- the domain UI and UX concept,
+- the learning logic concept for children,
+- the parent features concept,
+- the authentication and role logic at the conceptual level,
+- justifying the technology selection,
+- structural decisions for the overall solution,
+- evaluating and classifying the results.
 
-## 5. Verbindliche Arbeitsregel
+## 5. Binding Working Rule
 
-Jeder KI-Beitrag darf nur uebernommen werden, wenn alle folgenden Bedingungen erfuellt sind:
+Any AI contribution may only be adopted if all of the following conditions are met:
 
-- Der Inhalt wurde fachlich verstanden.
-- Der Inhalt wurde auf das Projekt angepasst.
-- Der Inhalt wurde auf Korrektheit geprueft.
-- Die Nutzung kann spaeter transparent dokumentiert werden.
+- The content was understood from a domain perspective.
+- The content was adapted to the project.
+- The content was checked for correctness.
+- The usage can later be documented transparently.
 
-Wenn einer dieser Punkte nicht erfuellt ist, darf der KI-Beitrag nicht als finale Projektleistung uebernommen werden.
+If any of these points is not fulfilled, the AI contribution must not be adopted as final project work.
 
-## 6. Dokumentationspflicht
+## 6. Documentation Requirement
 
-Jede relevante KI-Nutzung wird festgehalten. Die Dokumentation soll mindestens folgende Felder enthalten:
+Every relevant AI usage must be recorded. The documentation should contain at least the following fields:
 
-- Werkzeug / Modell
-- Zweck
-- betroffene Abschnitte / Dateien / Artefakte
-- Art der Nutzung
-- kurzer Prompt oder sinngemaesse Prompt-Beschreibung
-- eigene Pruefung / Anpassung
+- tool / model
+- purpose
+- affected sections / files / artifacts
+- type of usage
+- short prompt or meaningful prompt description
+- own review / adaptation
 
-## 7. Dokumentationsvorlage
+## 7. Documentation Template
 
-Die folgende Tabelle kann direkt fuer die Bachelorarbeit oder die Projektdokumentation verwendet werden:
+The following table can be used directly for the bachelor's thesis or the project documentation:
 
-| Werkzeug / Modell | Zweck | Betroffene Abschnitte / Codeteile / Artefakte | Art der Nutzung | Prompt-Beispiel | Eigene Pruefung / Anpassung |
+| Tool / Model | Purpose | Affected Sections / Code Parts / Artifacts | Type of Usage | Example Prompt | Own Review / Adaptation |
 | --- | --- | --- | --- | --- | --- |
-| z. B. Codex / GPT | Refactoring eines NestJS-Service | `src/auth/auth.service.ts` | Strukturvorschlag und Code-Ueberarbeitung | "Refactor this service for clearer responsibility boundaries." | Vorschlag geprueft, Exceptions angepasst, Benennung vereinheitlicht |
+| e.g. Codex / GPT | Refactoring a NestJS service | `src/auth/auth.service.ts` | Structure suggestion and code revision | "Refactor this service for clearer responsibility boundaries." | Reviewed the suggestion, adjusted exceptions, standardized naming |
 
-## 8. Kurzform fuer die taegliche Praxis
+## 8. Short Version for Daily Practice
 
-Wenn KI im Projekt eingesetzt wird, gilt intern immer diese Kurzregel:
+Whenever AI is used in the project, this internal short rule always applies:
 
-1. KI darf helfen.
-2. KI darf nicht entscheiden.
-3. KI darf nicht ungeprueft uebernommen werden.
-4. Die Verantwortung bleibt bei der Autorin.
+1. AI may help.
+2. AI may not decide.
+3. AI output may not be adopted without review.
+4. Responsibility remains with the author.

@@ -1,12 +1,18 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1a2233;
+  --foreground-muted: #51607a;
+  --border-subtle: rgba(26, 34, 51, 0.12);
+  --color-primary: #1f8cff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0b1120;
+    --foreground: #f3f7ff;
+    --foreground-muted: #b5c1d6;
+    --border-subtle: rgba(243, 247, 255, 0.12);
+    --color-primary: #4ba3ff;
   }
 }
 
@@ -19,6 +25,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 * {
@@ -32,19 +39,46 @@ a {
   text-decoration: none;
 }
 
-.imgDark {
-  display: none;
+.logoLockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  color: currentColor;
+}
+
+.logoMark {
+  width: 84px;
+  flex: none;
+}
+
+.logoCopy {
+  display: grid;
+  gap: 6px;
+}
+
+.logoWordmark {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+}
+
+.logoAccent {
+  color: var(--color-primary);
+}
+
+.logoTagline {
+  color: var(--foreground-muted);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
   }
 }

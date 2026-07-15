@@ -15,6 +15,10 @@ import { Roles } from '../auth/roles.decorator';
 import { Role } from '../users/entities/user.entity';
 import { ParentsService } from './parents.service';
 import type { AuthenticatedUser } from '../auth/auth.types';
+import { CreateChildDto } from './dto/create-child.dto';
+import { UpdateChildDto } from './dto/update-child.dto';
+import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('parents')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -35,14 +39,7 @@ export class ParentsController {
   @Post('children')
   createChild(
     @CurrentUser() user: AuthenticatedUser,
-    @Body()
-    body: {
-      nickname?: string;
-      avatar?: string;
-      birthYear?: number;
-      learningLevel?: string;
-      invitationToken?: string;
-    },
+    @Body() body: CreateChildDto,
   ) {
     return this.parentsService.createChild(user.sub, body);
   }
@@ -51,13 +48,7 @@ export class ParentsController {
   updateChild(
     @CurrentUser() user: AuthenticatedUser,
     @Param('childId', ParseIntPipe) childId: number,
-    @Body()
-    body: {
-      nickname?: string;
-      avatar?: string;
-      birthYear?: number;
-      learningLevel?: string;
-    },
+    @Body() body: UpdateChildDto,
   ) {
     return this.parentsService.updateChild(user.sub, childId, body);
   }
@@ -73,7 +64,7 @@ export class ParentsController {
   @Patch('account/profile')
   updateProfile(
     @CurrentUser() user: AuthenticatedUser,
-    @Body() body: { displayName?: string; email?: string },
+    @Body() body: UpdateParentProfileDto,
   ) {
     return this.parentsService.updateParentProfile(user.sub, body);
   }
@@ -81,12 +72,7 @@ export class ParentsController {
   @Patch('account/password')
   changePassword(
     @CurrentUser() user: AuthenticatedUser,
-    @Body()
-    body: {
-      currentPassword?: string;
-      newPassword?: string;
-      confirmPassword?: string;
-    },
+    @Body() body: ChangePasswordDto,
   ) {
     return this.parentsService.changePassword(user.sub, body);
   }

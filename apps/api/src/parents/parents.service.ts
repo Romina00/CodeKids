@@ -1,6 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { UsersService } from '../users/users.service';
+import { CreateChildDto } from './dto/create-child.dto';
+import { UpdateChildDto } from './dto/update-child.dto';
+import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class ParentsService {
@@ -21,37 +25,19 @@ export class ParentsService {
       );
   }
 
-  createChild(
-    parentId: number,
-    body: {
-      nickname?: string;
-      avatar?: string;
-      birthYear?: number;
-      learningLevel?: string;
-      invitationToken?: string;
-    },
-  ) {
+  createChild(parentId: number, body: CreateChildDto) {
     return this.usersService
       .createChildProfile(parentId, {
-        nickname: body.nickname ?? '',
-        avatar: body.avatar ?? '',
-        birthYear: body.birthYear ?? 0,
+        nickname: body.nickname,
+        avatar: body.avatar,
+        birthYear: body.birthYear,
         learningLevel: body.learningLevel,
         invitationToken: body.invitationToken,
       })
       .then((child) => this.usersService.serializeUser(child));
   }
 
-  updateChild(
-    parentId: number,
-    childId: number,
-    body: {
-      nickname?: string;
-      avatar?: string;
-      birthYear?: number;
-      learningLevel?: string;
-    },
-  ) {
+  updateChild(parentId: number, childId: number, body: UpdateChildDto) {
     return this.usersService
       .updateChildProfile(parentId, childId, body)
       .then((child) => this.usersService.serializeUser(child));
@@ -89,28 +75,13 @@ export class ParentsService {
     };
   }
 
-  updateParentProfile(
-    parentId: number,
-    body: { displayName?: string; email?: string },
-  ) {
+  updateParentProfile(parentId: number, body: UpdateParentProfileDto) {
     return this.usersService
       .updateParentProfile(parentId, body)
       .then((parent) => this.usersService.serializeUser(parent));
   }
 
-  async changePassword(
-    parentId: number,
-    body: {
-      currentPassword?: string;
-      newPassword?: string;
-      confirmPassword?: string;
-    },
-  ) {
-    if (!body.currentPassword || !body.newPassword || !body.confirmPassword) {
-      throw new BadRequestException(
-        'currentPassword, newPassword, and confirmPassword are required.',
-      );
-    }
+  async changePassword(parentId: number, body: ChangePasswordDto) {
     if (body.newPassword !== body.confirmPassword) {
       throw new BadRequestException('Passwords do not match.');
     }

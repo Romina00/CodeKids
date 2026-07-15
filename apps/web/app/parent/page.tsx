@@ -245,7 +245,7 @@ export default function ParentDashboard() {
               one place.
             </p>
           </div>
-          <a href="#manage">
+          <a href="/parent/settings">
             Manage settings <Icon icon={ArrowRight} size="sm" />
           </a>
         </section>

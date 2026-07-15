@@ -13,6 +13,8 @@ describe('ParentsService child profile API', () => {
       listChildrenForParent: jest.fn(),
       updateChildProfile: jest.fn(),
       markChildKidsMode: jest.fn(),
+      updateParentProfile: jest.fn(),
+      changeParentPassword: jest.fn(),
       serializeUser: jest.fn((user: User) => ({
         id: user.id,
         role: user.role,
@@ -101,5 +103,39 @@ describe('ParentsService child profile API', () => {
         ]) as string[],
       },
     });
+  });
+
+  it('updates only the authenticated parent profile and serializes it safely', async () => {
+    users.updateParentProfile.mockResolvedValue({
+      id: 10,
+      role: Role.PARENT,
+      email: 'new@example.com',
+      passwordHash: 'hidden',
+    } as User);
+    await service.updateParentProfile(10, { email: 'new@example.com' });
+    expect(users.updateParentProfile.mock.calls[0]).toEqual([
+      10,
+      { email: 'new@example.com' },
+    ]);
+  });
+
+  it('requires matching confirmation before changing a parent password', async () => {
+    await expect(
+      service.changePassword(10, {
+        currentPassword: 'Current1',
+        newPassword: 'Updated1',
+        confirmPassword: 'Different1',
+      }),
+    ).rejects.toThrow('Passwords do not match');
+    await service.changePassword(10, {
+      currentPassword: 'Current1',
+      newPassword: 'Updated1',
+      confirmPassword: 'Updated1',
+    });
+    expect(users.changeParentPassword.mock.calls[0]).toEqual([
+      10,
+      'Current1',
+      'Updated1',
+    ]);
   });
 });

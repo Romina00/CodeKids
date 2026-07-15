@@ -1,0 +1,75 @@
+.page {
+  min-height: 100vh;
+  padding: clamp(1.5rem, 5vw, 4rem);
+  background: #fffaf2;
+  color: #243047;
+}
+.page header {
+  max-width: 68rem;
+  margin: 0 auto 2rem;
+}
+.page header p {
+  margin: 2rem 0 0.25rem;
+  color: #6d4aff;
+  font-weight: 700;
+}
+.page h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+.page a {
+  color: inherit;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1.5rem;
+  max-width: 68rem;
+  margin: auto;
+}
+.card {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: white;
+  border: 1px solid #ded8ef;
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 2.5rem rgb(45 35 75 / 8%);
+}
+.card h2,
+.card p {
+  margin: 0;
+}
+.card label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 700;
+}
+.card input {
+  min-height: 2.9rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #9991ab;
+  border-radius: 0.75rem;
+  font: inherit;
+}
+.card input:focus-visible,
+.card button:focus-visible,
+.page a:focus-visible {
+  outline: 3px solid #ffb000;
+  outline-offset: 3px;
+}
+.card button {
+  min-height: 3rem;
+  border: 0;
+  border-radius: 0.85rem;
+  background: #6246d8;
+  color: white;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.hint {
+  color: #5d6575;
+  font-size: 0.9rem;
+}

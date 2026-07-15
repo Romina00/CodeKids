@@ -24,3 +24,5 @@ Status: approved for implementation on 2026-07-15 as part of CK-035.
 ## Migration boundary
 
 Migration `1721040000000-create-learning-schema` creates the seven learning tables, indexes, and foreign keys. It assumes the existing user/auth migration has already created `users`. Production deployments must run migrations with schema synchronization disabled.
+
+Migration `1721030000000-create-core-schema` is that prerequisite: it creates `users`, the self-referencing Parent–Child foreign key, invitation storage, uniqueness constraints, and abuse-prevention indexes. The application defaults to `synchronize: false`; local schema synchronization requires the explicit `DB_SYNCHRONIZE=true` opt-in.

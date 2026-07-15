@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -18,6 +19,13 @@ export enum ProgressStatus {
 }
 
 @Entity('progress')
+@Index(
+  'UQ_progress_child_level_activity',
+  ['childId', 'levelId', 'activityId'],
+  {
+    unique: true,
+  },
+)
 export class Progress {
   @PrimaryGeneratedColumn()
   id!: number;

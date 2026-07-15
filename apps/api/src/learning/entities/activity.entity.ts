@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -18,6 +19,7 @@ export enum ActivityType {
 }
 
 @Entity('activities')
+@Index('IDX_activities_level_position', ['levelId', 'position'])
 export class Activity {
   @PrimaryGeneratedColumn()
   id!: number;

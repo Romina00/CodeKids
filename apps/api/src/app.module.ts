@@ -32,7 +32,7 @@ import { UsersModule } from './users/users.module';
         database: config.get<string>('DB_DATABASE'),
         autoLoadEntities: true,
         entities: [User, Invitation, Progress, Reward],
-        synchronize: true,
+        synchronize: process.env.DB_SYNCHRONIZE === 'true',
       }),
     }),
     AuthModule,

@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,6 +14,8 @@ export enum InvitationStatus {
 }
 
 @Entity('invitations')
+@Index('IDX_invitations_email_created', ['parentEmail', 'createdAt'])
+@Index('IDX_invitations_status_expires', ['status', 'expiresAt'])
 export class Invitation {
   @PrimaryGeneratedColumn()
   id!: number;

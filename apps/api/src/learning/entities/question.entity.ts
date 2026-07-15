@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,6 +14,7 @@ export enum QuestionType {
 }
 
 @Entity('questions')
+@Index('IDX_questions_quiz_position', ['quizId', 'position'])
 export class Question {
   @PrimaryGeneratedColumn()
   id!: number;

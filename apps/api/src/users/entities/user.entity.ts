@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -18,6 +19,7 @@ export enum Role {
 }
 
 @Entity('users')
+@Index('IDX_users_parent_role', ['parentId', 'role'])
 export class User {
   @PrimaryGeneratedColumn()
   id!: number;

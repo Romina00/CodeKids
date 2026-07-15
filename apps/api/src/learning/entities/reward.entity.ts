@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -10,6 +11,10 @@ import { User } from '../../users/entities/user.entity';
 import { Achievement } from './achievement.entity';
 
 @Entity('rewards')
+@Index('IDX_rewards_child_earned', ['childId', 'earnedAt'])
+@Index('UQ_rewards_child_achievement', ['childId', 'achievementId'], {
+  unique: true,
+})
 export class Reward {
   @PrimaryGeneratedColumn()
   id!: number;

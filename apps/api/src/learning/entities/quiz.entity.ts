@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -12,6 +13,7 @@ import { Level } from './level.entity';
 import { Question } from './question.entity';
 
 @Entity('quizzes')
+@Index('IDX_quizzes_level', ['levelId'])
 export class Quiz {
   @PrimaryGeneratedColumn()
   id!: number;

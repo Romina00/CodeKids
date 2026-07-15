@@ -392,15 +392,15 @@ Responsible for:
 
 ```text
 src/
-├── config/
-├── common/
-├── auth/
-├── users/
-├── learning/
-├── parents/
-├── admin/
-├── upload/
-└── database/
+|-- config/
+|-- common/
+|-- auth/
+|-- users/
+|-- learning/
+|-- parents/
+|-- admin/
+|-- upload/
+`-- database/
 ```
 
 Advantages:

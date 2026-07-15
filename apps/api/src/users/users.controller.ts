@@ -12,8 +12,7 @@ export class UsersController {
 
   @Get()
   @Roles(Role.ADMIN)
-  async findAll() {
-    const users = await this.usersService.listAllUsers();
-    return users.map((user) => this.usersService.serializeUser(user));
+  findAll() {
+    return this.usersService.listSerializedUsers();
   }
 }

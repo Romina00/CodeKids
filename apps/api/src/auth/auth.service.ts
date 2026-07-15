@@ -8,7 +8,14 @@ import { randomBytes } from 'crypto';
 import { UsersService } from '../users/users.service';
 import { Role, User } from '../users/entities/user.entity';
 import { Invitation, InvitationStatus } from './entities/invitation.entity';
-import { AuthenticatedUser, AuthTokens } from './auth.types';
+import {
+  AuthenticatedUser,
+  AuthTokens,
+  ChildInvitationInput,
+  LoginInput,
+  RefreshSessionInput,
+  RegisterParentInput,
+} from './auth.types';
 import { JwtTokenService } from './jwt-token.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -22,8 +29,20 @@ export class AuthService {
     private readonly invitationsRepository: Repository<Invitation>,
   ) {}
 
-  async registerParent(email: string, password: string) {
-    const parent = await this.usersService.createParent({ email, password });
+  async registerParent(input: RegisterParentInput) {
+    if (!input.email || !input.password || !input.confirmPassword) {
+      throw new BadRequestException(
+        'Email, password, and confirmPassword are required.',
+      );
+    }
+    if (input.password !== input.confirmPassword) {
+      throw new BadRequestException('Passwords do not match.');
+    }
+
+    const parent = await this.usersService.createParent({
+      email: input.email,
+      password: input.password,
+    });
     const tokens = await this.issueSession(parent);
 
     return {
@@ -33,8 +52,12 @@ export class AuthService {
     };
   }
 
-  async login(email: string, password: string) {
-    const user = await this.usersService.findByEmail(email);
+  async login(input: LoginInput) {
+    if (!input.email || !input.password) {
+      throw new BadRequestException('Email and password are required.');
+    }
+
+    const user = await this.usersService.findByEmail(input.email);
     if (!user?.passwordHash) {
       throw new UnauthorizedException('Invalid email or password.');
     }
@@ -43,7 +66,10 @@ export class AuthService {
       throw new UnauthorizedException('Kids cannot log in directly.');
     }
 
-    const passwordMatches = await bcrypt.compare(password, user.passwordHash);
+    const passwordMatches = await bcrypt.compare(
+      input.password,
+      user.passwordHash,
+    );
     if (!passwordMatches) {
       throw new UnauthorizedException('Invalid email or password.');
     }
@@ -56,11 +82,15 @@ export class AuthService {
     };
   }
 
-  async refresh(refreshToken: string) {
-    const payload = this.jwtTokenService.verifyRefreshToken(refreshToken);
+  async refresh(input: RefreshSessionInput) {
+    if (!input.refreshToken) {
+      throw new BadRequestException('Refresh token is required.');
+    }
+
+    const payload = this.jwtTokenService.verifyRefreshToken(input.refreshToken);
     const user = await this.usersService.verifyRefreshToken(
       payload.sub,
-      refreshToken,
+      input.refreshToken,
     );
     const tokens = await this.issueSession(user);
 
@@ -84,8 +114,12 @@ export class AuthService {
     return this.usersService.serializeUser(dbUser);
   }
 
-  async requestChildInvitation(parentEmail: string) {
-    const normalizedEmail = parentEmail.trim().toLowerCase();
+  async requestChildInvitation(input: ChildInvitationInput) {
+    if (!input.parentEmail) {
+      throw new BadRequestException('Parent email is required.');
+    }
+
+    const normalizedEmail = input.parentEmail.trim().toLowerCase();
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(normalizedEmail)) {
       throw new BadRequestException('Email address format is invalid.');

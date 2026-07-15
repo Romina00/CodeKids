@@ -88,6 +88,11 @@ export class UsersService {
     });
   }
 
+  async listSerializedUsers() {
+    const users = await this.listAllUsers();
+    return users.map((user) => this.serializeUser(user));
+  }
+
   async setRefreshToken(
     userId: number,
     refreshToken: string | null,

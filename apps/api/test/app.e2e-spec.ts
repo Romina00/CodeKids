@@ -7,6 +7,7 @@ import { AdminController } from '../src/admin/admin.controller';
 import { AdminService } from '../src/admin/admin.service';
 import { AuthController } from '../src/auth/auth.controller';
 import { AuthService } from '../src/auth/auth.service';
+import { AuthRateLimitService } from '../src/auth/auth-rate-limit.service';
 import { JwtAuthGuard } from '../src/auth/jwt-auth.guard';
 import { JwtTokenService } from '../src/auth/jwt-token.service';
 import { RolesGuard } from '../src/auth/roles.guard';
@@ -75,6 +76,7 @@ describe('core user flows (e2e)', () => {
         Reflector,
         JwtAuthGuard,
         RolesGuard,
+        AuthRateLimitService,
         { provide: AuthService, useValue: authService },
         { provide: ParentsService, useValue: parentsService },
         { provide: AdminService, useValue: adminService },

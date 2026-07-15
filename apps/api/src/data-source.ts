@@ -7,11 +7,13 @@ import { Progress } from './learning/entities/progress.entity';
 import { Question } from './learning/entities/question.entity';
 import { Quiz } from './learning/entities/quiz.entity';
 import { QuizAttempt } from './learning/entities/quiz-attempt.entity';
+import { BlocklyWorkspace } from './learning/entities/blockly-workspace.entity';
 import { Reward } from './learning/entities/reward.entity';
 import { CreateCoreSchema1721030000000 } from './migrations/1721030000000-create-core-schema';
 import { CreateLearningSchema1721040000000 } from './migrations/1721040000000-create-learning-schema';
 import { AddLevelPrerequisite1721050000000 } from './migrations/1721050000000-add-level-prerequisite';
 import { CreateQuizAttempts1721060000000 } from './migrations/1721060000000-create-quiz-attempts';
+import { CreateBlocklyWorkspaces1721070000000 } from './migrations/1721070000000-create-blockly-workspaces';
 import { User } from './users/entities/user.entity';
 
 export default new DataSource({
@@ -29,6 +31,7 @@ export default new DataSource({
     Activity,
     Quiz,
     QuizAttempt,
+    BlocklyWorkspace,
     Question,
     Progress,
     Achievement,
@@ -39,5 +42,6 @@ export default new DataSource({
     CreateLearningSchema1721040000000,
     AddLevelPrerequisite1721050000000,
     CreateQuizAttempts1721060000000,
+    CreateBlocklyWorkspaces1721070000000,
   ],
 });

@@ -17,6 +17,9 @@ import { Question } from './entities/question.entity';
 import { Quiz } from './entities/quiz.entity';
 import { Reward } from './entities/reward.entity';
 import { QuizAttempt } from './entities/quiz-attempt.entity';
+import { BlocklyWorkspace } from './entities/blockly-workspace.entity';
+import { BlocklyController } from './controllers/blockly.controller';
+import { BlocklyService } from './services/blockly.service';
 
 @Module({
   imports: [
@@ -30,6 +33,7 @@ import { QuizAttempt } from './entities/quiz-attempt.entity';
       Achievement,
       Reward,
       QuizAttempt,
+      BlocklyWorkspace,
     ]),
   ],
   controllers: [
@@ -37,7 +41,14 @@ import { QuizAttempt } from './entities/quiz-attempt.entity';
     QuizController,
     ProgressController,
     RewardsController,
+    BlocklyController,
   ],
-  providers: [LevelsService, QuizService, ProgressService, RewardsService],
+  providers: [
+    LevelsService,
+    QuizService,
+    ProgressService,
+    RewardsService,
+    BlocklyService,
+  ],
 })
 export class LearningModule {}

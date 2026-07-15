@@ -3,6 +3,7 @@ import { CreateCoreSchema1721030000000 } from './1721030000000-create-core-schem
 import { CreateLearningSchema1721040000000 } from './1721040000000-create-learning-schema';
 import { AddLevelPrerequisite1721050000000 } from './1721050000000-add-level-prerequisite';
 import { CreateQuizAttempts1721060000000 } from './1721060000000-create-quiz-attempts';
+import { CreateBlocklyWorkspaces1721070000000 } from './1721070000000-create-blockly-workspaces';
 
 describe('schema migrations', () => {
   it('creates core tables and the self-referencing Parent-Child constraint first', async () => {
@@ -59,6 +60,16 @@ describe('schema migrations', () => {
     expect(sql).toContain('UQ_quiz_attempt_child_quiz_number');
     expect(sql).toContain('FK_quiz_attempt_child');
     expect(sql).toContain('FK_quiz_attempt_quiz');
+  });
+
+  it('persists one versioned Blockly workspace per child activity', async () => {
+    const queries: string[] = [];
+    await new CreateBlocklyWorkspaces1721070000000().up(
+      captureQueries(queries),
+    );
+    const sql = queries.join('\n');
+    expect(sql).toContain('UQ_blockly_workspace_child_activity');
+    expect(sql).toContain('FK_blockly_workspace_activity');
   });
 });
 

@@ -11,10 +11,12 @@ import { LevelsController } from '../learning/controllers/levels.controller';
 import { ProgressController } from '../learning/controllers/progress.controller';
 import { QuizController } from '../learning/controllers/quiz.controller';
 import { RewardsController } from '../learning/controllers/rewards.controller';
+import { BlocklyController } from '../learning/controllers/blockly.controller';
 import { LevelsService } from '../learning/services/levels.service';
 import { ProgressService } from '../learning/services/progress.service';
 import { QuizService } from '../learning/services/quiz.service';
 import { RewardsService } from '../learning/services/rewards.service';
+import { BlocklyService } from '../learning/services/blockly.service';
 import { ParentsController } from '../parents/parents.controller';
 import { ParentsService } from '../parents/parents.service';
 import { UploadController } from '../upload/upload.controller';
@@ -37,6 +39,7 @@ describe('Swagger contract', () => {
         ProgressController,
         QuizController,
         RewardsController,
+        BlocklyController,
         UploadController,
       ],
       providers: [
@@ -48,6 +51,7 @@ describe('Swagger contract', () => {
         ProgressService,
         QuizService,
         RewardsService,
+        BlocklyService,
         UploadService,
       ].map((provide) => ({ provide, useValue: {} })),
     })
@@ -77,6 +81,7 @@ describe('Swagger contract', () => {
         '/auth/refresh',
         '/auth/register-parent',
         '/learning/levels',
+        '/learning/blockly/{activityId}/workspace',
         '/learning/levels/{levelId}',
         '/learning/levels/{levelId}/activities',
         '/learning/levels/{levelId}/activities/{activityId}',

@@ -1,4 +1,11 @@
-import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { SubmitQuizDto } from '../dto/submit-quiz.dto';
 import { QuizService } from '../services/quiz.service';
 import { ApiStandardErrors } from '../../common/errors/api-standard-errors.decorator';
@@ -28,6 +35,7 @@ export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
   @Post('submit')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Submit quiz answers for the authenticated child' })
   @ApiOkResponse({ type: SubmitQuizDto })
   submit(@Body() dto: SubmitQuizDto) {

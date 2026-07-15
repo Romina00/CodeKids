@@ -5,6 +5,7 @@ import { Level } from './level.entity';
 import { Progress } from './progress.entity';
 import { Question } from './question.entity';
 import { Quiz } from './quiz.entity';
+import { QuizAttempt } from './quiz-attempt.entity';
 import { Reward } from './reward.entity';
 
 describe('learning entity schema', () => {
@@ -16,6 +17,7 @@ describe('learning entity schema', () => {
     Progress,
     Achievement,
     Reward,
+    QuizAttempt,
   ];
 
   it.each(entities)(

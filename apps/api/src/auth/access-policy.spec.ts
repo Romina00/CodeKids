@@ -16,7 +16,7 @@ describe('role access policy metadata', () => {
     [AdminController, Role.ADMIN],
     [LevelsController, Role.ADMIN],
     [ProgressController, Role.KID],
-    [QuizController, Role.KID],
+    [QuizController, Role.ADMIN],
     [RewardsController, Role.KID],
     [UploadController, Role.PARENT],
   ])('%s is restricted to %s', (controller, role) => {
@@ -35,6 +35,12 @@ describe('role access policy metadata', () => {
         ROLES_KEY,
         handler(AuthController, 'returnToParentMode'),
       ),
+    ).toEqual([Role.KID]);
+  });
+
+  it('allows only a child token to submit a quiz', () => {
+    expect(
+      Reflect.getMetadata(ROLES_KEY, handler(QuizController, 'submit')),
     ).toEqual([Role.KID]);
   });
 

@@ -2,6 +2,7 @@ import { QueryRunner } from 'typeorm';
 import { CreateCoreSchema1721030000000 } from './1721030000000-create-core-schema';
 import { CreateLearningSchema1721040000000 } from './1721040000000-create-learning-schema';
 import { AddLevelPrerequisite1721050000000 } from './1721050000000-add-level-prerequisite';
+import { CreateQuizAttempts1721060000000 } from './1721060000000-create-quiz-attempts';
 
 describe('schema migrations', () => {
   it('creates core tables and the self-referencing Parent-Child constraint first', async () => {
@@ -49,6 +50,15 @@ describe('schema migrations', () => {
     queries.length = 0;
     await migration.down(captureQueries(queries));
     expect(queries[0]).toContain('DROP FOREIGN KEY');
+  });
+
+  it('persists quiz submissions with ownership and retry numbering', async () => {
+    const queries: string[] = [];
+    await new CreateQuizAttempts1721060000000().up(captureQueries(queries));
+    const sql = queries.join('\n');
+    expect(sql).toContain('UQ_quiz_attempt_child_quiz_number');
+    expect(sql).toContain('FK_quiz_attempt_child');
+    expect(sql).toContain('FK_quiz_attempt_quiz');
   });
 });
 

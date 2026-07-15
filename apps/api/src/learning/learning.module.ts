@@ -16,6 +16,7 @@ import { Progress } from './entities/progress.entity';
 import { Question } from './entities/question.entity';
 import { Quiz } from './entities/quiz.entity';
 import { Reward } from './entities/reward.entity';
+import { QuizAttempt } from './entities/quiz-attempt.entity';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Reward } from './entities/reward.entity';
       Progress,
       Achievement,
       Reward,
+      QuizAttempt,
     ]),
   ],
   controllers: [

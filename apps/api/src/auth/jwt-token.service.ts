@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac, randomUUID, timingSafeEqual } from 'crypto';
 import { AuthenticatedUser } from './auth.types';
+import { Role } from '../users/entities/user.entity';
 
 interface JwtPayload extends AuthenticatedUser {
   exp: number;
@@ -109,9 +110,13 @@ export class JwtTokenService {
       throw new UnauthorizedException('Invalid token signature.');
     }
 
-    const payload = JSON.parse(
+    const decodedPayload: unknown = JSON.parse(
       this.base64UrlDecode(body).toString('utf8'),
-    ) as JwtPayload;
+    );
+    if (!this.isJwtPayload(decodedPayload)) {
+      throw new UnauthorizedException('Invalid token payload.');
+    }
+    const payload = decodedPayload;
 
     if (payload.exp <= Math.floor(Date.now() / 1000)) {
       throw new UnauthorizedException('Token expired.');
@@ -165,5 +170,39 @@ export class JwtTokenService {
       }[unit] ?? 1;
 
     return amount * multiplier;
+  }
+
+  private isJwtPayload(value: unknown): value is JwtPayload {
+    if (!this.isRecord(value)) {
+      return false;
+    }
+
+    return (
+      typeof value.sub === 'number' &&
+      this.isRole(value.role) &&
+      (value.type === 'access' || value.type === 'refresh') &&
+      typeof value.exp === 'number' &&
+      typeof value.iat === 'number' &&
+      typeof value.jti === 'string' &&
+      this.isOptionalNullableNumber(value.parentId) &&
+      this.isOptionalNullableString(value.email) &&
+      this.isOptionalNullableString(value.nickname)
+    );
+  }
+
+  private isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+  }
+
+  private isRole(value: unknown): value is Role {
+    return value === Role.PARENT || value === Role.KID || value === Role.ADMIN;
+  }
+
+  private isOptionalNullableNumber(value: unknown): boolean {
+    return value === undefined || value === null || typeof value === 'number';
+  }
+
+  private isOptionalNullableString(value: unknown): boolean {
+    return value === undefined || value === null || typeof value === 'string';
   }
 }

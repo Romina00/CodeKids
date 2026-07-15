@@ -9,6 +9,11 @@ export interface AuthenticatedUser {
   nickname?: string | null;
 }
 
+export interface AuthenticatedRequest {
+  headers: Record<string, string | string[] | undefined>;
+  user?: AuthenticatedUser;
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;

@@ -161,43 +161,15 @@ export default function Home() {
 
           <div
             className={styles.heroVisual}
-            aria-label="Three friendly coding robots"
+            aria-label="Children learning to code together"
           >
-            <div className={styles.codeWindow} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <div>
-                <b>when</b> start
-              </div>
-              <div>
-                <b>move</b> forward
-              </div>
-              <div>
-                <b>if</b> goal → celebrate
-              </div>
-            </div>
             <Image
-              className={styles.robotLeft}
-              src="/assets/avatars/robot-green.svg"
-              alt=""
-              width={170}
-              height={170}
-            />
-            <Image
-              className={styles.robotCenter}
-              src="/assets/avatars/robot-blue.svg"
-              alt=""
-              width={190}
-              height={190}
+              className={styles.heroImage}
+              src="/hero-kids-coding.png"
+              alt="Four children learning programming with colorful coding blocks"
+              width={1024}
+              height={1024}
               priority
-            />
-            <Image
-              className={styles.robotRight}
-              src="/assets/avatars/robot-orange.svg"
-              alt=""
-              width={165}
-              height={165}
             />
             <div className={styles.experienceBadge}>
               <span>

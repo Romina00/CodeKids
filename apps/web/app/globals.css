@@ -1,5 +1,14 @@
 @import '../styles/tokens/index.css';
 
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/nunito/v32/XRXV3I6Li01BKofIO-aBXso.woff2')
+    format('woff2');
+}
+
 html,
 body {
   max-width: 100vw;

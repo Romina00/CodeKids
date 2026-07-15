@@ -16,7 +16,7 @@
   --palette-red-500: #dc3e42;
 
   /* Typography */
-  --font-family-sans: var(--font-geist-sans), sans-serif;
+  --font-family-sans: 'Nunito', var(--font-geist-sans), sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;

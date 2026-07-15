@@ -81,6 +81,17 @@ export class UsersService {
     });
   }
 
+  async findParentForChild(childId: number): Promise<User> {
+    const child = await this.usersRepository.findOne({
+      where: { id: childId, role: Role.KID },
+      relations: { parent: true },
+    });
+    if (!child?.parent || child.parent.role !== Role.PARENT) {
+      throw new NotFoundException('Parent account was not found.');
+    }
+    return child.parent;
+  }
+
   async listAllUsers(): Promise<User[]> {
     return this.usersRepository.find({
       relations: { parent: true },

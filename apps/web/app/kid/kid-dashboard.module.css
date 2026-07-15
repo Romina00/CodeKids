@@ -50,6 +50,24 @@
   border-radius: var(--radius-lg);
 }
 
+.parentModeButton {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+.parentModeForm {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.parentModeForm label {
+  font-weight: var(--font-weight-semibold);
+}
+
+.parentModeError {
+  color: var(--color-danger);
+}
+
 .profileLink > span:nth-child(2) {
   display: grid;
 }

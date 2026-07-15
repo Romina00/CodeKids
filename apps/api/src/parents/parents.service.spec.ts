@@ -12,6 +12,7 @@ describe('ParentsService child profile API', () => {
       createChildProfile: jest.fn(),
       listChildrenForParent: jest.fn(),
       updateChildProfile: jest.fn(),
+      markChildKidsMode: jest.fn(),
       serializeUser: jest.fn((user: User) => ({
         id: user.id,
         role: user.role,
@@ -66,5 +67,39 @@ describe('ParentsService child profile API', () => {
       { id: 20, role: Role.KID, parentId: 10, nickname: 'Ada' },
       { id: 21, role: Role.KID, parentId: 10, nickname: 'Linus' },
     ]);
+  });
+
+  it('selects an owned child and issues a restricted Kids Mode session', async () => {
+    const child = {
+      id: 20,
+      role: Role.KID,
+      parentId: 10,
+      nickname: 'Ada',
+      avatar: 'avatar-ada',
+      learningLevel: 'beginner',
+    } as User;
+    users.markChildKidsMode.mockResolvedValue(child);
+    const auth = {
+      issueSession: jest.fn().mockResolvedValue({
+        accessToken: 'kid-access',
+        refreshToken: 'kid-refresh',
+      }),
+    } as unknown as jest.Mocked<AuthService>;
+    service = new ParentsService(users, auth);
+
+    const result = await service.openKidsMode(10, 20);
+
+    expect(users.markChildKidsMode.mock.calls[0]).toEqual([10, 20]);
+    expect(result).toMatchObject({
+      child: { id: 20, nickname: 'Ada' },
+      redirectTo: '/kids-panel/20',
+      accessToken: 'kid-access',
+      kidsMode: {
+        hidden: expect.arrayContaining([
+          'Parent Dashboard',
+          'Admin Features',
+        ]) as string[],
+      },
+    });
   });
 });

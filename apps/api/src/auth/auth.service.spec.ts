@@ -37,6 +37,7 @@ describe('AuthService', () => {
       findByEmail: jest.fn(),
       serializeUser: jest.fn().mockReturnValue({ id: 7, role: Role.PARENT }),
       setRefreshToken: jest.fn(),
+      findParentForChild: jest.fn(),
     } as unknown as jest.Mocked<UsersService>;
     tokens = {
       signAccessToken: jest.fn().mockReturnValue('access-token'),
@@ -154,5 +155,37 @@ describe('AuthService', () => {
       service.requestChildInvitation({ parentEmail: 'parent@example.com' }),
     ).rejects.toMatchObject({ status: 429 });
     expect(invitations.save.mock.calls).toHaveLength(0);
+  });
+
+  it('returns from Kids Mode only after verifying the parent password', async () => {
+    const parentAccount = { ...parent, passwordHash: 'parent-hash' } as User;
+    users.findParentForChild.mockResolvedValue(parentAccount);
+    comparePassword.mockResolvedValue(true as never);
+
+    const result = await service.returnToParentMode(
+      { sub: 20, role: Role.KID, type: 'access', parentId: 7 },
+      'Strong123',
+    );
+
+    expect(users.findParentForChild.mock.calls[0]).toEqual([20]);
+    expect(comparePassword.mock.calls[0]).toEqual(['Strong123', 'parent-hash']);
+    expect(result).toMatchObject({
+      redirectTo: '/parent',
+      accessToken: 'access-token',
+    });
+  });
+
+  it('rejects an incorrect parent password in Kids Mode', async () => {
+    users.findParentForChild.mockResolvedValue(parent);
+    comparePassword.mockResolvedValue(false as never);
+
+    await expect(
+      service.returnToParentMode(
+        { sub: 20, role: Role.KID, type: 'access', parentId: 7 },
+        'Wrong123',
+      ),
+    ).rejects.toThrow(
+      new UnauthorizedException('Parent credentials are invalid.'),
+    );
   });
 });

@@ -26,6 +26,7 @@ import {
 import Link from 'next/link';
 import { LogoMark } from '../../components/logo';
 import styles from './kid-dashboard.module.css';
+import { ParentModeExit } from './parent-mode-exit';
 
 const levels = [
   {
@@ -86,6 +87,7 @@ export default function KidDashboard() {
           </span>
           <Icon icon={Settings} size="sm" />
         </a>
+        <ParentModeExit />
       </aside>
 
       <main className={styles.main} id="main-content" tabIndex={-1}>

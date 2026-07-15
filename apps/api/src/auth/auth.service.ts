@@ -120,6 +120,27 @@ export class AuthService {
     return this.usersService.serializeUser(dbUser);
   }
 
+  async returnToParentMode(user: AuthenticatedUser, password?: string) {
+    if (user.role !== Role.KID || !password) {
+      throw new UnauthorizedException('Parent re-authentication is required.');
+    }
+
+    const parent = await this.usersService.findParentForChild(user.sub);
+    if (
+      !parent.passwordHash ||
+      !(await bcrypt.compare(password, parent.passwordHash))
+    ) {
+      throw new UnauthorizedException('Parent credentials are invalid.');
+    }
+
+    const tokens = await this.issueSession(parent);
+    return {
+      user: this.usersService.serializeUser(parent),
+      ...tokens,
+      redirectTo: '/parent',
+    };
+  }
+
   async requestChildInvitation(input: ChildInvitationInput) {
     if (!input.parentEmail) {
       throw new BadRequestException('Parent email is required.');

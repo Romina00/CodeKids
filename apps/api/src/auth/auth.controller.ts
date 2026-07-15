@@ -7,6 +7,7 @@ import { RegisterParentDto } from './dto/register-parent.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshSessionDto } from './dto/refresh-session.dto';
 import { ChildInvitationDto } from './dto/child-invitation.dto';
+import { ParentModeDto } from './dto/parent-mode.dto';
 import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
 import { HttpStatus } from '@nestjs/common';
 import {
@@ -21,6 +22,9 @@ import {
   LogoutResponseDto,
   UserResponseDto,
 } from './dto/auth-response.dto';
+import { RolesGuard } from './roles.guard';
+import { Roles } from './roles.decorator';
+import { Role } from '../users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -67,6 +71,19 @@ export class AuthController {
   @ApiOkResponse({ type: LogoutResponseDto })
   logout(@CurrentUser() user: AuthenticatedUser) {
     return this.authService.logout(user);
+  }
+
+  @Post('parent-mode')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.KID)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Leave Kids Mode after parent re-authentication' })
+  @ApiOkResponse({ type: AuthSessionResponseDto })
+  returnToParentMode(
+    @CurrentUser() user: AuthenticatedUser,
+    @Body() input: ParentModeDto,
+  ) {
+    return this.authService.returnToParentMode(user, input.password);
   }
 
   @Get('me')

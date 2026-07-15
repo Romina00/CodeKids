@@ -33,7 +33,7 @@ describe('UsersService parent registration', () => {
       password: 'Strong123',
     });
 
-    expect(usersRepository.findOne).toHaveBeenCalledWith({
+    expect(usersRepository.findOne.mock.calls[0]?.[0]).toEqual({
       where: { email: 'parent@example.com' },
     });
     expect(user).toMatchObject({
@@ -67,6 +67,6 @@ describe('UsersService parent registration', () => {
         password: 'weakpass',
       }),
     ).rejects.toThrow(BadRequestException);
-    expect(usersRepository.save).not.toHaveBeenCalled();
+    expect(usersRepository.save.mock.calls).toHaveLength(0);
   });
 });

@@ -55,11 +55,14 @@ describe('AuthService', () => {
       confirmPassword: 'Strong123',
     });
 
-    expect(users.createParent).toHaveBeenCalledWith({
+    expect(users.createParent.mock.calls[0]?.[0]).toEqual({
       email: ' Parent@Example.com ',
       password: 'Strong123',
     });
-    expect(users.setRefreshToken).toHaveBeenCalledWith(7, 'refresh-token');
+    expect(users.setRefreshToken.mock.calls).toContainEqual([
+      7,
+      'refresh-token',
+    ]);
     expect(result).toMatchObject({
       accessToken: 'access-token',
       refreshToken: 'refresh-token',
@@ -75,7 +78,7 @@ describe('AuthService', () => {
         confirmPassword: 'Different123',
       }),
     ).rejects.toThrow(new BadRequestException('Passwords do not match.'));
-    expect(users.createParent).not.toHaveBeenCalled();
+    expect(users.createParent.mock.calls).toHaveLength(0);
   });
 
   it('returns one generic error for an unknown email or wrong password', async () => {
@@ -101,6 +104,9 @@ describe('AuthService', () => {
     });
 
     expect(result.redirectTo).toBe('/parent-dashboard');
-    expect(users.setRefreshToken).toHaveBeenCalledWith(7, 'refresh-token');
+    expect(users.setRefreshToken.mock.calls).toContainEqual([
+      7,
+      'refresh-token',
+    ]);
   });
 });

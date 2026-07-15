@@ -7,8 +7,10 @@ import { LevelsService } from './services/levels.service';
 import { ProgressService } from './services/progress.service';
 import { QuizService } from './services/quiz.service';
 import { RewardsService } from './services/rewards.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
+  imports: [AuthModule],
   controllers: [
     LevelsController,
     QuizController,

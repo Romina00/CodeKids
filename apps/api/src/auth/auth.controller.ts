@@ -28,6 +28,7 @@ import {
   HttpStatus.BAD_REQUEST,
   HttpStatus.UNAUTHORIZED,
   HttpStatus.CONFLICT,
+  HttpStatus.TOO_MANY_REQUESTS,
   HttpStatus.INTERNAL_SERVER_ERROR,
 )
 export class AuthController {

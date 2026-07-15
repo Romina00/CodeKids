@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -18,7 +20,11 @@ import {
 } from './auth.types';
 import { JwtTokenService } from './jwt-token.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThan, Repository } from 'typeorm';
+
+const INVITATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const INVITATION_COOLDOWN_MS = 15 * 60 * 1000;
+const INVITATION_DAILY_LIMIT = 3;
 
 @Injectable()
 export class AuthService {
@@ -125,11 +131,40 @@ export class AuthService {
       throw new BadRequestException('Email address format is invalid.');
     }
 
+    const now = new Date();
+    const cooldownStartedAt = new Date(now.getTime() - INVITATION_COOLDOWN_MS);
+    const recentInvitation = await this.invitationsRepository.findOne({
+      where: {
+        parentEmail: normalizedEmail,
+        createdAt: MoreThan(cooldownStartedAt),
+      },
+      order: { createdAt: 'DESC' },
+    });
+    if (recentInvitation) {
+      throw new HttpException(
+        'Please wait before requesting another invitation.',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
+    const dailyRequests = await this.invitationsRepository.count({
+      where: {
+        parentEmail: normalizedEmail,
+        createdAt: MoreThan(new Date(now.getTime() - 24 * 60 * 60 * 1000)),
+      },
+    });
+    if (dailyRequests >= INVITATION_DAILY_LIMIT) {
+      throw new HttpException(
+        'Invitation request limit reached. Try again later.',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
     const invitation = this.invitationsRepository.create({
       parentEmail: normalizedEmail,
       token: randomBytes(24).toString('hex'),
       status: InvitationStatus.PENDING,
-      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      expiresAt: new Date(now.getTime() + INVITATION_TTL_MS),
     });
 
     const savedInvitation = await this.invitationsRepository.save(invitation);

@@ -1,5 +1,7 @@
 # CodeKids
 
+[![Quality](https://github.com/Romina00/CodeKids/actions/workflows/quality.yml/badge.svg)](https://github.com/Romina00/CodeKids/actions/workflows/quality.yml)
+
 CodeKids is a learning platform for children, supported by tools for parents and administrators. The repository is an npm workspace managed with Turborepo and contains a Next.js frontend, a NestJS API, and shared TypeScript packages.
 
 ## Repository Structure
@@ -107,6 +109,7 @@ Run these commands from the repository root unless stated otherwise.
 | `npm run format`                                 | Format TypeScript, TSX, and Markdown files with Prettier.                    |
 | `npm run format:check`                           | Verify Prettier formatting without changing files.                           |
 | `npm run test --workspace @codekids/backend`     | Run backend unit tests.                                                      |
+| `npm test`                                       | Run the repository unit-test gate.                                           |
 | `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests.                                                |
 | `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage.                                             |
 

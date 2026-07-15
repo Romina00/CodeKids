@@ -9,6 +9,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check-types": "turbo run check-types",
+    "test": "npm run test --workspace @codekids/backend -- --runInBand",
     "check:staged": "node scripts/check-staged-console.mjs && lint-staged",
     "prepare": "husky"
   },

@@ -14,6 +14,7 @@ import { CreateLearningSchema1721040000000 } from './migrations/1721040000000-cr
 import { AddLevelPrerequisite1721050000000 } from './migrations/1721050000000-add-level-prerequisite';
 import { CreateQuizAttempts1721060000000 } from './migrations/1721060000000-create-quiz-attempts';
 import { CreateBlocklyWorkspaces1721070000000 } from './migrations/1721070000000-create-blockly-workspaces';
+import { AddProgressResumeData1721080000000 } from './migrations/1721080000000-add-progress-resume-data';
 import { User } from './users/entities/user.entity';
 
 export default new DataSource({
@@ -43,5 +44,6 @@ export default new DataSource({
     AddLevelPrerequisite1721050000000,
     CreateQuizAttempts1721060000000,
     CreateBlocklyWorkspaces1721070000000,
+    AddProgressResumeData1721080000000,
   ],
 });

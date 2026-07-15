@@ -77,6 +77,9 @@ export class Progress {
   @Column({ type: 'int', default: 0 })
   attempts!: number;
 
+  @Column({ type: 'simple-json', nullable: true })
+  resumeData!: Record<string, unknown> | null;
+
   @Column({ type: 'datetime', nullable: true })
   startedAt!: Date | null;
 

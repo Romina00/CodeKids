@@ -86,6 +86,7 @@ describe('Swagger contract', () => {
         '/learning/levels/{levelId}/activities',
         '/learning/levels/{levelId}/activities/{activityId}',
         '/learning/progress',
+        '/learning/progress/summary',
         '/learning/quizzes',
         '/learning/quizzes/{quizId}',
         '/learning/quizzes/{quizId}/questions',

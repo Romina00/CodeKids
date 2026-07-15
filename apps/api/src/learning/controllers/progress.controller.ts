@@ -1,4 +1,11 @@
-import { Body, Controller, HttpStatus, Patch, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 import { UpdateProgressDto } from '../dto/update-progress.dto';
 import { ProgressService } from '../services/progress.service';
 import { ApiStandardErrors } from '../../common/errors/api-standard-errors.decorator';
@@ -6,6 +13,8 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Role } from '../../users/entities/user.entity';
+import { CurrentUser } from '../../auth/current-user.decorator';
+import type { AuthenticatedUser } from '../../auth/auth.types';
 import {
   ApiBearerAuth,
   ApiOkResponse,
@@ -30,7 +39,21 @@ export class ProgressController {
   @Patch()
   @ApiOperation({ summary: 'Update progress for the authenticated child' })
   @ApiOkResponse({ type: UpdateProgressDto })
-  update(@Body() dto: UpdateProgressDto) {
-    return this.progressService.update(dto);
+  update(
+    @CurrentUser() user: AuthenticatedUser,
+    @Body() dto: UpdateProgressDto,
+  ) {
+    return this.progressService.update(user.sub, dto);
+  }
+
+  @Get('summary')
+  @ApiOperation({
+    summary: 'Get a privacy-safe learning summary for the authenticated child',
+  })
+  @ApiOkResponse({
+    description: 'Aggregated completion, attempts, and learning time',
+  })
+  summary(@CurrentUser() user: AuthenticatedUser) {
+    return this.progressService.summary(user.sub);
   }
 }

@@ -46,13 +46,21 @@ The API is organized into domain modules for authentication, users, learning, pa
 
 3. Create `apps/api/.env` and configure the backend environment variables described below.
 4. Make sure the configured MySQL database exists and is reachable.
-5. Start the development applications:
+5. Start the frontend development task:
 
    ```bash
    npm run dev
    ```
 
-The web application runs at [http://localhost:3000](http://localhost:3000). The API also defaults to port `3000`, so set a different backend `PORT` when running both applications at the same time, for example `PORT=3001`.
+   The root command currently starts the web workspace because the API exposes `start:dev` rather than a `dev` script.
+
+6. In a second terminal, start the API:
+
+   ```bash
+   npm run start:dev --workspace @codekids/backend
+   ```
+
+The web application runs at [http://localhost:3000](http://localhost:3000). The API also defaults to port `3000`, so use a different backend `PORT` when running both applications, for example `PORT=3001`.
 
 To run one application at a time:
 
@@ -91,7 +99,7 @@ Run these commands from the repository root unless stated otherwise.
 
 | Command | Purpose |
 | --- | --- |
-| `npm run dev` | Start persistent development tasks across applications. |
+| `npm run dev` | Start workspaces that define a `dev` script (currently the web application). |
 | `npm run build` | Build all applications and packages. |
 | `npm run lint` | Run workspace lint tasks. |
 | `npm run check-types` | Run TypeScript checks across workspaces. |

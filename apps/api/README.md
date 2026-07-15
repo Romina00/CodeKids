@@ -1,15 +1,16 @@
-# CodeKids Backend
+# CodeKids API
 
-NestJS backend for the CodeKids project.
+NestJS backend for the CodeKids learning platform.
 
 ## Tech Stack
 
-- NestJS
+- NestJS 11
 - TypeORM
 - MySQL
-- Swagger / OpenAPI
+- JWT authentication
+- Swagger/OpenAPI
 
-## Project Setup
+## Setup
 
 Install dependencies from the repository root:
 
@@ -17,131 +18,56 @@ Install dependencies from the repository root:
 npm install
 ```
 
-## Run the Backend
-
-Development:
-
-```bash
-npm run dev --workspace @codekids/backend
-```
-
-Watch mode:
-
-```bash
-npm run dev
-```
-
-Debug mode:
-
-```bash
-npm run start:debug --workspace @codekids/backend
-```
-
-Production build:
-
-```bash
-npm run build
-npm run start:prod --workspace @codekids/backend
-```
-
-## Swagger API Documentation
-
-This backend uses Swagger for API documentation.
-
-Swagger is available after starting the server at:
-
-```text
-http://localhost:3000/api/docs
-```
-
-OpenAPI JSON can be accessed at:
-
-```text
-http://localhost:3000/api-json
-```
-
-Current Swagger setup:
-
-- Title: `CodeKids API`
-- Description: `API documentation for the CodeKids backend`
-- Version: `1.0`
-- Swagger route: `/api/docs`
-
-Relevant package dependencies:
-
-- `@nestjs/swagger`
-- `swagger-ui-express`
-
-## Useful Commands
-
-Format code:
-
-```bash
-npm run format
-```
-
-Run lint:
-
-```bash
-npm run lint
-```
-
-Run unit tests:
-
-```bash
-npm run test
-```
-
-Run e2e tests:
-
-```bash
-npm run test:e2e --workspace @codekids/backend
-```
-
-Run test coverage:
-
-```bash
-npm run test:cov --workspace @codekids/backend
-```
-
-## Environment Variables
-
-The backend currently uses these environment variables:
+Create `apps/api/.env` with the required configuration:
 
 ```env
-PORT=3000
+NODE_ENV=development
+PORT=3001
 DB_HOST=localhost
 DB_PORT=3306
 DB_USERNAME=root
 DB_PASSWORD=
 DB_DATABASE=code_kids
-JWT_SECRET=change-me
-JWT_EXPIRES_IN=1d
-NODE_ENV=development
+JWT_SECRET=replace-with-a-secure-secret
+JWT_REFRESH_SECRET=replace-with-a-different-secure-secret
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
 ```
 
-## Main Entry Points
+Make sure the configured MySQL database exists before starting the API. Never commit real credentials or production secrets.
 
-- Application bootstrap: [src/main.ts](./src/main.ts)
-- Root module: [src/app.module.ts](./src/app.module.ts)
-- Swagger setup: [src/main.ts](./src/main.ts)
+## Development
 
-## Folder Structure
+Run the API from the repository root:
 
-The backend follows this module structure inside `src/`:
+```bash
+npm run start:dev --workspace @codekids/backend
+```
 
-- `config/`
-- `common/`
-- `auth/`
-- `users/`
-- `learning/`
-- `parents/`
-- `admin/`
-- `upload/`
-- `database/`
+The API defaults to port `3000`; the example uses `3001` to avoid conflicting with the web application. Swagger UI is available at `/api/docs` on the configured host and port, and the OpenAPI document is available at `/api/docs-json`.
 
-## Notes
+## Commands
 
-- Start the backend before opening Swagger.
-- Default local port is `3000` unless `PORT` is changed.
-- If the database is required for startup, make sure MySQL is running and the `.env` values are correct.
+| Command | Purpose |
+| --- | --- |
+| `npm run start:dev --workspace @codekids/backend` | Start the API in watch mode. |
+| `npm run start:debug --workspace @codekids/backend` | Start the API in debug watch mode. |
+| `npm run build --workspace @codekids/backend` | Compile the API to `dist/`. |
+| `npm run start:prod --workspace @codekids/backend` | Start a previously built API. |
+| `npm run lint --workspace @codekids/backend` | Run ESLint and apply safe fixes. |
+| `npm run check-types --workspace @codekids/backend` | Run TypeScript checks without emitting files. |
+| `npm run test --workspace @codekids/backend` | Run unit tests. |
+| `npm run test:e2e --workspace @codekids/backend` | Run end-to-end tests. |
+| `npm run test:cov --workspace @codekids/backend` | Run unit tests with coverage. |
+
+## Modules
+
+- `admin/` provides administration endpoints and services.
+- `auth/` provides JWT authentication, authorization guards, roles, and invitations.
+- `config/` defines application, database, and JWT configuration.
+- `learning/` provides levels, progress, quizzes, and rewards.
+- `parents/` provides parent-facing endpoints and services.
+- `upload/` provides upload endpoints and services.
+- `users/` provides user endpoints, services, and persistence entities.
+
+The application starts in [`src/main.ts`](./src/main.ts), and the root module is [`src/app.module.ts`](./src/app.module.ts). Project-wide setup and architecture are documented in the [root README](../../README.md).

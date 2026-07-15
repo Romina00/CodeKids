@@ -6,9 +6,15 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Role } from '../../users/entities/user.entity';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('learning/quiz')
+@ApiTags('Learning - Quizzes')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.KID)
 @ApiBearerAuth()
@@ -22,6 +28,8 @@ export class QuizController {
   constructor(private readonly quizService: QuizService) {}
 
   @Post('submit')
+  @ApiOperation({ summary: 'Submit quiz answers for the authenticated child' })
+  @ApiOkResponse({ type: SubmitQuizDto })
   submit(@Body() dto: SubmitQuizDto) {
     return this.quizService.submit(dto);
   }

@@ -6,9 +6,15 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Role } from '../../users/entities/user.entity';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('learning/progress')
+@ApiTags('Learning - Progress')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.KID)
 @ApiBearerAuth()
@@ -22,6 +28,8 @@ export class ProgressController {
   constructor(private readonly progressService: ProgressService) {}
 
   @Patch()
+  @ApiOperation({ summary: 'Update progress for the authenticated child' })
+  @ApiOkResponse({ type: UpdateProgressDto })
   update(@Body() dto: UpdateProgressDto) {
     return this.progressService.update(dto);
   }

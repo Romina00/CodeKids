@@ -21,8 +21,24 @@ import { UpdateChildDto } from './dto/update-child.dto';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import {
+  ChildProfileResponseDto,
+  KidsModeResponseDto,
+  ParentDashboardResponseDto,
+  SuccessResponseDto,
+} from './dto/parent-response.dto';
+import { UserResponseDto } from '../auth/dto/auth-response.dto';
 
 @Controller('parents')
+@ApiTags('Parents')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.PARENT)
 @ApiStandardErrors(
@@ -37,16 +53,22 @@ export class ParentsController {
   constructor(private readonly parentsService: ParentsService) {}
 
   @Get('dashboard')
+  @ApiOperation({ summary: 'Get the authenticated parent dashboard' })
+  @ApiOkResponse({ type: ParentDashboardResponseDto })
   getDashboard(@CurrentUser() user: AuthenticatedUser) {
     return this.parentsService.getDashboard(user.sub);
   }
 
   @Get('children')
+  @ApiOperation({ summary: 'List child profiles owned by the parent' })
+  @ApiOkResponse({ type: [ChildProfileResponseDto] })
   listChildren(@CurrentUser() user: AuthenticatedUser) {
     return this.parentsService.listChildren(user.sub);
   }
 
   @Post('children')
+  @ApiOperation({ summary: 'Create a child profile' })
+  @ApiCreatedResponse({ type: ChildProfileResponseDto })
   createChild(
     @CurrentUser() user: AuthenticatedUser,
     @Body() body: CreateChildDto,
@@ -55,6 +77,8 @@ export class ParentsController {
   }
 
   @Patch('children/:childId')
+  @ApiOperation({ summary: 'Update an owned child profile' })
+  @ApiOkResponse({ type: ChildProfileResponseDto })
   updateChild(
     @CurrentUser() user: AuthenticatedUser,
     @Param('childId', ParseIntPipe) childId: number,
@@ -64,6 +88,10 @@ export class ParentsController {
   }
 
   @Post('children/:childId/kids-mode')
+  @ApiOperation({
+    summary: 'Select a child and start a restricted Kids Mode session',
+  })
+  @ApiCreatedResponse({ type: KidsModeResponseDto })
   openKidsMode(
     @CurrentUser() user: AuthenticatedUser,
     @Param('childId', ParseIntPipe) childId: number,
@@ -72,6 +100,8 @@ export class ParentsController {
   }
 
   @Patch('account/profile')
+  @ApiOperation({ summary: 'Update the parent account profile' })
+  @ApiOkResponse({ type: UserResponseDto })
   updateProfile(
     @CurrentUser() user: AuthenticatedUser,
     @Body() body: UpdateParentProfileDto,
@@ -80,6 +110,8 @@ export class ParentsController {
   }
 
   @Patch('account/password')
+  @ApiOperation({ summary: 'Change the parent account password' })
+  @ApiOkResponse({ type: SuccessResponseDto })
   changePassword(
     @CurrentUser() user: AuthenticatedUser,
     @Body() body: ChangePasswordDto,

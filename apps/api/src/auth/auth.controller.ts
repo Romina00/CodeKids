@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import {
   AuthSessionResponseDto,
+  ChildInvitationResponseDto,
   LogoutResponseDto,
   UserResponseDto,
 } from './dto/auth-response.dto';
@@ -60,6 +61,8 @@ export class AuthController {
   }
 
   @Post('kid-request')
+  @ApiOperation({ summary: 'Request a simulated parent invitation email' })
+  @ApiCreatedResponse({ type: ChildInvitationResponseDto })
   kidRequest(@Body() input: ChildInvitationDto) {
     return this.authService.requestChildInvitation(input);
   }

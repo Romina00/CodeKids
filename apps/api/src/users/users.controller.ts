@@ -5,8 +5,17 @@ import { Roles } from '../auth/roles.decorator';
 import { Role } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UserResponseDto } from '../auth/dto/auth-response.dto';
 
 @Controller('users')
+@ApiTags('Users')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiStandardErrors(
   HttpStatus.UNAUTHORIZED,
@@ -18,6 +27,8 @@ export class UsersController {
 
   @Get()
   @Roles(Role.ADMIN)
+  @ApiOperation({ summary: 'List all users for administration' })
+  @ApiOkResponse({ type: [UserResponseDto] })
   findAll() {
     return this.usersService.listSerializedUsers();
   }

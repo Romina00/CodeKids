@@ -5,9 +5,15 @@ import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Role } from '../../users/entities/user.entity';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('learning/rewards')
+@ApiTags('Learning - Rewards')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.KID)
 @ApiBearerAuth()
@@ -20,6 +26,20 @@ export class RewardsController {
   constructor(private readonly rewardsService: RewardsService) {}
 
   @Get()
+  @ApiOperation({ summary: 'List rewards for the authenticated child' })
+  @ApiOkResponse({
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'number', example: 4 },
+          title: { type: 'string', example: 'Loop learner' },
+          earnedAt: { type: 'string', format: 'date-time' },
+        },
+      },
+    },
+  })
   findAll() {
     return this.rewardsService.findAll();
   }

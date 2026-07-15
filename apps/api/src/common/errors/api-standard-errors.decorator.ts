@@ -22,6 +22,7 @@ function getDescription(status: HttpStatus): string {
     [HttpStatus.FORBIDDEN]: 'The authenticated user lacks permission.',
     [HttpStatus.NOT_FOUND]: 'The requested resource was not found.',
     [HttpStatus.CONFLICT]: 'The request conflicts with existing data.',
+    [HttpStatus.TOO_MANY_REQUESTS]: 'The request rate limit was exceeded.',
     [HttpStatus.INTERNAL_SERVER_ERROR]: 'An unexpected server error occurred.',
   };
   return descriptions[status] ?? 'The request failed.';

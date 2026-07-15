@@ -19,6 +19,7 @@ async function bootstrap() {
     .setTitle('CodeKids API')
     .setDescription('API documentation for the CodeKids backend')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);

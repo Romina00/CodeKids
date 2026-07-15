@@ -102,8 +102,10 @@ Run these commands from the repository root unless stated otherwise.
 | `npm run dev`                                    | Start workspaces that define a `dev` script (currently the web application). |
 | `npm run build`                                  | Build all applications and packages.                                         |
 | `npm run lint`                                   | Run workspace lint tasks.                                                    |
+| `npm run lint:fix`                               | Apply safe ESLint fixes across workspaces.                                   |
 | `npm run check-types`                            | Run TypeScript checks across workspaces.                                     |
 | `npm run format`                                 | Format TypeScript, TSX, and Markdown files with Prettier.                    |
+| `npm run format:check`                           | Verify Prettier formatting without changing files.                           |
 | `npm run test --workspace @codekids/backend`     | Run backend unit tests.                                                      |
 | `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests.                                                |
 | `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage.                                             |
@@ -136,3 +138,7 @@ The production start command expects the backend to have been built first.
 ## Current Status
 
 The repository is under active development. Some modules and UI areas are still incomplete, and the current documentation describes the implemented repository rather than a finished production release.
+
+The pre-commit hook runs staged-file ESLint and Prettier checks, blocks newly
+added `console.log` calls, and runs workspace type checking. Run
+`npm run check:staged` manually to reproduce the staged-file portion.

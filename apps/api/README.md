@@ -48,17 +48,17 @@ The API defaults to port `3000`; the example uses `3001` to avoid conflicting wi
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm run start:dev --workspace @codekids/backend` | Start the API in watch mode. |
-| `npm run start:debug --workspace @codekids/backend` | Start the API in debug watch mode. |
-| `npm run build --workspace @codekids/backend` | Compile the API to `dist/`. |
-| `npm run start:prod --workspace @codekids/backend` | Start a previously built API. |
-| `npm run lint --workspace @codekids/backend` | Run ESLint and apply safe fixes. |
+| Command                                             | Purpose                                       |
+| --------------------------------------------------- | --------------------------------------------- |
+| `npm run start:dev --workspace @codekids/backend`   | Start the API in watch mode.                  |
+| `npm run start:debug --workspace @codekids/backend` | Start the API in debug watch mode.            |
+| `npm run build --workspace @codekids/backend`       | Compile the API to `dist/`.                   |
+| `npm run start:prod --workspace @codekids/backend`  | Start a previously built API.                 |
+| `npm run lint --workspace @codekids/backend`        | Run ESLint and apply safe fixes.              |
 | `npm run check-types --workspace @codekids/backend` | Run TypeScript checks without emitting files. |
-| `npm run test --workspace @codekids/backend` | Run unit tests. |
-| `npm run test:e2e --workspace @codekids/backend` | Run end-to-end tests. |
-| `npm run test:cov --workspace @codekids/backend` | Run unit tests with coverage. |
+| `npm run test --workspace @codekids/backend`        | Run unit tests.                               |
+| `npm run test:e2e --workspace @codekids/backend`    | Run end-to-end tests.                         |
+| `npm run test:cov --workspace @codekids/backend`    | Run unit tests with coverage.                 |
 
 ## Modules
 

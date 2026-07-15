@@ -80,13 +80,13 @@ This styleguide defines coding conventions and workflow practices for the projec
 
 As `CodeKids` is a solo project, the branch strategy should stay lightweight.
 
-| Branch       | Purpose                                                  |
-| ------------ | -------------------------------------------------------- |
-| **main**     | Stable project state                                     |
-| **feat/\***  | New features                                             |
-| **fix/\***   | Bug fixes                                                |
-| **docs/\***  | Documentation changes, including thesis-related material |
-| **refactor/\*** | Internal restructuring without intended behavior change |
+| Branch          | Purpose                                                  |
+| --------------- | -------------------------------------------------------- |
+| **main**        | Stable project state                                     |
+| **feat/\***     | New features                                             |
+| **fix/\***      | Bug fixes                                                |
+| **docs/\***     | Documentation changes, including thesis-related material |
+| **refactor/\*** | Internal restructuring without intended behavior change  |
 
 ### 2.2 Branch Naming
 
@@ -105,36 +105,36 @@ As `CodeKids` is a solo project, the branch strategy should stay lightweight.
 
 ### 3.2 Types
 
-| Type         | Meaning                                       |
-| ------------ | --------------------------------------------- |
-| **feat**     | A new feature                                 |
-| **fix**      | A bug fix                                     |
-| **docs**     | Documentation updates                         |
-| **style**    | Formatting or style-only changes              |
+| Type         | Meaning                                                |
+| ------------ | ------------------------------------------------------ |
+| **feat**     | A new feature                                          |
+| **fix**      | A bug fix                                              |
+| **docs**     | Documentation updates                                  |
+| **style**    | Formatting or style-only changes                       |
 | **refactor** | Internal code changes with no intended behavior change |
-| **perf**     | Performance improvements                      |
-| **test**     | Add or update tests                           |
-| **chore**    | Maintenance tasks, dependency updates, config |
-| **ci**       | CI or automation changes                      |
-| **revert**   | Revert a previous commit                      |
+| **perf**     | Performance improvements                               |
+| **test**     | Add or update tests                                    |
+| **chore**    | Maintenance tasks, dependency updates, config          |
+| **ci**       | CI or automation changes                               |
+| **revert**   | Revert a previous commit                               |
 
 ### 3.3 Examples
 
-| Bad             | Good                                          |
-| --------------- | --------------------------------------------- |
-| `updated stuff` | `feat(auth): add parent login flow`           |
-| `fixed bug`     | `fix(api): validate empty progress payload`   |
-| `cleanup`       | `refactor(web): simplify dashboard state`     |
+| Bad             | Good                                        |
+| --------------- | ------------------------------------------- |
+| `updated stuff` | `feat(auth): add parent login flow`         |
+| `fixed bug`     | `fix(api): validate empty progress payload` |
+| `cleanup`       | `refactor(web): simplify dashboard state`   |
 
 ## 4. Code Quality
 
-| Purpose               | Tool / Rule                              | Recommended Configuration                          |
-| --------------------- | ---------------------------------------- | -------------------------------------------------- |
-| **Linting**           | ESLint                                   | Project-wide shared config                         |
-| **Formatting**        | Prettier                                 | Consistent formatting across all packages          |
-| **Type checking**     | TypeScript                               | `strict: true` where feasible                      |
-| **Imports**           | Clear and stable import ordering         | Prefer automatic sorting via ESLint or formatter   |
-| **Documentation**     | Markdown documents in the repository     | Keep technical decisions and thesis context traceable |
+| Purpose           | Tool / Rule                          | Recommended Configuration                             |
+| ----------------- | ------------------------------------ | ----------------------------------------------------- |
+| **Linting**       | ESLint                               | Project-wide shared config                            |
+| **Formatting**    | Prettier                             | Consistent formatting across all packages             |
+| **Type checking** | TypeScript                           | `strict: true` where feasible                         |
+| **Imports**       | Clear and stable import ordering     | Prefer automatic sorting via ESLint or formatter      |
+| **Documentation** | Markdown documents in the repository | Keep technical decisions and thesis context traceable |
 
 ## 5. Documentation Rules
 

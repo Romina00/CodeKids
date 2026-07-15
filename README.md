@@ -97,16 +97,16 @@ Do not commit real credentials or production secrets. The values above are local
 
 Run these commands from the repository root unless stated otherwise.
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start workspaces that define a `dev` script (currently the web application). |
-| `npm run build` | Build all applications and packages. |
-| `npm run lint` | Run workspace lint tasks. |
-| `npm run check-types` | Run TypeScript checks across workspaces. |
-| `npm run format` | Format TypeScript, TSX, and Markdown files with Prettier. |
-| `npm run test --workspace @codekids/backend` | Run backend unit tests. |
-| `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests. |
-| `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage. |
+| Command                                          | Purpose                                                                      |
+| ------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `npm run dev`                                    | Start workspaces that define a `dev` script (currently the web application). |
+| `npm run build`                                  | Build all applications and packages.                                         |
+| `npm run lint`                                   | Run workspace lint tasks.                                                    |
+| `npm run check-types`                            | Run TypeScript checks across workspaces.                                     |
+| `npm run format`                                 | Format TypeScript, TSX, and Markdown files with Prettier.                    |
+| `npm run test --workspace @codekids/backend`     | Run backend unit tests.                                                      |
+| `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests.                                                |
+| `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage.                                             |
 
 There is currently no repository-wide `test` script and no frontend test script. Use the backend workspace commands shown above.
 

@@ -4,18 +4,18 @@ Shared flat ESLint configurations for CodeKids workspaces. The private package i
 
 ## Exports
 
-| Import | File | Intended use |
-| --- | --- | --- |
-| `@repo/eslint-config/base` | `base.js` | TypeScript packages and general workspace code. |
-| `@repo/eslint-config/next-js` | `next.js` | Next.js applications. |
-| `@repo/eslint-config/react-internal` | `react-internal.js` | Internal React component packages. |
+| Import                               | File                | Intended use                                    |
+| ------------------------------------ | ------------------- | ----------------------------------------------- |
+| `@repo/eslint-config/base`           | `base.js`           | TypeScript packages and general workspace code. |
+| `@repo/eslint-config/next-js`        | `next.js`           | Next.js applications.                           |
+| `@repo/eslint-config/react-internal` | `react-internal.js` | Internal React component packages.              |
 
 ## Usage
 
 Import the appropriate configuration from a workspace ESLint file:
 
 ```js
-import { nextJsConfig } from "@repo/eslint-config/next-js";
+import { nextJsConfig } from '@repo/eslint-config/next-js';
 
 export default nextJsConfig;
 ```

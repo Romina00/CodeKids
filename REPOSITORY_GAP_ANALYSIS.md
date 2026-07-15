@@ -15,14 +15,14 @@ and test behavior remain prototypes or placeholders.
 
 ## Current Structure
 
-| Area | Current state | Evidence |
-| --- | --- | --- |
-| Monorepo | npm workspaces with Turborepo tasks for build, lint, and type checking | `package.json`, `turbo.json` |
-| Web | Next.js application showing a logo showcase only | `apps/web/app/page.tsx` |
-| API | NestJS modules for auth, users, parents, learning, admin, and upload | `apps/api/src/app.module.ts` |
-| Database | TypeORM/MySQL configured; only User, Invitation, Progress, and Reward are real entities | `apps/api/src/app.module.ts`, entity files |
-| Shared UI | Three starter-level components: Button, Card, and Code | `packages/ui/src/` |
-| Quality | ESLint, Prettier, TypeScript checks, and a pre-commit hook exist | workspace package files, `.husky/pre-commit` |
+| Area      | Current state                                                                           | Evidence                                     |
+| --------- | --------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Monorepo  | npm workspaces with Turborepo tasks for build, lint, and type checking                  | `package.json`, `turbo.json`                 |
+| Web       | Next.js application showing a logo showcase only                                        | `apps/web/app/page.tsx`                      |
+| API       | NestJS modules for auth, users, parents, learning, admin, and upload                    | `apps/api/src/app.module.ts`                 |
+| Database  | TypeORM/MySQL configured; only User, Invitation, Progress, and Reward are real entities | `apps/api/src/app.module.ts`, entity files   |
+| Shared UI | Three starter-level components: Button, Card, and Code                                  | `packages/ui/src/`                           |
+| Quality   | ESLint, Prettier, TypeScript checks, and a pre-commit hook exist                        | workspace package files, `.husky/pre-commit` |
 
 ## Implemented Foundations
 

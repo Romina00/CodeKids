@@ -1,5 +1,5 @@
-import { Logo, LogoMark } from "../components/logo";
-import styles from "./page.module.css";
+import { Logo, LogoMark } from '../components/logo';
+import styles from './page.module.css';
 
 export default function Home() {
   return (

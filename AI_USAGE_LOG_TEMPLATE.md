@@ -6,11 +6,11 @@ Use this template to document each material use of generative AI in the CodeKids
 
 ### Record Details
 
-| Field | Value |
-| --- | --- |
-| Date | `YYYY-MM-DD` |
-| Tool and model | `[Tool name and exact model or version, if available]` |
-| Purpose | `[Why AI assistance was used and the intended outcome]` |
+| Field           | Value                                                                                                     |
+| --------------- | --------------------------------------------------------------------------------------------------------- |
+| Date            | `YYYY-MM-DD`                                                                                              |
+| Tool and model  | `[Tool name and exact model or version, if available]`                                                    |
+| Purpose         | `[Why AI assistance was used and the intended outcome]`                                                   |
 | Assistance type | `[For example: explanation, analysis, code generation, refactoring, debugging, documentation, or review]` |
 
 ### Affected Work

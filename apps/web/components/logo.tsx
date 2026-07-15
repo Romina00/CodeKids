@@ -1,19 +1,19 @@
-import type { ComponentPropsWithoutRef, SVGProps } from "react";
+import type { ComponentPropsWithoutRef, SVGProps } from 'react';
 
 type LogoMarkProps = SVGProps<SVGSVGElement> & {
   title?: string;
 };
 
-type LogoProps = ComponentPropsWithoutRef<"div"> & {
+type LogoProps = ComponentPropsWithoutRef<'div'> & {
   showTagline?: boolean;
 };
 
 const joinClassNames = (...classNames: Array<string | undefined>) =>
-  classNames.filter(Boolean).join(" ");
+  classNames.filter(Boolean).join(' ');
 
 export function LogoMark({
   className,
-  title = "CodeKids logo",
+  title = 'CodeKids logo',
   ...props
 }: LogoMarkProps) {
   return (
@@ -26,13 +26,7 @@ export function LogoMark({
       {...props}
     >
       {title ? <title>{title}</title> : null}
-      <circle
-        cx="80"
-        cy="18"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="8"
-      />
+      <circle cx="80" cy="18" r="10" stroke="currentColor" strokeWidth="8" />
       <path
         d="M80 28V42"
         stroke="currentColor"
@@ -78,22 +72,16 @@ export function LogoMark({
   );
 }
 
-export function Logo({
-  className,
-  showTagline = true,
-  ...props
-}: LogoProps) {
+export function Logo({ className, showTagline = true, ...props }: LogoProps) {
   return (
-    <div className={joinClassNames("logoLockup", className)} {...props}>
+    <div className={joinClassNames('logoLockup', className)} {...props}>
       <LogoMark className="logoMark" />
       <div className="logoCopy">
         <div className="logoWordmark" aria-label="CodeKids">
           <span>Code</span>
           <span className="logoAccent">Kids</span>
         </div>
-        {showTagline ? (
-          <p className="logoTagline">Coding for Kids</p>
-        ) : null}
+        {showTagline ? <p className="logoTagline">Coding for Kids</p> : null}
       </div>
     </div>
   );

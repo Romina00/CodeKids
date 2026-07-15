@@ -14,6 +14,8 @@ import { Level } from '../entities/level.entity';
 import { Question, QuestionType } from '../entities/question.entity';
 import { QuizAttempt } from '../entities/quiz-attempt.entity';
 import { Quiz } from '../entities/quiz.entity';
+import { XpEventType } from '../entities/xp-event.entity';
+import { RewardsService } from './rewards.service';
 
 @Injectable()
 export class QuizService {
@@ -24,6 +26,7 @@ export class QuizService {
     @InjectRepository(QuizAttempt)
     private readonly attempts: Repository<QuizAttempt>,
     @InjectRepository(Level) private readonly levels: Repository<Level>,
+    private readonly rewards: RewardsService,
   ) {}
 
   async create(dto: CreateQuizDto) {
@@ -135,6 +138,14 @@ export class QuizService {
         })),
       }),
     );
+    if (passed)
+      await this.rewards.recordEvent(
+        childId,
+        XpEventType.QUIZ_PASSED,
+        `quiz:${quiz.id}:attempt:${priorAttempts + 1}`,
+        25,
+        { quizId: quiz.id, score },
+      );
     return {
       quizId: quiz.id,
       attemptNumber: priorAttempts + 1,

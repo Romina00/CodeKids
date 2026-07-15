@@ -7,6 +7,7 @@ import { Question } from './question.entity';
 import { Quiz } from './quiz.entity';
 import { QuizAttempt } from './quiz-attempt.entity';
 import { BlocklyWorkspace } from './blockly-workspace.entity';
+import { XpEvent } from './xp-event.entity';
 import { Reward } from './reward.entity';
 
 describe('learning entity schema', () => {
@@ -20,6 +21,7 @@ describe('learning entity schema', () => {
     Reward,
     QuizAttempt,
     BlocklyWorkspace,
+    XpEvent,
   ];
 
   it.each(entities)(

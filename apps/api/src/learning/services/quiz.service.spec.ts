@@ -5,6 +5,7 @@ import { Question, QuestionType } from '../entities/question.entity';
 import { QuizAttempt } from '../entities/quiz-attempt.entity';
 import { Quiz } from '../entities/quiz.entity';
 import { QuizService } from './quiz.service';
+import { RewardsService } from './rewards.service';
 
 describe('QuizService', () => {
   let service: QuizService;
@@ -12,13 +13,17 @@ describe('QuizService', () => {
   let questions: jest.Mocked<Repository<Question>>;
   let attempts: jest.Mocked<Repository<QuizAttempt>>;
   let levels: jest.Mocked<Repository<Level>>;
+  let rewards: jest.Mocked<RewardsService>;
 
   beforeEach(() => {
     quizzes = repositoryMock<Quiz>();
     questions = repositoryMock<Question>();
     attempts = repositoryMock<QuizAttempt>();
     levels = repositoryMock<Level>();
-    service = new QuizService(quizzes, questions, attempts, levels);
+    rewards = {
+      recordEvent: jest.fn().mockResolvedValue({ event: {}, rewards: [] }),
+    } as unknown as jest.Mocked<RewardsService>;
+    service = new QuizService(quizzes, questions, attempts, levels, rewards);
     attempts.create.mockImplementation((value) => value as QuizAttempt);
     attempts.save.mockImplementation((value) =>
       Promise.resolve({ id: 1, ...value } as QuizAttempt),

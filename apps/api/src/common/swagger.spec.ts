@@ -93,6 +93,7 @@ describe('Swagger contract', () => {
         '/learning/quizzes/{quizId}/questions/{questionId}',
         '/learning/quizzes/{quizId}/submissions',
         '/learning/rewards',
+        '/learning/rewards/summary',
         '/parents/account/password',
         '/parents/account/profile',
         '/parents/children',

@@ -45,4 +45,15 @@ export class RewardsController {
   findAll(@CurrentUser() user: AuthenticatedUser) {
     return this.rewardsService.findForChild(user.sub);
   }
+
+  @Get('summary')
+  @ApiOperation({
+    summary: 'Get XP events and reward history for the authenticated child',
+  })
+  @ApiOkResponse({
+    description: 'Auditable XP total, recent events, and rewards',
+  })
+  summary(@CurrentUser() user: AuthenticatedUser) {
+    return this.rewardsService.summary(user.sub);
+  }
 }

@@ -9,6 +9,8 @@ import { UpdateProgressDto } from '../dto/update-progress.dto';
 import { Activity } from '../entities/activity.entity';
 import { Level } from '../entities/level.entity';
 import { Progress, ProgressStatus } from '../entities/progress.entity';
+import { XpEventType } from '../entities/xp-event.entity';
+import { RewardsService } from './rewards.service';
 
 @Injectable()
 export class ProgressService {
@@ -16,6 +18,7 @@ export class ProgressService {
     @InjectRepository(Progress) private readonly progress: Repository<Progress>,
     @InjectRepository(Activity)
     private readonly activities: Repository<Activity>,
+    private readonly rewards: RewardsService,
   ) {}
 
   async update(childId: number, dto: UpdateProgressDto) {
@@ -47,6 +50,7 @@ export class ProgressService {
         resumeData: null,
       });
     }
+    const wasCompleted = record.completed;
     if (record.completed && dto.status !== ProgressStatus.COMPLETED)
       throw new BadRequestException(
         'Completed activity progress cannot move backwards.',
@@ -59,8 +63,17 @@ export class ProgressService {
     record.timeSpentMinutes += dto.timeSpentMinutesDelta ?? 0;
     record.resumeData = this.sanitizeResumeData(dto.resumeData);
     const saved = await this.progress.save(record);
-    if (saved.completed)
+    if (saved.completed) {
       await this.completeLevelIfReady(childId, activity.level);
+      if (!wasCompleted)
+        await this.rewards.recordEvent(
+          childId,
+          XpEventType.ACTIVITY_COMPLETED,
+          `activity:${activity.id}`,
+          10,
+          { activityId: activity.id, levelId: activity.levelId },
+        );
+    }
     return saved;
   }
 

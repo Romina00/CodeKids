@@ -20,6 +20,7 @@ import { QuizAttempt } from './entities/quiz-attempt.entity';
 import { BlocklyWorkspace } from './entities/blockly-workspace.entity';
 import { BlocklyController } from './controllers/blockly.controller';
 import { BlocklyService } from './services/blockly.service';
+import { XpEvent } from './entities/xp-event.entity';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { BlocklyService } from './services/blockly.service';
       Reward,
       QuizAttempt,
       BlocklyWorkspace,
+      XpEvent,
     ]),
   ],
   controllers: [

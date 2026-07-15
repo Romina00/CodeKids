@@ -5,6 +5,7 @@ import { AddLevelPrerequisite1721050000000 } from './1721050000000-add-level-pre
 import { CreateQuizAttempts1721060000000 } from './1721060000000-create-quiz-attempts';
 import { CreateBlocklyWorkspaces1721070000000 } from './1721070000000-create-blockly-workspaces';
 import { AddProgressResumeData1721080000000 } from './1721080000000-add-progress-resume-data';
+import { CreateXpEvents1721090000000 } from './1721090000000-create-xp-events';
 
 describe('schema migrations', () => {
   it('creates core tables and the self-referencing Parent-Child constraint first', async () => {
@@ -77,6 +78,12 @@ describe('schema migrations', () => {
     const queries: string[] = [];
     await new AddProgressResumeData1721080000000().up(captureQueries(queries));
     expect(queries[0]).toContain('resumeData');
+  });
+
+  it('creates an idempotent auditable XP event ledger', async () => {
+    const queries: string[] = [];
+    await new CreateXpEvents1721090000000().up(captureQueries(queries));
+    expect(queries.join('\n')).toContain('UQ_xp_event_child_source');
   });
 });
 

@@ -3,16 +3,21 @@ import { ObjectLiteral, Repository } from 'typeorm';
 import { Activity } from '../entities/activity.entity';
 import { Progress, ProgressStatus } from '../entities/progress.entity';
 import { ProgressService } from './progress.service';
+import { RewardsService } from './rewards.service';
 
 describe('ProgressService', () => {
   let progress: jest.Mocked<Repository<Progress>>;
   let activities: jest.Mocked<Repository<Activity>>;
   let service: ProgressService;
+  let rewards: jest.Mocked<RewardsService>;
 
   beforeEach(() => {
     progress = repositoryMock<Progress>();
     activities = repositoryMock<Activity>();
-    service = new ProgressService(progress, activities);
+    rewards = {
+      recordEvent: jest.fn().mockResolvedValue({ event: {}, rewards: [] }),
+    } as unknown as jest.Mocked<RewardsService>;
+    service = new ProgressService(progress, activities, rewards);
     activities.findOne.mockResolvedValue({
       id: 4,
       levelId: 2,

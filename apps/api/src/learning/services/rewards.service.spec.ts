@@ -3,12 +3,14 @@ import { Repository } from 'typeorm';
 import { achievementFixture } from '../../testing/fixtures';
 import { Achievement } from '../entities/achievement.entity';
 import { Reward } from '../entities/reward.entity';
+import { XpEvent, XpEventType } from '../entities/xp-event.entity';
 import { RewardsService } from './rewards.service';
 
 describe('RewardsService', () => {
   let service: RewardsService;
   let rewards: jest.Mocked<Repository<Reward>>;
   let achievements: jest.Mocked<Repository<Achievement>>;
+  let xpEvents: jest.Mocked<Repository<XpEvent>>;
 
   beforeEach(() => {
     rewards = {
@@ -17,10 +19,18 @@ describe('RewardsService', () => {
       create: jest.fn((value) => value as Reward),
       save: jest.fn((value) => Promise.resolve({ id: 50, ...value } as Reward)),
     } as unknown as jest.Mocked<Repository<Reward>>;
-    achievements = { findOne: jest.fn() } as unknown as jest.Mocked<
-      Repository<Achievement>
-    >;
-    service = new RewardsService(rewards, achievements);
+    achievements = {
+      findOne: jest.fn(),
+      find: jest.fn(),
+    } as unknown as jest.Mocked<Repository<Achievement>>;
+    xpEvents = {
+      findOneBy: jest.fn(),
+      create: jest.fn(),
+      save: jest.fn(),
+      find: jest.fn(),
+      countBy: jest.fn(),
+    } as unknown as jest.Mocked<Repository<XpEvent>>;
+    service = new RewardsService(rewards, achievements, xpEvents);
   });
 
   it('assigns an achievement snapshot to a child', async () => {
@@ -66,5 +76,34 @@ describe('RewardsService', () => {
       relations: { achievement: true },
       order: { earnedAt: 'DESC' },
     });
+  });
+
+  it('records each XP source once and evaluates transparent rules', async () => {
+    xpEvents.findOneBy.mockResolvedValue(null);
+    xpEvents.create.mockImplementation((value) => value as XpEvent);
+    xpEvents.save.mockImplementation((value) =>
+      Promise.resolve({ id: 1, ...value } as XpEvent),
+    );
+    xpEvents.countBy.mockResolvedValue(1);
+    achievements.find.mockResolvedValue([]);
+    await service.recordEvent(
+      20,
+      XpEventType.ACTIVITY_COMPLETED,
+      'activity:4',
+      10,
+    );
+    expect(xpEvents.save.mock.calls).toHaveLength(1);
+    xpEvents.findOneBy.mockResolvedValue({
+      id: 1,
+      childId: 20,
+      sourceKey: 'activity:4',
+    } as XpEvent);
+    await service.recordEvent(
+      20,
+      XpEventType.ACTIVITY_COMPLETED,
+      'activity:4',
+      10,
+    );
+    expect(xpEvents.save.mock.calls).toHaveLength(1);
   });
 });

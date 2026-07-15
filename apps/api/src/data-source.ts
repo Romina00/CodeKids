@@ -8,6 +8,7 @@ import { Question } from './learning/entities/question.entity';
 import { Quiz } from './learning/entities/quiz.entity';
 import { QuizAttempt } from './learning/entities/quiz-attempt.entity';
 import { BlocklyWorkspace } from './learning/entities/blockly-workspace.entity';
+import { XpEvent } from './learning/entities/xp-event.entity';
 import { Reward } from './learning/entities/reward.entity';
 import { CreateCoreSchema1721030000000 } from './migrations/1721030000000-create-core-schema';
 import { CreateLearningSchema1721040000000 } from './migrations/1721040000000-create-learning-schema';
@@ -15,6 +16,7 @@ import { AddLevelPrerequisite1721050000000 } from './migrations/1721050000000-ad
 import { CreateQuizAttempts1721060000000 } from './migrations/1721060000000-create-quiz-attempts';
 import { CreateBlocklyWorkspaces1721070000000 } from './migrations/1721070000000-create-blockly-workspaces';
 import { AddProgressResumeData1721080000000 } from './migrations/1721080000000-add-progress-resume-data';
+import { CreateXpEvents1721090000000 } from './migrations/1721090000000-create-xp-events';
 import { User } from './users/entities/user.entity';
 
 export default new DataSource({
@@ -33,6 +35,7 @@ export default new DataSource({
     Quiz,
     QuizAttempt,
     BlocklyWorkspace,
+    XpEvent,
     Question,
     Progress,
     Achievement,
@@ -45,5 +48,6 @@ export default new DataSource({
     CreateQuizAttempts1721060000000,
     CreateBlocklyWorkspaces1721070000000,
     AddProgressResumeData1721080000000,
+    CreateXpEvents1721090000000,
   ],
 });

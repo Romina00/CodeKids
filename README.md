@@ -153,6 +153,7 @@ TypeORM migrations before starting a new environment; use
 - [Similar-product comparison framework](./docs/PRODUCT_COMPARISON_CRITERIA.md)
 - [K–12 standards review framework](./docs/K12_STANDARDS_REVIEW_FRAMEWORK.md)
 - [MVP options and decision record](./docs/MVP_OPTIONS.md)
+- [Skip-level criteria proposal](./docs/SKIP_LEVEL_CRITERIA.md)
 - [Backend guide](./apps/api/README.md)
 - [Frontend guide](./apps/web/README.md)
 

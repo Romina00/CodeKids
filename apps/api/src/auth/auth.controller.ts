@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser } from './current-user.decorator';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -47,6 +54,7 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Log in a parent or administrator' })
   @ApiOkResponse({ type: AuthSessionResponseDto })
   login(@Body() input: LoginDto) {
@@ -54,6 +62,7 @@ export class AuthController {
   }
 
   @Post('refresh')
+  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Rotate an active refresh token' })
   @ApiOkResponse({ type: AuthSessionResponseDto })
   refresh(@Body() input: RefreshSessionDto) {
@@ -68,6 +77,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Invalidate the current refresh session' })
@@ -77,6 +87,7 @@ export class AuthController {
   }
 
   @Post('parent-mode')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.KID)
   @ApiBearerAuth()

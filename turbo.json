@@ -9,7 +9,8 @@
     "DB_USERNAME",
     "DB_PASSWORD",
     "DB_DATABASE",
-    "DB_SYNCHRONIZE"
+    "DB_SYNCHRONIZE",
+    "AVATAR_UPLOAD_DIR"
   ],
   "tasks": {
     "build": {

@@ -86,7 +86,9 @@ describe('Swagger contract', () => {
         '/parents/children/{childId}',
         '/parents/children/{childId}/kids-mode',
         '/parents/dashboard',
-        '/upload',
+        '/upload/avatars',
+        '/upload/avatars/defaults',
+        '/upload/avatars/{fileName}',
         '/users',
       ].sort(),
     );
@@ -115,6 +117,6 @@ describe('Swagger contract', () => {
     expect(document.paths['/learning/levels']?.post?.tags).toContain(
       'Learning - Levels',
     );
-    expect(document.paths['/upload']?.post?.tags).toContain('Uploads');
+    expect(document.paths['/upload/avatars']?.post?.tags).toContain('Uploads');
   });
 });

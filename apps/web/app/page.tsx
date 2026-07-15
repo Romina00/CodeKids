@@ -3,41 +3,109 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
 import {
   ArrowRight,
-  Award,
+  BarChart3,
   BookOpen,
+  BrainCircuit,
+  Check,
+  Clock3,
   CodeXml,
+  Gamepad2,
   Icon,
+  LockKeyhole,
+  PlayCircle,
+  Rocket,
   ShieldCheck,
   Sparkles,
+  Trophy,
   UsersRound,
+  X,
 } from '@repo/ui/icon';
+import Image from 'next/image';
 import { Logo } from '../components/logo';
 import styles from './page.module.css';
 
-const learningSteps = [
+const paths = [
   {
-    icon: BookOpen,
-    title: 'Choose a mission',
-    description:
-      'Short, age-friendly lessons turn coding ideas into clear goals.',
+    label: 'Total beginner',
+    title: 'Never coded before?',
+    description: 'Start with pure logic thinking—no typing, no scary code.',
+    icon: BrainCircuit,
+    tone: 'green',
+    items: [
+      'Learn how computers think',
+      'Master AND, OR & simple logic',
+      'Build your first mini-programs',
+    ],
+    action: 'Start from zero',
   },
   {
+    label: 'Already curious',
+    title: 'Know some coding?',
+    description: 'Take a short check and jump ahead when you are ready.',
+    icon: Rocket,
+    tone: 'blue',
+    items: [
+      'Skip skills you already know',
+      'Take harder logic challenges',
+      'Move toward algorithms and C++',
+    ],
+    action: 'Find my level',
+  },
+] as const;
+
+const learningPath = [
+  {
+    title: 'Logic basics',
+    description: 'Learn logical thinking',
+    icon: BrainCircuit,
+    status: 'Available',
+    tone: 'green',
+  },
+  {
+    title: 'AND & OR',
+    description: 'Understand && and ||',
     icon: CodeXml,
-    title: 'Build and experiment',
-    description:
-      'Interactive puzzles help children learn by trying, improving, and trying again.',
+    status: 'Available',
+    tone: 'blue',
   },
   {
-    icon: Award,
-    title: 'Celebrate progress',
-    description:
-      'Levels, rewards, and useful feedback make every small win visible.',
+    title: 'Algorithms',
+    description: 'Create simple workflows',
+    icon: BookOpen,
+    status: 'Unlocks next',
+    tone: 'mint',
   },
+  {
+    title: 'C++ intro',
+    description: 'Your first real code',
+    icon: LockKeyhole,
+    status: 'Unlocks later',
+    tone: 'amber',
+  },
+] as const;
+
+const reviews = [
+  [
+    'Sarah M.',
+    'Parent of an 11-year-old',
+    'My daughter used to say coding was boring. Now she asks to do one more level before dinner.',
+  ],
+  [
+    'Leo',
+    'Learner, age 12',
+    'I thought programming was only for grown-ups. The videos are short and I actually understand AND and OR now!',
+  ],
+  [
+    'Mia',
+    'Learner, age 14',
+    'I already knew a little Scratch, but here I finally started real C++ steps. The levels kept me challenged.',
+  ],
 ] as const;
 
 export default function Home() {
@@ -52,17 +120,11 @@ export default function Home() {
           <Logo showTagline={false} />
         </a>
         <nav aria-label="Primary navigation" className={styles.headerActions}>
-          <a className={styles.textLink} href="#how-it-works">
-            How it works
-          </a>
-          <a className={styles.textLink} href="#for-parents">
-            For parents
+          <a className={styles.homeLink} href="#main-content">
+            <Icon icon={Sparkles} size="sm" /> Home
           </a>
           <a className={styles.loginLink} href="/login">
             Log in
-          </a>
-          <a className={styles.primaryLink} href="/register">
-            Sign up
           </a>
         </nav>
       </header>
@@ -70,146 +132,333 @@ export default function Home() {
       <main id="main-content" tabIndex={-1}>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <Badge variant="primary">Coding confidence starts here</Badge>
-            <h1>Big ideas become playful coding adventures.</h1>
+            <Badge variant="neutral">
+              <Icon icon={Sparkles} size="sm" /> Coding made fun for ages 10–15
+            </Badge>
+            <h1>
+              Coding feels hard.
+              <br />
+              <span>We make it a game.</span>
+            </h1>
             <p>
-              CodeKids helps children learn computational thinking one friendly
-              mission at a time—while parents get a calm, useful view of their
-              progress.
+              Textbooks are boring and tutorials move too fast. On CodeKids,
+              children learn programming through short lessons, playful puzzles
+              and clickable challenges—from pure logic to real C++.
             </p>
             <div className={styles.heroActions}>
-              <a className={styles.primaryLinkLarge} href="/register">
-                Start learning
-                <Icon icon={ArrowRight} size="sm" />
+              <a className={styles.primaryAction} href="/register">
+                <Icon icon={Rocket} size="sm" /> Create a parent account
               </a>
-              <a className={styles.secondaryLinkLarge} href="#paths">
-                Explore the paths
+              <a className={styles.secondaryAction} href="#how-it-works">
+                <Icon icon={PlayCircle} size="sm" /> See how it works
               </a>
             </div>
-            <ul className={styles.trustList} aria-label="Platform benefits">
-              <li>
-                <Icon icon={ShieldCheck} size="sm" /> Parent-guided
-              </li>
-              <li>
-                <Icon icon={Sparkles} size="sm" /> Child-friendly
-              </li>
-              <li>
-                <Icon icon={BookOpen} size="sm" /> Learn at your pace
-              </li>
-            </ul>
+            <div className={styles.trustLine}>
+              <span aria-label="Five stars">★★★★★</span>
+              <small>Loved by curious kids & trusted by parents</small>
+            </div>
           </div>
 
-          <div className={styles.heroVisual}>
-            <div className={styles.orbit} aria-hidden="true" />
-            <div className={styles.missionCard}>
-              <span className={styles.eyebrow}>Today&apos;s mission</span>
-              <div className={styles.missionIcon}>
-                <Icon icon={CodeXml} size="xl" />
+          <div
+            className={styles.heroVisual}
+            aria-label="Three friendly coding robots"
+          >
+            <div className={styles.codeWindow} aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <div>
+                <b>when</b> start
               </div>
-              <strong>Guide Pixel home</strong>
-              <p>Use three blocks to finish the path.</p>
-              <div
-                aria-label="Mission progress"
-                aria-valuemax={100}
-                aria-valuemin={0}
-                aria-valuenow={75}
-                className={styles.progressTrack}
-                role="progressbar"
-              >
-                <span />
+              <div>
+                <b>move</b> forward
               </div>
-              <Badge variant="success">3 stars ready</Badge>
+              <div>
+                <b>if</b> goal → celebrate
+              </div>
             </div>
-            <div className={styles.rewardBubble}>
-              <Icon icon={Award} size="lg" />
-              <span>+20 XP</span>
+            <Image
+              className={styles.robotLeft}
+              src="/assets/avatars/robot-green.svg"
+              alt=""
+              width={170}
+              height={170}
+            />
+            <Image
+              className={styles.robotCenter}
+              src="/assets/avatars/robot-blue.svg"
+              alt=""
+              width={190}
+              height={190}
+              priority
+            />
+            <Image
+              className={styles.robotRight}
+              src="/assets/avatars/robot-orange.svg"
+              alt=""
+              width={165}
+              height={165}
+            />
+            <div className={styles.experienceBadge}>
+              <span>
+                <Icon icon={Sparkles} size="sm" />
+              </span>
+              <div>
+                <strong>No experience needed</strong>
+                <small>Start from level 1</small>
+              </div>
             </div>
+          </div>
+
+          <dl className={styles.stats}>
+            <div>
+              <dt>50+</dt>
+              <dd>Interactive lessons</dd>
+            </div>
+            <div>
+              <dt>4</dt>
+              <dd>Levels from zero to C++</dd>
+            </div>
+            <div>
+              <dt>100%</dt>
+              <dd>Ad-free & kid-safe</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section className={styles.problemSection} id="how-it-works">
+          <div className={styles.sectionHeading}>
+            <h2>
+              Learning to code shouldn&apos;t
+              <br />
+              feel like homework
+            </h2>
+            <p>
+              We turned everything that makes coding frustrating into something
+              children actually enjoy.
+            </p>
+          </div>
+          <div className={styles.comparisonGrid}>
+            <Card className={styles.problemCard}>
+              <CardHeader>
+                <span className={styles.smallIcon}>
+                  <Icon icon={X} size="sm" />
+                </span>
+                <CardTitle>The usual way</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul>
+                  <li>Programming books are dry and full of confusing words</li>
+                  <li>Online tutorials move too fast for beginners</li>
+                  <li>It is hard to stay motivated when nothing feels fun</li>
+                  <li>Kids give up before they build something cool</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className={styles.solutionCard}>
+              <CardHeader>
+                <span className={styles.smallIcon}>
+                  <Icon icon={Check} size="sm" />
+                </span>
+                <CardTitle>The CodeKids way</CardTitle>
+              </CardHeader>
+              <CardContent className={styles.solutionList}>
+                <div>
+                  <Icon icon={PlayCircle} size="sm" />
+                  <p>
+                    <strong>Short, friendly lessons</strong>
+                    <span>
+                      Every idea is explained with simple words and colorful
+                      examples.
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <Icon icon={Gamepad2} size="sm" />
+                  <p>
+                    <strong>Learning as puzzles</strong>
+                    <span>
+                      Concepts become drag-and-click challenges instead of walls
+                      of text.
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  <Icon icon={Trophy} size="sm" />
+                  <p>
+                    <strong>Rewards that motivate</strong>
+                    <span>
+                      Points, levels and badges keep children moving forward.
+                    </span>
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
-        <section className={styles.pathsSection} id="paths">
+        <section className={styles.pathsSection}>
           <div className={styles.sectionHeading}>
-            <span className={styles.eyebrow}>
-              One platform, two clear paths
-            </span>
-            <h2>Made for curious kids and supportive grown-ups.</h2>
+            <h2>Two starting points, one adventure</h2>
+            <p>
+              Whether your child is brand new or already tinkering with code,
+              there is a clear next step.
+            </p>
           </div>
           <div className={styles.pathGrid}>
-            <Card className={styles.kidCard}>
-              <CardHeader>
-                <div className={styles.cardIcon}>
-                  <Icon icon={Sparkles} size="lg" />
-                </div>
-                <CardTitle>Kid path</CardTitle>
-                <CardDescription>
-                  Explore levels, solve visual coding puzzles, earn rewards, and
-                  see what comes next.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <a className={styles.inlineLink} href="/register?role=kid">
-                  Begin an adventure <Icon icon={ArrowRight} size="sm" />
-                </a>
-              </CardContent>
-            </Card>
-
-            <Card className={styles.parentCard} id="for-parents">
-              <CardHeader>
-                <div className={styles.cardIcon}>
-                  <Icon icon={UsersRound} size="lg" />
-                </div>
-                <CardTitle>Parent path</CardTitle>
-                <CardDescription>
-                  Create child profiles, follow learning progress, and celebrate
-                  completed levels together.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <a className={styles.inlineLink} href="/register?role=parent">
-                  Create a family account <Icon icon={ArrowRight} size="sm" />
-                </a>
-              </CardContent>
-            </Card>
+            {paths.map((path) => (
+              <Card className={styles.pathCard} key={path.title}>
+                <CardHeader>
+                  <span className={`${styles.pathIcon} ${styles[path.tone]}`}>
+                    <Icon icon={path.icon} size="md" />
+                  </span>
+                  <span className={styles.cardLabel}>{path.label}</span>
+                  <CardTitle>{path.title}</CardTitle>
+                  <CardDescription>{path.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className={styles.checkList}>
+                    {path.items.map((item) => (
+                      <li key={item}>
+                        <Icon icon={Check} size="sm" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <a className={styles.cardAction} href="/register">
+                    {path.action} <Icon icon={ArrowRight} size="sm" />
+                  </a>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </section>
 
-        <section className={styles.stepsSection} id="how-it-works">
+        <section className={styles.learningSection}>
           <div className={styles.sectionHeading}>
-            <span className={styles.eyebrow}>How it works</span>
-            <h2>A simple rhythm that keeps learning moving.</h2>
+            <h2>Your learning path</h2>
+            <p>
+              From the basics to real programming—step by step toward the goal.
+            </p>
           </div>
-          <ol className={styles.stepsGrid}>
-            {learningSteps.map((step, index) => (
+          <ol className={styles.learningGrid}>
+            {learningPath.map((step, index) => (
               <li key={step.title}>
                 <span className={styles.stepNumber}>{index + 1}</span>
-                <Icon icon={step.icon} size="lg" />
+                <span className={`${styles.pathIcon} ${styles[step.tone]}`}>
+                  <Icon icon={step.icon} size="md" />
+                </span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
+                <small className={index < 2 ? styles.available : undefined}>
+                  {index < 2 ? '▷' : '⌁'} {step.status}
+                </small>
               </li>
             ))}
           </ol>
+          <a className={styles.primaryAction} href="/register">
+            Discover all levels
+          </a>
+        </section>
+
+        <section className={styles.testimonialsSection}>
+          <div className={styles.sectionHeading}>
+            <h2>Kids love it. Parents trust it.</h2>
+            <p>Real reactions from families learning with CodeKids.</p>
+          </div>
+          <div className={styles.reviewGrid}>
+            {reviews.map(([name, role, quote]) => (
+              <Card className={styles.reviewCard} key={name}>
+                <CardContent>
+                  <span className={styles.quote}>“</span>
+                  <div className={styles.stars} aria-label="Five stars">
+                    ★★★★★
+                  </div>
+                  <blockquote>{quote}</blockquote>
+                  <div className={styles.reviewer}>
+                    <span>{name[0]}</span>
+                    <p>
+                      <strong>{name}</strong>
+                      <small>{role}</small>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.parentSection} id="for-parents">
+          <div>
+            <Badge variant="neutral">
+              <Icon icon={UsersRound} size="sm" /> For parents
+            </Badge>
+            <h2>Stay in the loop—no tech skills required</h2>
+            <p>
+              Your account manages every child profile. When a child enters Kids
+              Mode, parent controls disappear and returning requires logging out
+              and signing in again.
+            </p>
+          </div>
+          <div className={styles.parentBenefits}>
+            <article>
+              <Icon icon={BarChart3} size="md" />
+              <p>
+                <strong>See real progress</strong>
+                <span>
+                  Progress bars, level status and completed lessons at a glance.
+                </span>
+              </p>
+            </article>
+            <article>
+              <Icon icon={Clock3} size="md" />
+              <p>
+                <strong>Track learning time</strong>
+                <span>
+                  A simple overview of when and how much each child learns.
+                </span>
+              </p>
+            </article>
+            <article>
+              <Icon icon={ShieldCheck} size="md" />
+              <p>
+                <strong>Safe by design</strong>
+                <span>
+                  No ads, no child registration and no parent controls in Kids
+                  Mode.
+                </span>
+              </p>
+            </article>
+          </div>
         </section>
 
         <section className={styles.finalCta}>
           <div>
-            <span className={styles.eyebrow}>Ready when your family is</span>
-            <h2>Turn screen time into build time.</h2>
+            <h2>Ready to turn screen time into skill time?</h2>
             <p>
-              Create a parent account and help your child begin their first
-              coding mission.
+              Create one parent account, add profiles for all your children and
+              start the first level today.
             </p>
+            <div>
+              <a className={styles.ctaLight} href="/register">
+                <Icon icon={Rocket} size="sm" /> Create parent account
+              </a>
+              <a className={styles.ctaGhost} href="/login">
+                I already have an account
+              </a>
+            </div>
+            <small>
+              <Icon icon={ShieldCheck} size="sm" /> Safe, ad-free and made for
+              ages 10–15
+            </small>
           </div>
-          <a className={styles.primaryLinkLarge} href="/register">
-            Create a free account
-            <Icon icon={ArrowRight} size="sm" />
-          </a>
         </section>
       </main>
 
       <footer className={styles.footer}>
         <Logo showTagline={false} />
-        <p>Playful coding education, guided by families.</p>
-        <span>© 2026 CodeKids</span>
+        <p>A safe learning platform for kids ages 10–15</p>
       </footer>
     </div>
   );

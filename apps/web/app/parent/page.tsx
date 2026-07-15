@@ -19,10 +19,15 @@ import {
 import Link from 'next/link';
 import { LogoMark } from '../../components/logo';
 import styles from './parent-dashboard.module.css';
+import {
+  AddChildProfile,
+  EnterKidsMode,
+  ParentLogout,
+} from './profile-actions';
 
 const children = [
-  { name: 'Mina', level: 'Level 2', progress: 62, active: true },
-  { name: 'Arman', level: 'Level 1', progress: 28, active: false },
+  { id: 1, name: 'Mina', level: 'Level 2', progress: 62, active: true },
+  { id: 2, name: 'Arman', level: 'Level 1', progress: 28, active: false },
 ] as const;
 
 const recentActivity = [
@@ -53,6 +58,7 @@ export default function ParentDashboard() {
           <a href="#settings">
             <Icon icon={Settings} size="sm" /> Settings
           </a>
+          <ParentLogout />
         </nav>
       </header>
 
@@ -66,9 +72,7 @@ export default function ParentDashboard() {
               or pressure.
             </p>
           </div>
-          <button className={styles.addChild} type="button">
-            Add child profile
-          </button>
+          <AddChildProfile />
         </section>
 
         <section
@@ -122,9 +126,7 @@ export default function ParentDashboard() {
                       }
                     />
                   </div>
-                  <button className={styles.profileAction} type="button">
-                    View profile <Icon icon={ArrowRight} size="sm" />
-                  </button>
+                  <EnterKidsMode childId={child.id} />
                 </CardContent>
               </Card>
             ))}

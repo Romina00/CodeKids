@@ -3,6 +3,7 @@
   "ui": "tui",
   "globalEnv": [
     "PORT",
+    "WEB_ORIGIN",
     "NEXT_PUBLIC_CODEKIDS_API_URL",
     "DB_HOST",
     "DB_PORT",

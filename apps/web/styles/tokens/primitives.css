@@ -1,0 +1,55 @@
+:root {
+  /* Palette */
+  --palette-white: #ffffff;
+  --palette-slate-50: #f5f8fc;
+  --palette-slate-100: #e8eef6;
+  --palette-slate-300: #b5c1d6;
+  --palette-slate-600: #51607a;
+  --palette-slate-800: #1a2233;
+  --palette-slate-900: #0b1120;
+  --palette-blue-400: #4ba3ff;
+  --palette-blue-500: #1f8cff;
+  --palette-blue-600: #0876dd;
+  --palette-green-500: #22a06b;
+  --palette-amber-500: #e59600;
+  --palette-red-500: #dc3e42;
+
+  /* Typography */
+  --font-family-sans: var(--font-geist-sans), sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+
+  /* Spacing: four-pixel base */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shape and elevation */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px rgb(15 23 42 / 0.08);
+  --shadow-md: 0 10px 30px rgb(15 23 42 / 0.1);
+  --shadow-lg: 0 24px 70px rgb(15 23 42 / 0.12);
+}

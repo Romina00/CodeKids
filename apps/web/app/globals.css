@@ -1,20 +1,4 @@
-:root {
-  --background: #ffffff;
-  --foreground: #1a2233;
-  --foreground-muted: #51607a;
-  --border-subtle: rgba(26, 34, 51, 0.12);
-  --color-primary: #1f8cff;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b1120;
-    --foreground: #f3f7ff;
-    --foreground-muted: #b5c1d6;
-    --border-subtle: rgba(243, 247, 255, 0.12);
-    --color-primary: #4ba3ff;
-  }
-}
+@import '../styles/tokens/index.css';
 
 html,
 body {
@@ -23,9 +7,9 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-geist-sans), sans-serif;
+  color: var(--color-text);
+  background: var(--color-canvas);
+  font-family: var(--font-family-sans);
 }
 
 * {
@@ -71,7 +55,7 @@ a {
 }
 
 .logoTagline {
-  color: var(--foreground-muted);
+  color: var(--color-text-muted);
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: -0.02em;

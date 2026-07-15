@@ -1,0 +1,18 @@
+:root {
+  --button-background: var(--color-primary);
+  --button-background-hover: var(--color-primary-hover);
+  --button-foreground: var(--color-on-primary);
+  --button-radius: var(--radius-control);
+  --button-padding: var(--space-control-y) var(--space-control-x);
+  --input-background: var(--color-surface);
+  --input-foreground: var(--color-text);
+  --input-border: var(--color-border);
+  --input-radius: var(--radius-control);
+  --input-padding: var(--space-control-y) var(--space-control-x);
+  --card-background: var(--color-surface);
+  --card-foreground: var(--color-text);
+  --card-border: var(--color-border);
+  --card-radius: var(--radius-surface);
+  --card-padding: var(--space-6);
+  --card-shadow: var(--shadow-surface);
+}

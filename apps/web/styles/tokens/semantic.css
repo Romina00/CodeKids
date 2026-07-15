@@ -1,0 +1,46 @@
+:root {
+  --color-canvas: var(--palette-white);
+  --color-surface: var(--palette-white);
+  --color-surface-subtle: var(--palette-slate-50);
+  --color-text: var(--palette-slate-800);
+  --color-text-muted: var(--palette-slate-600);
+  --color-border: color-mix(in srgb, var(--palette-slate-800) 12%, transparent);
+  --color-primary: var(--palette-blue-500);
+  --color-primary-hover: var(--palette-blue-600);
+  --color-on-primary: var(--palette-white);
+  --color-success: var(--palette-green-500);
+  --color-warning: var(--palette-amber-500);
+  --color-danger: var(--palette-red-500);
+  --color-focus-ring: var(--palette-blue-400);
+
+  --text-body-size: var(--font-size-md);
+  --text-body-line-height: var(--line-height-normal);
+  --text-heading-line-height: var(--line-height-tight);
+  --space-control-x: var(--space-4);
+  --space-control-y: var(--space-3);
+  --space-layout-gutter: var(--space-8);
+  --space-section: var(--space-16);
+  --radius-control: var(--radius-md);
+  --radius-surface: var(--radius-xl);
+  --shadow-surface: var(--shadow-md);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: var(--palette-slate-900);
+    --color-surface: var(--palette-slate-800);
+    --color-surface-subtle: color-mix(
+      in srgb,
+      var(--palette-slate-800) 78%,
+      var(--palette-slate-900)
+    );
+    --color-text: var(--palette-slate-50);
+    --color-text-muted: var(--palette-slate-300);
+    --color-border: color-mix(
+      in srgb,
+      var(--palette-slate-50) 14%,
+      transparent
+    );
+    --color-primary: var(--palette-blue-400);
+  }
+}

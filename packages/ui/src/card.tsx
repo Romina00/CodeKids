@@ -1,9 +1,60 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import type { HTMLAttributes } from 'react';
+import styles from './components.module.css';
 
-export interface CardProps extends HTMLAttributes<HTMLElement> {
-  children: ReactNode;
+function withClassName(base: string | undefined, className?: string) {
+  return [base, className].filter(Boolean).join(' ');
 }
 
-export function Card({ children, ...props }: CardProps) {
-  return <article {...props}>{children}</article>;
+export function Card({ className, ...props }: HTMLAttributes<HTMLElement>) {
+  return (
+    <article className={withClassName(styles.card, className)} {...props} />
+  );
+}
+
+export function CardHeader({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={withClassName(styles.cardHeader, className)} {...props} />
+  );
+}
+
+export function CardTitle({
+  className,
+  ...props
+}: HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h3 className={withClassName(styles.cardTitle, className)} {...props} />
+  );
+}
+
+export function CardDescription({
+  className,
+  ...props
+}: HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p
+      className={withClassName(styles.cardDescription, className)}
+      {...props}
+    />
+  );
+}
+
+export function CardContent({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={withClassName(styles.cardContent, className)} {...props} />
+  );
+}
+
+export function CardFooter({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={withClassName(styles.cardFooter, className)} {...props} />
+  );
 }

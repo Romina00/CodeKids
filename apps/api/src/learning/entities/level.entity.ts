@@ -2,6 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -29,6 +31,13 @@ export class Level {
 
   @Column({ default: false })
   published!: boolean;
+
+  @ManyToOne(() => Level, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'prerequisiteLevelId' })
+  prerequisiteLevel!: Level | null;
+
+  @Column({ nullable: true })
+  prerequisiteLevelId!: number | null;
 
   @OneToMany(() => Activity, (activity) => activity.level)
   activities!: Activity[];

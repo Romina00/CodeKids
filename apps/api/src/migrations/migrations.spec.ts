@@ -1,6 +1,7 @@
 import { QueryRunner } from 'typeorm';
 import { CreateCoreSchema1721030000000 } from './1721030000000-create-core-schema';
 import { CreateLearningSchema1721040000000 } from './1721040000000-create-learning-schema';
+import { AddLevelPrerequisite1721050000000 } from './1721050000000-add-level-prerequisite';
 
 describe('schema migrations', () => {
   it('creates core tables and the self-referencing Parent-Child constraint first', async () => {
@@ -38,6 +39,16 @@ describe('schema migrations', () => {
     await new CreateLearningSchema1721040000000().down(captureQueries(queries));
     expect(queries[0]).toBe('DROP TABLE `rewards`');
     expect(queries.at(-1)).toBe('DROP TABLE `levels`');
+  });
+
+  it('adds and safely removes the level prerequisite relation', async () => {
+    const queries: string[] = [];
+    const migration = new AddLevelPrerequisite1721050000000();
+    await migration.up(captureQueries(queries));
+    expect(queries.join('\n')).toContain('FK_levels_prerequisite');
+    queries.length = 0;
+    await migration.down(captureQueries(queries));
+    expect(queries[0]).toContain('DROP FOREIGN KEY');
   });
 });
 

@@ -65,20 +65,18 @@ If any of these points is not fulfilled, the AI contribution must not be adopted
 
 Every relevant AI usage must be recorded. The documentation should contain at least the following fields:
 
+- date
 - tool / model
 - purpose
 - affected sections / files / artifacts
 - type of usage
 - short prompt or meaningful prompt description
 - own review / adaptation
+- verification and known limitations
 
 ## 7. Documentation Template
 
-The following table can be used directly for the bachelor's thesis or the project documentation:
-
-| Tool / Model | Purpose | Affected Sections / Code Parts / Artifacts | Type of Usage | Example Prompt | Own Review / Adaptation |
-| --- | --- | --- | --- | --- | --- |
-| e.g. Codex / GPT | Refactoring a NestJS service | `src/auth/auth.service.ts` | Structure suggestion and code revision | "Refactor this service for clearer responsibility boundaries." | Reviewed the suggestion, adjusted exceptions, standardized naming |
+Use the reusable [AI Usage Log Template](./AI_USAGE_LOG_TEMPLATE.md) for project records and thesis-ready entries. The template includes all required fields, a verification section, and a completion checklist.
 
 ## 8. Short Version for Daily Practice
 

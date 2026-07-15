@@ -129,6 +129,7 @@ The production start command expects the backend to have been built first.
 - [Project guide](./PROJECT_GUIDE.md)
 - [Style guide](./STYLEGUIDE.md)
 - [AI usage appendix](./AI_USAGE_APPENDIX.md)
+- [AI usage log template](./AI_USAGE_LOG_TEMPLATE.md)
 - [Backend guide](./apps/api/README.md)
 - [Frontend guide](./apps/web/README.md)
 

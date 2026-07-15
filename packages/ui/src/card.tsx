@@ -1,27 +1,9 @@
-import { type JSX } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
-export function Card({
-  className,
-  title,
-  children,
-  href,
-}: {
-  className?: string;
-  title: string;
-  children: React.ReactNode;
-  href: string;
-}): JSX.Element {
-  return (
-    <a
-      className={className}
-      href={`${href}?utm_source=create-turbo&utm_medium=basic&utm_campaign=create-turbo"`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      <h2>
-        {title} <span>-&gt;</span>
-      </h2>
-      <p>{children}</p>
-    </a>
-  );
+export interface CardProps extends HTMLAttributes<HTMLElement> {
+  children: ReactNode;
+}
+
+export function Card({ children, ...props }: CardProps) {
+  return <article {...props}>{children}</article>;
 }

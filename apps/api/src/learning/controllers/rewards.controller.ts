@@ -11,6 +11,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { CurrentUser } from '../../auth/current-user.decorator';
+import type { AuthenticatedUser } from '../../auth/auth.types';
 
 @Controller('learning/rewards')
 @ApiTags('Learning - Rewards')
@@ -40,7 +42,7 @@ export class RewardsController {
       },
     },
   })
-  findAll() {
-    return this.rewardsService.findAll();
+  findAll(@CurrentUser() user: AuthenticatedUser) {
+    return this.rewardsService.findForChild(user.sub);
   }
 }

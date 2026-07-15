@@ -1,23 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Role, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
-import { Role } from '../users/entities/user.entity';
+import { AdminAuditEvent } from './admin-audit.entity';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    @InjectRepository(User) private readonly users: Repository<User>,
+    @InjectRepository(AdminAuditEvent)
+    private readonly audit: Repository<AdminAuditEvent>,
+  ) {}
 
   async getOverview() {
     const users = await this.usersService.listAllUsers();
-    const parents = users
-      .filter((user) => user.role === Role.PARENT)
-      .map((user) => this.usersService.serializeUser(user));
-    const children = users
-      .filter((user) => user.role === Role.KID)
-      .map((user) => this.usersService.serializeUser(user));
-    const admins = users
-      .filter((user) => user.role === Role.ADMIN)
-      .map((user) => this.usersService.serializeUser(user));
-
+    const byRole = (role: Role) =>
+      users
+        .filter((user) => user.role === role)
+        .map((user) => this.usersService.serializeUser(user));
+    const parents = byRole(Role.PARENT),
+      children = byRole(Role.KID),
+      admins = byRole(Role.ADMIN);
     return {
       totals: {
         users: users.length,
@@ -37,5 +46,93 @@ export class AdminService {
         'Platform Configuration',
       ],
     };
+  }
+
+  async searchUsers(query?: string, role?: Role) {
+    const where: FindOptionsWhere<User>[] = [];
+    const q = query?.trim();
+    for (const field of ['email', 'displayName', 'nickname'] as const)
+      where.push({
+        ...(role ? { role } : {}),
+        ...(q ? { [field]: ILike(`%${q}%`) } : {}),
+      });
+    const users = await this.users.find({
+      where,
+      order: { createdAt: 'DESC' },
+      take: 100,
+    });
+    return users.map((user) => ({
+      ...this.usersService.serializeUser(user),
+      blockedAt: user.blockedAt,
+      blockedReason: user.blockedReason,
+      recoveryRequestedAt: user.recoveryRequestedAt,
+    }));
+  }
+
+  async setBlocked(
+    actorAdminId: number,
+    targetUserId: number,
+    blocked: boolean,
+    reason?: string,
+  ) {
+    if (actorAdminId === targetUserId)
+      throw new BadRequestException(
+        'Administrators cannot block their own account.',
+      );
+    const user = await this.requireUser(targetUserId);
+    user.blockedAt = blocked ? new Date() : null;
+    user.blockedReason = blocked
+      ? reason?.trim() || 'Blocked by administrator'
+      : null;
+    if (blocked) user.refreshTokenHash = null;
+    await this.users.save(user);
+    await this.log(
+      actorAdminId,
+      targetUserId,
+      blocked ? 'ACCOUNT_BLOCKED' : 'ACCOUNT_UNBLOCKED',
+      { reason: user.blockedReason },
+    );
+    return {
+      ...this.usersService.serializeUser(user),
+      blockedAt: user.blockedAt,
+      blockedReason: user.blockedReason,
+    };
+  }
+
+  async initiateRecovery(actorAdminId: number, targetUserId: number) {
+    const user = await this.requireUser(targetUserId);
+    if (user.role !== Role.PARENT || !user.email)
+      throw new BadRequestException(
+        'Password recovery is available only for parent email accounts.',
+      );
+    user.recoveryRequestedAt = new Date();
+    user.refreshTokenHash = null;
+    await this.users.save(user);
+    await this.log(actorAdminId, targetUserId, 'PASSWORD_RECOVERY_REQUESTED', {
+      delivery: 'email-simulated',
+    });
+    return {
+      accepted: true,
+      message: 'If delivery is configured, recovery instructions will be sent.',
+    };
+  }
+
+  listAudit() {
+    return this.audit.find({ order: { createdAt: 'DESC' }, take: 200 });
+  }
+  private async requireUser(id: number) {
+    const user = await this.users.findOneBy({ id });
+    if (!user) throw new NotFoundException('User not found.');
+    return user;
+  }
+  private log(
+    actorAdminId: number,
+    targetUserId: number,
+    action: string,
+    metadata: Record<string, unknown> | null,
+  ) {
+    return this.audit.save(
+      this.audit.create({ actorAdminId, targetUserId, action, metadata }),
+    );
   }
 }

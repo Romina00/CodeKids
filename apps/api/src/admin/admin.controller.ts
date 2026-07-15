@@ -1,4 +1,15 @@
-import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
@@ -12,6 +23,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminOverviewResponseDto } from './admin-response.dto';
+import { CurrentUser } from '../auth/current-user.decorator';
+import type { AuthenticatedUser } from '../auth/auth.types';
+import { BlockUserDto } from './admin-user.dto';
 
 @Controller('admin')
 @ApiTags('Administration')
@@ -31,5 +45,41 @@ export class AdminController {
   @ApiOkResponse({ type: AdminOverviewResponseDto })
   findAll() {
     return this.adminService.getOverview();
+  }
+
+  @Get('users')
+  @ApiOperation({ summary: 'Search parent and child account status' })
+  search(@Query('q') query?: string, @Query('role') role?: Role) {
+    return this.adminService.searchUsers(query, role);
+  }
+
+  @Patch('users/:userId/block')
+  @ApiOperation({ summary: 'Block or unblock an account and audit the action' })
+  setBlocked(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() body: BlockUserDto,
+  ) {
+    return this.adminService.setBlocked(
+      actor.sub,
+      userId,
+      body.blocked,
+      body.reason,
+    );
+  }
+
+  @Post('users/:userId/password-recovery')
+  @ApiOperation({ summary: 'Initiate safe parent password recovery' })
+  initiateRecovery(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    return this.adminService.initiateRecovery(actor.sub, userId);
+  }
+
+  @Get('audit')
+  @ApiOperation({ summary: 'List recent sensitive administration actions' })
+  listAudit() {
+    return this.adminService.listAudit();
   }
 }

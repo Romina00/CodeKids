@@ -17,6 +17,8 @@ import { CreateQuizAttempts1721060000000 } from './migrations/1721060000000-crea
 import { CreateBlocklyWorkspaces1721070000000 } from './migrations/1721070000000-create-blockly-workspaces';
 import { AddProgressResumeData1721080000000 } from './migrations/1721080000000-add-progress-resume-data';
 import { CreateXpEvents1721090000000 } from './migrations/1721090000000-create-xp-events';
+import { AddAdminUserControls1721100000000 } from './migrations/1721100000000-add-admin-user-controls';
+import { AdminAuditEvent } from './admin/admin-audit.entity';
 import { User } from './users/entities/user.entity';
 
 export default new DataSource({
@@ -36,6 +38,7 @@ export default new DataSource({
     QuizAttempt,
     BlocklyWorkspace,
     XpEvent,
+    AdminAuditEvent,
     Question,
     Progress,
     Achievement,
@@ -49,5 +52,6 @@ export default new DataSource({
     CreateBlocklyWorkspaces1721070000000,
     AddProgressResumeData1721080000000,
     CreateXpEvents1721090000000,
+    AddAdminUserControls1721100000000,
   ],
 });

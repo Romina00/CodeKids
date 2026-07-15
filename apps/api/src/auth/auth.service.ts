@@ -64,6 +64,7 @@ export class AuthService {
     }
 
     const user = await this.usersService.findByEmail(input.email);
+    if (user?.blockedAt) throw new UnauthorizedException('Account is blocked.');
     if (!user?.passwordHash) {
       throw new UnauthorizedException('Invalid email or password.');
     }

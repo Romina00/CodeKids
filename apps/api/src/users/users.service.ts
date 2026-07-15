@@ -119,6 +119,7 @@ export class UsersService {
     refreshToken: string,
   ): Promise<User> {
     const user = await this.findById(userId);
+    if (user?.blockedAt) throw new BadRequestException('Account is blocked.');
     if (!user?.refreshTokenHash) {
       throw new BadRequestException('Refresh token is not active.');
     }

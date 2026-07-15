@@ -73,6 +73,10 @@ describe('Swagger contract', () => {
     expect(Object.keys(document.paths).sort()).toEqual(
       [
         '/admin',
+        '/admin/audit',
+        '/admin/users',
+        '/admin/users/{userId}/block',
+        '/admin/users/{userId}/password-recovery',
         '/auth/kid-request',
         '/auth/login',
         '/auth/logout',

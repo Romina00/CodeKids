@@ -67,6 +67,15 @@ export class User {
   @Column({ type: 'datetime', nullable: true })
   lastKidsModeAt!: Date | null;
 
+  @Column({ type: 'datetime', nullable: true })
+  blockedAt!: Date | null;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  blockedReason!: string | null;
+
+  @Column({ type: 'datetime', nullable: true })
+  recoveryRequestedAt!: Date | null;
+
   @OneToMany(() => Progress, (progress) => progress.child)
   progressRecords!: Progress[];
 

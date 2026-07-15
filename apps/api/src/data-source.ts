@@ -19,6 +19,8 @@ import { AddProgressResumeData1721080000000 } from './migrations/1721080000000-a
 import { CreateXpEvents1721090000000 } from './migrations/1721090000000-create-xp-events';
 import { AddAdminUserControls1721100000000 } from './migrations/1721100000000-add-admin-user-controls';
 import { AdminAuditEvent } from './admin/admin-audit.entity';
+import { LandingContent } from './admin/landing-content.entity';
+import { CreateLandingContent1721110000000 } from './migrations/1721110000000-create-landing-content';
 import { User } from './users/entities/user.entity';
 
 export default new DataSource({
@@ -39,6 +41,7 @@ export default new DataSource({
     BlocklyWorkspace,
     XpEvent,
     AdminAuditEvent,
+    LandingContent,
     Question,
     Progress,
     Achievement,
@@ -53,5 +56,6 @@ export default new DataSource({
     AddProgressResumeData1721080000000,
     CreateXpEvents1721090000000,
     AddAdminUserControls1721100000000,
+    CreateLandingContent1721110000000,
   ],
 });

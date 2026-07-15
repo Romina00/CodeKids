@@ -7,6 +7,7 @@ import { CreateBlocklyWorkspaces1721070000000 } from './1721070000000-create-blo
 import { AddProgressResumeData1721080000000 } from './1721080000000-add-progress-resume-data';
 import { CreateXpEvents1721090000000 } from './1721090000000-create-xp-events';
 import { AddAdminUserControls1721100000000 } from './1721100000000-add-admin-user-controls';
+import { CreateLandingContent1721110000000 } from './1721110000000-create-landing-content';
 
 describe('schema migrations', () => {
   it('creates core tables and the self-referencing Parent-Child constraint first', async () => {
@@ -92,6 +93,13 @@ describe('schema migrations', () => {
     await new AddAdminUserControls1721100000000().up(captureQueries(queries));
     expect(queries.join('\n')).toContain('admin_audit_events');
     expect(queries.join('\n')).toContain('blockedAt');
+  });
+
+  it('creates ordered and versioned landing content', async () => {
+    const queries: string[] = [];
+    await new CreateLandingContent1721110000000().up(captureQueries(queries));
+    expect(queries[0]).toContain('updatedByAdminId');
+    expect(queries[0]).toContain('version');
   });
 });
 

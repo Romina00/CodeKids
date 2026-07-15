@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,6 +9,11 @@ import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { Role, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AdminAuditEvent } from './admin-audit.entity';
+import { LandingContent } from './landing-content.entity';
+import {
+  CreateLandingContentDto,
+  UpdateLandingContentDto,
+} from './landing-content.dto';
 
 @Injectable()
 export class AdminService {
@@ -16,6 +22,8 @@ export class AdminService {
     @InjectRepository(User) private readonly users: Repository<User>,
     @InjectRepository(AdminAuditEvent)
     private readonly audit: Repository<AdminAuditEvent>,
+    @InjectRepository(LandingContent)
+    private readonly landing: Repository<LandingContent>,
   ) {}
 
   async getOverview() {
@@ -119,6 +127,56 @@ export class AdminService {
 
   listAudit() {
     return this.audit.find({ order: { createdAt: 'DESC' }, take: 200 });
+  }
+
+  findPublishedContent() {
+    return this.landing.find({
+      where: { published: true },
+      order: { position: 'ASC', id: 'ASC' },
+    });
+  }
+
+  listAllContent() {
+    return this.landing.find({ order: { position: 'ASC', id: 'ASC' } });
+  }
+
+  createContent(actorAdminId: number, dto: CreateLandingContentDto) {
+    return this.landing.save(
+      this.landing.create({
+        ...dto,
+        version: 1,
+        updatedByAdminId: actorAdminId,
+      }),
+    );
+  }
+
+  async updateContent(
+    actorAdminId: number,
+    id: number,
+    dto: UpdateLandingContentDto,
+  ) {
+    const item = await this.landing.findOneBy({ id });
+    if (!item) throw new NotFoundException('Landing content not found.');
+    if (item.version !== dto.expectedVersion)
+      throw new ConflictException(
+        'Landing content changed; reload before saving.',
+      );
+    const changes = { ...dto };
+    delete (changes as Partial<UpdateLandingContentDto>).expectedVersion;
+    return this.landing.save(
+      this.landing.merge(item, {
+        ...changes,
+        version: item.version + 1,
+        updatedByAdminId: actorAdminId,
+      }),
+    );
+  }
+
+  async removeContent(id: number) {
+    const item = await this.landing.findOneBy({ id });
+    if (!item) throw new NotFoundException('Landing content not found.');
+    await this.landing.remove(item);
+    return { deleted: true, id };
   }
   private async requireUser(id: number) {
     const user = await this.users.findOneBy({ id });

@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
+  HttpCode,
   Param,
   ParseIntPipe,
   Patch,
@@ -26,6 +28,10 @@ import { AdminOverviewResponseDto } from './admin-response.dto';
 import { CurrentUser } from '../auth/current-user.decorator';
 import type { AuthenticatedUser } from '../auth/auth.types';
 import { BlockUserDto } from './admin-user.dto';
+import {
+  CreateLandingContentDto,
+  UpdateLandingContentDto,
+} from './landing-content.dto';
 
 @Controller('admin')
 @ApiTags('Administration')
@@ -81,5 +87,37 @@ export class AdminController {
   @ApiOperation({ summary: 'List recent sensitive administration actions' })
   listAudit() {
     return this.adminService.listAudit();
+  }
+
+  @Get('landing-content')
+  @ApiOperation({ summary: 'List all landing content for administration' })
+  listContent() {
+    return this.adminService.listAllContent();
+  }
+
+  @Post('landing-content')
+  @ApiOperation({ summary: 'Create versioned landing content' })
+  createContent(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Body() body: CreateLandingContentDto,
+  ) {
+    return this.adminService.createContent(actor.sub, body);
+  }
+
+  @Patch('landing-content/:contentId')
+  @ApiOperation({ summary: 'Update landing content with version checking' })
+  updateContent(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('contentId', ParseIntPipe) id: number,
+    @Body() body: UpdateLandingContentDto,
+  ) {
+    return this.adminService.updateContent(actor.sub, id, body);
+  }
+
+  @Delete('landing-content/:contentId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete landing content' })
+  removeContent(@Param('contentId', ParseIntPipe) id: number) {
+    return this.adminService.removeContent(id);
   }
 }

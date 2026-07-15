@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AdminController } from '../admin/admin.controller';
+import { LandingController } from '../admin/landing.controller';
 import { AdminService } from '../admin/admin.service';
 import { AuthController } from '../auth/auth.controller';
 import { AuthService } from '../auth/auth.service';
@@ -34,6 +35,7 @@ describe('Swagger contract', () => {
         AuthController,
         ParentsController,
         AdminController,
+        LandingController,
         UsersController,
         LevelsController,
         ProgressController,
@@ -74,6 +76,8 @@ describe('Swagger contract', () => {
       [
         '/admin',
         '/admin/audit',
+        '/admin/landing-content',
+        '/admin/landing-content/{contentId}',
         '/admin/users',
         '/admin/users/{userId}/block',
         '/admin/users/{userId}/password-recovery',
@@ -85,6 +89,7 @@ describe('Swagger contract', () => {
         '/auth/refresh',
         '/auth/register-parent',
         '/learning/levels',
+        '/landing-content',
         '/learning/blockly/{activityId}/workspace',
         '/learning/levels/{levelId}',
         '/learning/levels/{levelId}/activities',

@@ -75,9 +75,9 @@ export function LogoMark({
 export function Logo({ className, showTagline = true, ...props }: LogoProps) {
   return (
     <div className={joinClassNames('logoLockup', className)} {...props}>
-      <LogoMark className="logoMark" />
+      <LogoMark className="logoMark" title="" />
       <div className="logoCopy">
-        <div className="logoWordmark" aria-label="CodeKids">
+        <div className="logoWordmark">
           <span>Code</span>
           <span className="logoAccent">Kids</span>
         </div>

@@ -23,6 +23,25 @@ a {
   text-decoration: none;
 }
 
+.skipLink {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--radius-control);
+  font-weight: var(--font-weight-semibold);
+  transform: translateY(calc(-100% - var(--space-8)));
+}
+
+.skipLink:focus {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  transform: translateY(0);
+}
+
 .logoLockup {
   display: inline-flex;
   align-items: center;

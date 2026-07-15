@@ -20,6 +20,7 @@ export function Alert({ className, variant = 'info', ...props }: AlertProps) {
 }
 
 export function AlertTitle({
+  children,
   className,
   ...props
 }: HTMLAttributes<HTMLHeadingElement>) {
@@ -27,7 +28,9 @@ export function AlertTitle({
     <h4
       className={[styles.alertTitle, className].filter(Boolean).join(' ')}
       {...props}
-    />
+    >
+      {children}
+    </h4>
   );
 }
 

@@ -31,6 +31,7 @@ export interface NavigationLinkProps extends AnchorHTMLAttributes<HTMLAnchorElem
 }
 
 export function NavigationLink({
+  children,
   className,
   current,
   ...props
@@ -46,6 +47,8 @@ export function NavigationLink({
         .filter(Boolean)
         .join(' ')}
       {...props}
-    />
+    >
+      {children}
+    </a>
   );
 }

@@ -21,11 +21,14 @@ export function CardHeader({
 }
 
 export function CardTitle({
+  children,
   className,
   ...props
 }: HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={withClassName(styles.cardTitle, className)} {...props} />
+    <h3 className={withClassName(styles.cardTitle, className)} {...props}>
+      {children}
+    </h3>
   );
 }
 

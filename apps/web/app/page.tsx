@@ -44,7 +44,11 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <header className={styles.siteHeader}>
-        <a aria-label="CodeKids home" className={styles.brand} href="#top">
+        <a
+          aria-label="CodeKids home"
+          className={styles.brand}
+          href="#main-content"
+        >
           <Logo showTagline={false} />
         </a>
         <nav aria-label="Primary navigation" className={styles.headerActions}>
@@ -63,7 +67,7 @@ export default function Home() {
         </nav>
       </header>
 
-      <main id="top">
+      <main id="main-content" tabIndex={-1}>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
             <Badge variant="primary">Coding confidence starts here</Badge>
@@ -95,10 +99,7 @@ export default function Home() {
             </ul>
           </div>
 
-          <div
-            aria-label="Example learning journey"
-            className={styles.heroVisual}
-          >
+          <div className={styles.heroVisual}>
             <div className={styles.orbit} aria-hidden="true" />
             <div className={styles.missionCard}>
               <span className={styles.eyebrow}>Today&apos;s mission</span>
@@ -108,8 +109,12 @@ export default function Home() {
               <strong>Guide Pixel home</strong>
               <p>Use three blocks to finish the path.</p>
               <div
+                aria-label="Mission progress"
+                aria-valuemax={100}
+                aria-valuemin={0}
+                aria-valuenow={75}
                 className={styles.progressTrack}
-                aria-label="Mission progress: 75 percent"
+                role="progressbar"
               >
                 <span />
               </div>

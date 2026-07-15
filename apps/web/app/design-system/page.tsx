@@ -30,7 +30,7 @@ import styles from './preview.module.css';
 
 export default function DesignSystemPreview() {
   return (
-    <main className={styles.page}>
+    <main className={styles.page} id="main-content" tabIndex={-1}>
       <header className={styles.header}>
         <Badge variant="primary">Internal preview</Badge>
         <h1>CodeKids UI foundations</h1>

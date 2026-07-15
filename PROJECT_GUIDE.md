@@ -38,9 +38,10 @@ All rules in this document are to be understood as `MUST` unless explicitly mark
 
 ## 3. Language
 
-- Code, identifiers, commit messages, branch names, API responses, and technical comments must be in English.
-- Academic notes, bachelor's thesis context, and organizational documentation may be in German.
-- UI texts must be written in the final product language of the respective screen. Unless defined otherwise, production UI texts should be created in German.
+- English is the only language used in the repository and the product.
+- Code, identifiers, commit messages, branch names, API responses, technical comments, documentation, academic notes, and organizational files must be in English.
+- All user-facing content, including UI labels, validation messages, error messages, onboarding copy, metadata, and accessibility text, must be in English.
+- Non-English text must not be committed unless it is test data for an explicitly documented localization feature.
 
 ## 4. Naming
 
@@ -186,7 +187,7 @@ Short decisions may be documented directly in Markdown files in the repo. Docume
 - No unexplained copy-paste solutions from the internet or AI output.
 - No second icon library alongside `lucide-react`.
 - No inconsistent color systems.
-- No mixing of German and English in technical identifiers.
+- No non-English text in technical identifiers, documentation, or user-facing content.
 - No business logic in controllers or later in purely presentational components.
 - No "temporary" quick fixes without visible tracking.
 

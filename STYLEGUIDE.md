@@ -5,20 +5,20 @@ App-specific duplicates should not be maintained separately unless they define t
 
 This styleguide defines coding conventions and workflow practices for the project **"codeKids"**.
 
-`codeKids` is developed as part of a **Bachelorarbeit** and is currently maintained by **one developer**. The workflow rules below therefore focus on clarity, traceability, and consistency rather than team review processes.
+`codeKids` is developed as part of a **bachelor's thesis** and is currently maintained by **one developer**. The workflow rules below therefore focus on clarity, traceability, and consistency rather than team review processes.
 
 ## 1. Naming Conventions
 
 ### 1.1 Language
 
-- **English:**  
-  All permanent parts of the codebase must be written in English. This includes variables, constants, functions, methods, classes, interfaces, types, enums, file and folder names, API routes, backend error messages, commit messages, and code comments.
+- **Repository content:**
+  English is the only language used in the repository. This includes code, identifiers, file and folder names, API routes and responses, comments, commit messages, project notes, academic material, and all technical or organizational documentation.
 
-- **German:**  
-  German may be used for project notes and thesis-related documentation.
+- **User-facing content:**
+  English is the product language. UI labels, frontend and backend error messages, validation messages, onboarding copy, metadata, accessibility text, and similar user-facing content must be written in English.
 
-- **User-facing content:**  
-  As the current website is entirely in English, UI text, frontend error messages, onboarding copy, and similar user-facing content must also be written in English unless the product language is changed intentionally later.
+- **Exceptions:**
+  Non-English text may only be added as test data for an explicitly documented localization feature. Such test data must remain isolated from production UI and general documentation.
 
 ### 1.2 Variables and Constants
 
@@ -140,4 +140,4 @@ As `codeKids` is a solo project, the branch strategy should stay lightweight.
 
 - Document non-obvious technical decisions.
 - Keep README files aligned with the actual project state, not with starter templates.
-- If a decision is relevant for the Bachelorarbeit, record it in a way that can be reused later in the written thesis.
+- If a decision is relevant to the bachelor's thesis, record it in a way that can be reused later in the written thesis.

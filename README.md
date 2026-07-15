@@ -1,159 +1,129 @@
-# Turborepo starter
+# CodeKids
 
-This Turborepo starter is maintained by the Turborepo core team.
+CodeKids is a learning platform for children, supported by tools for parents and administrators. The repository is an npm workspace managed with Turborepo and contains a Next.js frontend, a NestJS API, and shared TypeScript packages.
 
-## Using this example
+## Repository Structure
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```text
+.
+|-- apps/
+|   |-- api/                  # NestJS API, authentication, and learning modules
+|   `-- web/                  # Next.js web application
+|-- packages/
+|   |-- eslint-config/        # Shared ESLint configurations
+|   |-- typescript-config/    # Shared TypeScript configurations
+|   `-- ui/                   # Shared React components
+|-- Dokument_EN.md            # Product and architecture documentation
+|-- PROJECT_GUIDE.md          # Project-wide implementation rules
+|-- STYLEGUIDE.md             # Code style conventions
+|-- package.json              # Workspace scripts and dependencies
+`-- turbo.json                # Turborepo task configuration
 ```
 
-## What's inside?
+## Architecture
 
-This Turborepo includes the following packages/apps:
+- **Web:** Next.js 16 with React 19 and TypeScript.
+- **API:** NestJS 11 with TypeORM, MySQL, JWT authentication, and Swagger/OpenAPI.
+- **Shared packages:** reusable UI components plus centralized ESLint and TypeScript configuration.
+- **Task orchestration:** Turborepo runs build, development, lint, and type-check tasks across workspaces.
 
-### Apps and Packages
+The API is organized into domain modules for authentication, users, learning, parents, administration, and uploads. See [Dokument_EN.md](./Dokument_EN.md) for the broader product and technical design.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## Prerequisites
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- Node.js 18 or newer
+- npm 11 (the repository currently targets npm 11.8.0)
+- MySQL 8 or a compatible MySQL server
 
-### Utilities
+## Setup
 
-This Turborepo has some additional tools already setup for you:
+1. Clone the repository and enter its directory.
+2. Install all workspace dependencies:
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+   ```bash
+   npm install
+   ```
 
-### Build
+3. Create `apps/api/.env` and configure the backend environment variables described below.
+4. Make sure the configured MySQL database exists and is reachable.
+5. Start the development applications:
 
-To build all apps and packages, run the following command:
+   ```bash
+   npm run dev
+   ```
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+The web application runs at [http://localhost:3000](http://localhost:3000). The API also defaults to port `3000`, so set a different backend `PORT` when running both applications at the same time, for example `PORT=3001`.
 
-```sh
-cd my-turborepo
-turbo build
+To run one application at a time:
+
+```bash
+npm run dev --workspace web
+npm run start:dev --workspace @codekids/backend
 ```
 
-Without global `turbo`, use your package manager:
+When the API is running, Swagger UI is available at `/api/docs` on the configured API host and port.
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+## Environment Variables
+
+The backend reads variables from `apps/api/.env` when it is started from that workspace.
+
+```env
+NODE_ENV=development
+PORT=3001
+
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=
+DB_DATABASE=code_kids
+
+JWT_SECRET=replace-with-a-secure-secret
+JWT_REFRESH_SECRET=replace-with-a-different-secure-secret
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Do not commit real credentials or production secrets. The values above are local development examples.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Commands
 
-```sh
-turbo build --filter=docs
+Run these commands from the repository root unless stated otherwise.
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start persistent development tasks across applications. |
+| `npm run build` | Build all applications and packages. |
+| `npm run lint` | Run workspace lint tasks. |
+| `npm run check-types` | Run TypeScript checks across workspaces. |
+| `npm run format` | Format TypeScript, TSX, and Markdown files with Prettier. |
+| `npm run test --workspace @codekids/backend` | Run backend unit tests. |
+| `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests. |
+| `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage. |
+
+There is currently no repository-wide `test` script and no frontend test script. Use the backend workspace commands shown above.
+
+## API Development
+
+Useful backend-specific commands:
+
+```bash
+npm run start:dev --workspace @codekids/backend
+npm run start:debug --workspace @codekids/backend
+npm run build --workspace @codekids/backend
+npm run start:prod --workspace @codekids/backend
 ```
 
-Without global `turbo`:
+The production start command expects the backend to have been built first.
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
-```
+## Project Documentation
 
-### Develop
+- [Product and architecture documentation](./Dokument_EN.md)
+- [Project guide](./PROJECT_GUIDE.md)
+- [Style guide](./STYLEGUIDE.md)
+- [AI usage appendix](./AI_USAGE_APPENDIX.md)
+- [Backend guide](./apps/api/README.md)
+- [Frontend guide](./apps/web/README.md)
 
-To develop all apps and packages, run the following command:
+## Current Status
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+The repository is under active development. Some modules and UI areas are still incomplete, and the current documentation describes the implemented repository rather than a finished production release.

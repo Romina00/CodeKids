@@ -1,116 +1,499 @@
 .page {
   min-height: 100svh;
-  padding: 32px;
   background: var(--landing-background);
 }
 
-.main {
-  width: min(1080px, 100%);
-  margin: 0 auto;
-  min-height: calc(100svh - 64px);
-  display: grid;
-  align-content: center;
-  gap: 28px;
+.siteHeader,
+.hero,
+.pathsSection,
+.stepsSection,
+.finalCta,
+.footer {
+  width: min(74rem, calc(100% - var(--space-8)));
+  margin-inline: auto;
+}
+
+.siteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 5rem;
+  gap: var(--space-6);
+}
+
+.brand :global(.logoMark) {
+  width: 2.75rem;
+}
+
+.brand :global(.logoWordmark),
+.footer :global(.logoWordmark) {
+  font-size: var(--font-size-xl);
+  letter-spacing: -0.045em;
+}
+
+.brand :global(.logoLockup),
+.footer :global(.logoLockup) {
+  gap: var(--space-2);
+}
+
+.headerActions,
+.heroActions,
+.trustList,
+.inlineLink,
+.primaryLink,
+.primaryLinkLarge,
+.secondaryLinkLarge,
+.loginLink {
+  display: flex;
+  align-items: center;
+}
+
+.headerActions {
+  gap: var(--space-5);
+}
+
+.textLink,
+.loginLink {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.textLink:hover,
+.loginLink:hover,
+.inlineLink:hover {
+  color: var(--color-primary);
+}
+
+.loginLink,
+.primaryLink,
+.primaryLinkLarge,
+.secondaryLinkLarge {
+  justify-content: center;
+  border-radius: var(--radius-control);
+}
+
+.loginLink {
+  min-height: 2.5rem;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--color-border);
+}
+
+.primaryLink,
+.primaryLinkLarge {
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.primaryLink:hover,
+.primaryLinkLarge:hover {
+  background: var(--color-primary-hover);
+}
+
+.primaryLink {
+  min-height: 2.5rem;
+  padding-inline: var(--space-4);
+  font-size: var(--font-size-sm);
 }
 
 .hero {
   display: grid;
-  gap: 18px;
-  padding: 32px;
-  border: 1px solid var(--color-border);
-  border-radius: 32px;
-  background: var(--landing-hero-background);
-  box-shadow: var(--landing-hero-shadow);
+  grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.92fr);
+  align-items: center;
+  min-height: calc(100svh - 5rem);
+  gap: clamp(var(--space-8), 7vw, var(--space-16));
+  padding-block: var(--space-12) var(--space-16);
 }
 
-.logoShowcase {
-  gap: 20px;
+.heroCopy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
 }
 
-.logoShowcase :global(.logoMark) {
-  width: clamp(88px, 11vw, 124px);
-  height: auto;
+.heroCopy h1 {
+  max-width: 12ch;
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
 }
 
-.logoShowcase :global(.logoWordmark) {
-  font-size: clamp(2.6rem, 7vw, 5rem);
-}
-
-.logoShowcase :global(.logoTagline) {
-  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-}
-
-.description {
-  max-width: 54ch;
+.heroCopy > p {
+  max-width: 58ch;
   color: var(--color-text-muted);
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
 }
 
-.previewGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+.heroActions {
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
-.card {
-  display: grid;
-  gap: 20px;
-  padding: 24px;
+.primaryLinkLarge,
+.secondaryLinkLarge {
+  min-height: 3.25rem;
+  gap: var(--space-2);
+  padding-inline: var(--space-6);
+}
+
+.secondaryLinkLarge {
+  color: var(--color-text);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 24px;
-  background: var(--landing-card-background);
-  box-shadow: var(--landing-card-shadow);
+  font-weight: var(--font-weight-semibold);
 }
 
-.label {
-  font-size: 0.8rem;
-  font-weight: 700;
+.trustList {
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  list-style: none;
+}
+
+.trustList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.heroVisual {
+  position: relative;
+  display: grid;
+  min-height: 32rem;
+  place-items: center;
+  isolation: isolate;
+}
+
+.orbit {
+  position: absolute;
+  width: min(28rem, 90%);
+  aspect-ratio: 1;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-full);
+  transform: rotate(-12deg);
+}
+
+.orbit::before,
+.orbit::after {
+  position: absolute;
+  content: '';
+  border-radius: var(--radius-full);
+}
+
+.orbit::before {
+  top: 9%;
+  right: 8%;
+  width: 3rem;
+  height: 3rem;
+  background: var(--color-warning);
+  box-shadow: var(--shadow-md);
+}
+
+.orbit::after {
+  bottom: 5%;
+  left: 13%;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--color-success);
+}
+
+.missionCard {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(22rem, 88%);
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--landing-hero-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--landing-hero-shadow);
+  backdrop-filter: blur(18px);
+  transform: rotate(2deg);
+}
+
+.missionCard strong {
+  font-size: var(--font-size-xl);
+}
+
+.missionCard p {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+
+.missionIcon,
+.cardIcon {
+  display: grid;
+  color: var(--color-primary);
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-lg);
+  place-items: center;
+}
+
+.missionIcon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.progressTrack {
+  height: var(--space-2);
+  overflow: hidden;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-full);
+}
+
+.progressTrack span {
+  display: block;
+  width: 75%;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: inherit;
+}
+
+.rewardBubble {
+  position: absolute;
+  right: 3%;
+  bottom: 18%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  color: var(--palette-slate-900);
+  background: var(--color-warning);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  font-weight: var(--font-weight-bold);
+  transform: rotate(-5deg);
+}
+
+.pathsSection,
+.stepsSection {
+  display: grid;
+  gap: var(--space-8);
+  padding-block: var(--space-16);
+}
+
+.sectionHeading {
+  display: grid;
+  max-width: 46rem;
+  gap: var(--space-3);
+}
+
+.sectionHeading h2,
+.finalCta h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: var(--text-heading-line-height);
+  letter-spacing: -0.045em;
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.pathGrid,
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+}
+
+.kidCard,
+.parentCard {
+  min-height: 22rem;
+  box-shadow: none;
+}
+
+.kidCard {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+
+.parentCard {
+  background: color-mix(in srgb, var(--color-success) 8%, var(--color-surface));
+}
+
+.cardIcon {
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: var(--space-5);
+}
+
+.inlineLink {
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-weight: var(--font-weight-bold);
+}
+
+.stepsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0;
+  list-style: none;
+}
+
+.stepsGrid li {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.stepsGrid h3 {
+  font-size: var(--font-size-lg);
+}
+
+.stepsGrid p,
+.finalCta p,
+.footer p {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+}
+
+.stepNumber {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.finalCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: clamp(var(--space-8), 6vw, var(--space-16));
+  margin-block: var(--space-16);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.finalCta > div {
+  display: grid;
+  max-width: 42rem;
+  gap: var(--space-3);
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-6);
+  padding-block: var(--space-8);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+}
+
+.footer :global(.logoMark) {
+  width: 2rem;
+}
+
+.footer span {
   color: var(--color-text-muted);
 }
 
-.logoInline {
-  gap: 16px;
+.primaryLink:focus-visible,
+.primaryLinkLarge:focus-visible,
+.secondaryLinkLarge:focus-visible,
+.loginLink:focus-visible,
+.textLink:focus-visible,
+.inlineLink:focus-visible,
+.brand:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }
 
-.logoInline :global(.logoMark) {
-  width: 76px;
-  height: auto;
-}
-
-.logoInline :global(.logoWordmark) {
-  font-size: clamp(2rem, 4vw, 3.3rem);
-}
-
-.markOnly {
-  width: 96px;
-  height: auto;
-}
-
-@media (max-width: 720px) {
-  .page {
-    padding: 20px;
+@media (max-width: 58rem) {
+  .textLink {
+    display: none;
   }
 
-  .main {
-    min-height: calc(100svh - 40px);
-  }
-
-  .hero,
-  .card {
-    padding: 22px;
-    border-radius: 24px;
-  }
-
-  .previewGrid {
+  .hero {
     grid-template-columns: 1fr;
   }
 
-  .logoShowcase :global(.logoLockup),
-  .logoInline :global(.logoLockup) {
+  .heroCopy {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .heroCopy h1 {
+    max-width: 14ch;
+  }
+
+  .trustList {
+    justify-content: center;
+  }
+
+  .heroVisual {
+    min-height: 27rem;
+  }
+
+  .finalCta {
     align-items: flex-start;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 42rem) {
+  .siteHeader,
+  .hero,
+  .pathsSection,
+  .stepsSection,
+  .finalCta,
+  .footer {
+    width: min(100% - var(--space-5), 74rem);
+  }
+
+  .brand :global(.logoWordmark) {
+    display: none;
+  }
+
+  .headerActions {
+    gap: var(--space-2);
+  }
+
+  .hero {
+    padding-top: var(--space-8);
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.5rem, 15vw, 4rem);
+  }
+
+  .heroActions,
+  .heroActions a {
+    width: 100%;
+  }
+
+  .pathGrid,
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .missionCard,
+  .rewardBubble,
+  .orbit {
+    transform: none;
   }
 }

@@ -7,8 +7,16 @@ import { RegisterParentDto } from './dto/register-parent.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshSessionDto } from './dto/refresh-session.dto';
 import { ChildInvitationDto } from './dto/child-invitation.dto';
+import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
+import { HttpStatus } from '@nestjs/common';
 
 @Controller('auth')
+@ApiStandardErrors(
+  HttpStatus.BAD_REQUEST,
+  HttpStatus.UNAUTHORIZED,
+  HttpStatus.CONFLICT,
+  HttpStatus.INTERNAL_SERVER_ERROR,
+)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

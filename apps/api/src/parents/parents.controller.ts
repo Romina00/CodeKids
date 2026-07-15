@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  HttpStatus,
 } from '@nestjs/common';
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -19,10 +20,19 @@ import { CreateChildDto } from './dto/create-child.dto';
 import { UpdateChildDto } from './dto/update-child.dto';
 import { UpdateParentProfileDto } from './dto/update-parent-profile.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
 
 @Controller('parents')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.PARENT)
+@ApiStandardErrors(
+  HttpStatus.BAD_REQUEST,
+  HttpStatus.UNAUTHORIZED,
+  HttpStatus.FORBIDDEN,
+  HttpStatus.NOT_FOUND,
+  HttpStatus.CONFLICT,
+  HttpStatus.INTERNAL_SERVER_ERROR,
+)
 export class ParentsController {
   constructor(private readonly parentsService: ParentsService) {}
 

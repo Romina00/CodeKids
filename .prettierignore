@@ -3,6 +3,7 @@ node_modules
 dist
 coverage
 package-lock.json
+next-env.d.ts
 *.woff
 *.woff2
 *.ico

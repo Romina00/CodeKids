@@ -95,7 +95,12 @@ export class JwtTokenService {
       throw new UnauthorizedException('Invalid token format.');
     }
 
-    const [header, body, signature] = parts;
+    const header = parts[0];
+    const body = parts[1];
+    const signature = parts[2];
+    if (!header || !body || !signature) {
+      throw new UnauthorizedException('Invalid token format.');
+    }
     const expectedSignature = this.base64UrlEncode(
       createHmac('sha256', secret).update(`${header}.${body}`).digest(),
     );
@@ -159,8 +164,12 @@ export class JwtTokenService {
       return Number(value) || 900;
     }
 
-    const amount = Number(match[1]);
+    const amountText = match[1];
     const unit = match[2];
+    if (!amountText || !unit) {
+      return 900;
+    }
+    const amount = Number(amountText);
     const multiplier =
       {
         s: 1,

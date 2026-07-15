@@ -15,4 +15,52 @@
   --card-radius: var(--radius-surface);
   --card-padding: var(--space-6);
   --card-shadow: var(--shadow-surface);
+  --landing-background:
+    radial-gradient(
+      circle at top left,
+      color-mix(in srgb, var(--color-primary) 12%, transparent),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-surface) 94%, transparent),
+      color-mix(in srgb, var(--color-surface-subtle) 98%, transparent)
+    );
+  --landing-hero-background: color-mix(
+    in srgb,
+    var(--color-surface) 84%,
+    transparent
+  );
+  --landing-card-background: color-mix(
+    in srgb,
+    var(--color-surface) 72%,
+    transparent
+  );
+  --landing-hero-shadow: var(--shadow-lg);
+  --landing-card-shadow: var(--shadow-md);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --landing-background:
+      radial-gradient(
+        circle at top left,
+        color-mix(in srgb, var(--color-primary) 20%, transparent),
+        transparent 32%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-canvas) 98%, transparent),
+        var(--color-canvas)
+      );
+    --landing-hero-background: color-mix(
+      in srgb,
+      var(--color-surface-subtle) 78%,
+      transparent
+    );
+    --landing-card-background: var(--landing-hero-background);
+    --landing-hero-shadow: 0 20px 60px
+      color-mix(in srgb, var(--palette-black) 30%, transparent);
+    --landing-card-shadow: var(--landing-hero-shadow);
+  }
 }

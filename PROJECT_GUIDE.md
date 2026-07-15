@@ -76,7 +76,7 @@ Unclear names such as the following are forbidden:
 - DTOs must be used for inputs and outputs as soon as data crosses an API boundary.
 - `any` is not allowed unless it is technically unavoidable and briefly justified.
 
-Note: The repository-wide style guide in [STYLEGUIDE.md](/Users/rominamirmehdi/Desktop/bht/Bachloer/codeKids%20Turborepo/codekids/STYLEGUIDE.md) remains valid and is complemented by this document at the project level.
+Note: The repository-wide style guide in [STYLEGUIDE.md](./STYLEGUIDE.md) remains valid and is complemented by this document at the project level.
 
 ### 5.3 Frontend
 
@@ -180,7 +180,7 @@ Short decisions may be documented directly in Markdown files in the repo. Docume
 - Full responsibility for the domain remains with the project.
 - Every adopted suggestion must be understood, reviewed, and adjusted if necessary.
 - Code or text must not be adopted blindly.
-- For thesis-relevant content, the appendix in [AI_USAGE_APPENDIX.md](/Users/rominamirmehdi/Desktop/bht/Bachloer/codeKids/AI_USAGE_APPENDIX.md) also applies.
+- For thesis-relevant content, the appendix in [AI_USAGE_APPENDIX.md](./AI_USAGE_APPENDIX.md) also applies.
 
 ## 12. Non-Negotiable Prohibitions
 

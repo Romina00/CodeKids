@@ -150,6 +150,7 @@ TypeORM migrations before starting a new environment; use
 - [Role and access matrix](./ACCESS_CONTROL_MATRIX.md)
 - [Authentication security policy](./docs/AUTH_SECURITY_POLICY.md)
 - [Learning schema decision](./docs/LEARNING_SCHEMA.md)
+- [Similar-product comparison framework](./docs/PRODUCT_COMPARISON_CRITERIA.md)
 - [Backend guide](./apps/api/README.md)
 - [Frontend guide](./apps/web/README.md)
 

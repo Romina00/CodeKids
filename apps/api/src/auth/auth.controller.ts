@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { CurrentUser } from './current-user.decorator';
@@ -33,6 +34,8 @@ import {
 import { RolesGuard } from './roles.guard';
 import { Roles } from './roles.decorator';
 import { Role } from '../users/entities/user.entity';
+import { AuthRateLimitService } from './auth-rate-limit.service';
+import type { Request } from 'express';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -44,12 +47,16 @@ import { Role } from '../users/entities/user.entity';
   HttpStatus.INTERNAL_SERVER_ERROR,
 )
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly rateLimit: AuthRateLimitService,
+  ) {}
 
   @Post('register-parent')
   @ApiOperation({ summary: 'Register a parent and start a session' })
   @ApiCreatedResponse({ type: AuthSessionResponseDto })
-  registerParent(@Body() input: RegisterParentDto) {
+  registerParent(@Req() request: Request, @Body() input: RegisterParentDto) {
+    this.limit('register', request, 5);
     return this.authService.registerParent(input);
   }
 
@@ -57,7 +64,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Log in a parent or administrator' })
   @ApiOkResponse({ type: AuthSessionResponseDto })
-  login(@Body() input: LoginDto) {
+  login(@Req() request: Request, @Body() input: LoginDto) {
+    this.limit('login', request, 10);
     return this.authService.login(input);
   }
 
@@ -65,7 +73,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Rotate an active refresh token' })
   @ApiOkResponse({ type: AuthSessionResponseDto })
-  refresh(@Body() input: RefreshSessionDto) {
+  refresh(@Req() request: Request, @Body() input: RefreshSessionDto) {
+    this.limit('refresh', request, 30);
     return this.authService.refresh(input);
   }
 
@@ -107,5 +116,17 @@ export class AuthController {
   @ApiOkResponse({ type: UserResponseDto })
   me(@CurrentUser() user: AuthenticatedUser) {
     return this.authService.getMe(user);
+  }
+
+  private limit(scope: string, request: Request, limit: number) {
+    const forwarded = request.headers['x-forwarded-for'];
+    const client =
+      (Array.isArray(forwarded)
+        ? forwarded[0]
+        : forwarded?.split(',')[0]
+      )?.trim() ||
+      request.ip ||
+      'unknown';
+    this.rateLimit.check(scope, client, limit);
   }
 }

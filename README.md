@@ -149,6 +149,7 @@ TypeORM migrations before starting a new environment; use
 - [AI usage log](./AI_USAGE_LOG.md)
 - [Role and access matrix](./ACCESS_CONTROL_MATRIX.md)
 - [Authentication security policy](./docs/AUTH_SECURITY_POLICY.md)
+- [Session security policy](./docs/SESSION_SECURITY.md)
 - [Learning schema decision](./docs/LEARNING_SCHEMA.md)
 - [Similar-product comparison framework](./docs/PRODUCT_COMPARISON_CRITERIA.md)
 - [K–12 standards review framework](./docs/K12_STANDARDS_REVIEW_FRAMEWORK.md)

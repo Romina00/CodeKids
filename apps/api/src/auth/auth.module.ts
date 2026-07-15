@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtTokenService } from './jwt-token.service';
 import { RolesGuard } from './roles.guard';
+import { AuthRateLimitService } from './auth-rate-limit.service';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RolesGuard } from './roles.guard';
     JwtTokenService,
     JwtAuthGuard,
     RolesGuard,
+    AuthRateLimitService,
   ],
   exports: [AuthService, JwtTokenService, JwtAuthGuard, RolesGuard],
 })

@@ -6,6 +6,7 @@ import { LandingController } from '../admin/landing.controller';
 import { AdminService } from '../admin/admin.service';
 import { AuthController } from '../auth/auth.controller';
 import { AuthService } from '../auth/auth.service';
+import { AuthRateLimitService } from '../auth/auth-rate-limit.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { LevelsController } from '../learning/controllers/levels.controller';
@@ -46,6 +47,7 @@ describe('Swagger contract', () => {
       ],
       providers: [
         AuthService,
+        AuthRateLimitService,
         ParentsService,
         AdminService,
         UsersService,

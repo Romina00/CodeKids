@@ -1,6 +1,6 @@
 # AI Usage Appendix
 
-This appendix transfers the underlying rule concept from the provided agreement to the `codeKids` project.
+This appendix transfers the underlying rule concept from the provided agreement to the `CodeKids` project.
 It is written so that it can be used as a working basis for the bachelor's thesis and for ongoing development.
 
 ## 1. Goal
@@ -10,7 +10,7 @@ What remains decisive is that domain decisions, justifications, selection proces
 
 ## 2. Permitted AI Support
 
-For `codeKids`, AI support is permitted in the following areas:
+For `CodeKids`, AI support is permitted in the following areas:
 
 - technical code structuring,
 - refactoring suggestions,

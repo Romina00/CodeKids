@@ -1,6 +1,6 @@
-# Code Kids Backend
+# CodeKids Backend
 
-NestJS backend for the Code Kids project.
+NestJS backend for the CodeKids project.
 
 ## Tech Stack
 
@@ -62,8 +62,8 @@ http://localhost:3000/api-json
 
 Current Swagger setup:
 
-- Title: `Code Kids API`
-- Description: `API documentation for the Code Kids backend`
+- Title: `CodeKids API`
+- Description: `API documentation for the CodeKids backend`
 - Version: `1.0`
 - Swagger route: `/api/docs`
 

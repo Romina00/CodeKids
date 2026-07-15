@@ -6,8 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Code Kids API')
-    .setDescription('API documentation for the Code Kids backend')
+    .setTitle('CodeKids API')
+    .setDescription('API documentation for the CodeKids backend')
     .setVersion('1.0')
     .build();
 

@@ -106,7 +106,7 @@ export class AuthService {
       message:
         'Invitation recorded and ready to send to the parent email address.',
       emailPreview: {
-        subject: 'Your child would like to join CodeExplorer',
+        subject: 'Your child would like to join CodeKids',
         body: 'A child has requested access using your email address.',
         ctaLabel: 'Create Child Account',
         invitationToken: savedInvitation.token,

@@ -1,4 +1,4 @@
-# CodeExplorer Notes and Structured Project Outline
+# CodeKids Notes and Structured Project Outline
 
 This document is an English, structured version of the contents from `Dokument.docx`.
 It keeps the original ideas, but organizes them into clearer sections for further planning, implementation, and thesis documentation.
@@ -415,7 +415,7 @@ Advantages:
 
 ### 10.1 Project Context
 
-CodeExplorer is a gamified web-based learning platform for children aged 10 to 15.
+CodeKids is a gamified web-based learning platform for children aged 10 to 15.
 
 User groups:
 
@@ -504,7 +504,7 @@ When submitted:
 
 Example content:
 
-> Your child would like to join CodeExplorer.
+> Your child would like to join CodeKids.
 >
 > A child has requested access using your email address.
 >

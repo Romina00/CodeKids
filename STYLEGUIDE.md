@@ -1,11 +1,11 @@
-# Project Styleguide - codeKids
+# Project Styleguide - CodeKids
 
-This is the canonical style guide for the entire `codeKids` repository.
+This is the canonical style guide for the entire `CodeKids` repository.
 App-specific duplicates should not be maintained separately unless they define truly additional rules that cannot live here.
 
-This styleguide defines coding conventions and workflow practices for the project **"codeKids"**.
+This styleguide defines coding conventions and workflow practices for the project **"CodeKids"**.
 
-`codeKids` is developed as part of a **bachelor's thesis** and is currently maintained by **one developer**. The workflow rules below therefore focus on clarity, traceability, and consistency rather than team review processes.
+`CodeKids` is developed as part of a **bachelor's thesis** and is currently maintained by **one developer**. The workflow rules below therefore focus on clarity, traceability, and consistency rather than team review processes.
 
 ## 1. Naming Conventions
 
@@ -78,7 +78,7 @@ This styleguide defines coding conventions and workflow practices for the projec
 
 ### 2.1 Branch Strategy
 
-As `codeKids` is a solo project, the branch strategy should stay lightweight.
+As `CodeKids` is a solo project, the branch strategy should stay lightweight.
 
 | Branch       | Purpose                                                  |
 | ------------ | -------------------------------------------------------- |

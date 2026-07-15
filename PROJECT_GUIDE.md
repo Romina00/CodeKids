@@ -1,6 +1,6 @@
-# codeKids Project Guide
+# CodeKids Project Guide
 
-This guide is the binding working foundation for `codeKids`.
+This guide is the binding working foundation for `CodeKids`.
 It applies to the backend, frontend, future extensions, and collaboration with AI assistance.
 
 ## 1. Goal
@@ -193,4 +193,4 @@ Short decisions may be documented directly in Markdown files in the repo. Docume
 
 ## 13. Working Rule for Future Collaboration
 
-If new rules are added, they are not only stated verbally but also written into this guide. This guide is therefore the single source of truth for style, structure, and technical discipline in `codeKids`.
+If new rules are added, they are not only stated verbally but also written into this guide. This guide is therefore the single source of truth for style, structure, and technical discipline in `CodeKids`.

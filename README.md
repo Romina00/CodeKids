@@ -76,6 +76,7 @@ When the API is running, Swagger UI is available at `/api/docs` on the configure
 ## Environment Variables
 
 The backend reads variables from `apps/api/.env` when it is started from that workspace.
+Using this file keeps environment setup identical in PowerShell, Command Prompt, and POSIX shells; do not rely on shell-specific inline assignments such as `PORT=3001 npm ...`.
 
 ```env
 NODE_ENV=development
@@ -113,7 +114,9 @@ Run these commands from the repository root unless stated otherwise.
 | `npm run test:e2e --workspace @codekids/backend` | Run backend end-to-end tests.                                                |
 | `npm run test:cov --workspace @codekids/backend` | Run backend tests with coverage.                                             |
 
-There is currently no repository-wide `test` script and no frontend test script. Use the backend workspace commands shown above.
+All repository commands above use Node.js/npm tooling and work unchanged on Windows, macOS, and Linux. Paths in scripts and application code are handled by the tools or Node APIs instead of shell-specific separators. The GitHub Actions quality matrix verifies formatting, linting, type checks, unit tests, and builds on all three operating systems.
+
+There is currently no frontend test script. The repository-wide `npm test` gate therefore runs the backend unit-test suite.
 
 ## API Development
 

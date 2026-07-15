@@ -1,0 +1,80 @@
+name: codekids
+
+services:
+  database:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: code_kids
+      MYSQL_USER: codekids
+      MYSQL_PASSWORD: codekids-local
+      MYSQL_ROOT_PASSWORD: codekids-root-local
+    ports:
+      - "3307:3306"
+    volumes:
+      - codekids_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      target: api
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      WEB_ORIGIN: http://localhost:3000
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_USERNAME: codekids
+      DB_PASSWORD: codekids-local
+      DB_DATABASE: code_kids
+      DB_SYNCHRONIZE: "true"
+      JWT_SECRET: local-codekids-access-secret-change-for-production
+      JWT_REFRESH_SECRET: local-codekids-refresh-secret-change-for-production
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_EXPIRES_IN: 7d
+      AVATAR_UPLOAD_DIR: /app/storage/avatars
+    ports:
+      - "3001:3001"
+    volumes:
+      - codekids_avatars:/app/storage/avatars
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/api/docs').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        NEXT_PUBLIC_CODEKIDS_API_URL: http://localhost:3001
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    restart: unless-stopped
+
+volumes:
+  codekids_mysql:
+  codekids_avatars:

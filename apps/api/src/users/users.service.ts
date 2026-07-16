@@ -16,6 +16,7 @@ import { Reward } from '../learning/entities/reward.entity';
 import { Role, User } from './entities/user.entity';
 
 interface ParentRegistrationInput {
+  displayName?: string;
   email: string;
   password: string;
 }
@@ -61,7 +62,7 @@ export class UsersService {
       email,
       passwordHash: await bcrypt.hash(input.password, 10),
       role: Role.PARENT,
-      displayName: email.split('@')[0],
+      displayName: input.displayName?.trim() || email.split('@')[0],
     });
 
     return this.usersRepository.save(user);

@@ -1,7 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Matches, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class RegisterParentDto {
+  @ApiProperty({ minLength: 1, maxLength: 120 })
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(120)
+  displayName!: string;
+
   @ApiProperty({ example: 'parent@example.com' })
   @IsEmail({}, { message: 'email must be a valid email address' })
   email!: string;

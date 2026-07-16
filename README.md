@@ -62,7 +62,7 @@ The API is organized into domain modules for authentication, users, learning, pa
    npm run start:dev --workspace @codekids/backend
    ```
 
-The web application runs at [http://localhost:3000](http://localhost:3000). The API also defaults to port `3000`, so use a different backend `PORT` when running both applications, for example `PORT=3001`.
+The web application runs at [http://localhost:3003](http://localhost:3003). The API defaults to port `3000`, so use a different backend `PORT` when running both applications, for example `PORT=3001`.
 
 To run one application at a time:
 

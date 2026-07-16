@@ -38,6 +38,16 @@ export function getAccessToken() {
   return window.sessionStorage.getItem(ACCESS_TOKEN);
 }
 
+export function getSessionUser(): SessionUser | null {
+  const value = window.sessionStorage.getItem(USER);
+  if (!value) return null;
+  try {
+    return JSON.parse(value) as SessionUser;
+  } catch {
+    return null;
+  }
+}
+
 export function clearSession() {
   window.sessionStorage.removeItem(ACCESS_TOKEN);
   window.sessionStorage.removeItem(REFRESH_TOKEN);

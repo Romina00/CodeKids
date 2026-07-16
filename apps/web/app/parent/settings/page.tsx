@@ -1,15 +1,18 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import {
+  apiBaseUrl,
+  getAccessToken,
+  readApiError,
+} from '../../../lib/auth-session';
 import styles from './settings.module.css';
 
-const apiBase = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
-
 async function api(path: string, body: object) {
-  const token = window.sessionStorage.getItem('codekids_access_token');
+  const token = getAccessToken();
   if (!token)
     throw new Error('Your parent session has expired. Please sign in again.');
-  const response = await fetch(`${apiBase}${path}`, {
+  const response = await fetch(`${apiBaseUrl}${path}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -18,10 +21,7 @@ async function api(path: string, body: object) {
     body: JSON.stringify(body),
   });
   if (!response.ok) {
-    const result = (await response.json().catch(() => null)) as {
-      message?: string;
-    } | null;
-    throw new Error(result?.message ?? 'The setting could not be saved.');
+    throw new Error(await readApiError(response));
   }
 }
 

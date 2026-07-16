@@ -26,13 +26,13 @@ Run the frontend from the repository root:
 npm run dev --workspace web
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The primary page entry point is [`app/page.tsx`](./app/page.tsx).
+Open [http://localhost:3003](http://localhost:3003). The primary page entry point is [`app/page.tsx`](./app/page.tsx).
 
 ## Commands
 
 | Command                               | Purpose                                            |
 | ------------------------------------- | -------------------------------------------------- |
-| `npm run dev --workspace web`         | Start the Next.js development server on port 3000. |
+| `npm run dev --workspace web`         | Start the Next.js development server on port 3003. |
 | `npm run build --workspace web`       | Create a production build.                         |
 | `npm run start --workspace web`       | Start a previously built production application.   |
 | `npm run lint --workspace web`        | Run ESLint with zero warnings allowed.             |

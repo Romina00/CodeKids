@@ -24,7 +24,8 @@ RUN npm run build
 FROM build AS web
 
 ENV NODE_ENV=production
-EXPOSE 3000
+ENV PORT=3003
+EXPOSE 3003
 CMD ["npm", "run", "start", "--workspace", "web"]
 
 FROM build AS api

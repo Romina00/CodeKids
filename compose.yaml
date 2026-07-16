@@ -27,7 +27,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      WEB_ORIGIN: http://localhost:3000
+      WEB_ORIGIN: http://localhost:3003
       DB_HOST: database
       DB_PORT: 3306
       DB_USERNAME: codekids
@@ -62,13 +62,14 @@ services:
         NEXT_PUBLIC_CODEKIDS_API_URL: http://localhost:3001
     environment:
       NODE_ENV: production
+      PORT: 3003
     ports:
-      - "3000:3000"
+      - "3003:3003"
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3003').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
       interval: 10s
       timeout: 5s
       retries: 12

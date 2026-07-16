@@ -3,10 +3,9 @@
 import { Alert, AlertDescription, AlertTitle } from '@repo/ui/alert';
 import { Button } from '@repo/ui/button';
 import { FormField } from '@repo/ui/form-field';
-import { Icon, LockKeyhole, ShieldCheck } from '@repo/ui/icon';
 import { Input } from '@repo/ui/input';
-import { FormEvent, useState } from 'react';
 import Link from 'next/link';
+import { FormEvent, useState } from 'react';
 import { Logo } from '../../components/logo';
 import {
   apiBaseUrl,
@@ -38,52 +37,26 @@ export default function LoginPage() {
       const session = (await response.json()) as AuthSession;
       saveSession(session);
       window.location.assign(
-        session.user.role === 'admin' ? '/admin' : '/parent',
+        session.user.role === 'admin' ? '/admin' : '/select-profile',
       );
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Login failed.');
-    } finally {
       setPending(false);
     }
   }
 
   return (
     <div className={styles.page}>
-      <header className={styles.topbar}>
-        <Link href="/">
-          <Logo showTagline={false} />
-        </Link>
+      <main className={styles.layout} id="main-content">
         <Link className={styles.backLink} href="/">
           ← Back to home
         </Link>
-      </header>
-      <main className={styles.layout} id="main-content">
-        <aside className={styles.aside}>
-          <Icon icon={LockKeyhole} size="xl" />
-          <h1>Welcome back, grown-up.</h1>
-          <p>
-            Only parents and administrators sign in. Child profiles are opened
-            safely from the Parent Dashboard.
-          </p>
-          <ul className={styles.trustList}>
-            <li>
-              <Icon icon={ShieldCheck} size="sm" /> Parent-controlled access
-            </li>
-            <li>
-              <Icon icon={ShieldCheck} size="sm" /> Separate progress for every
-              child
-            </li>
-            <li>
-              <Icon icon={ShieldCheck} size="sm" /> Kids Mode hides all parent
-              controls
-            </li>
-          </ul>
-        </aside>
+        <Logo className={styles.logo} showTagline={false} />
+        <header className={styles.pageHeading}>
+          <h1>Welcome back!</h1>
+          <p>Log in to your parent account</p>
+        </header>
         <section className={styles.formPanel}>
-          <div className={styles.formHeader}>
-            <h2>Parent login</h2>
-            <p>Use the email connected to your family account.</p>
-          </div>
           {error ? (
             <Alert className={styles.error} variant="danger">
               <AlertTitle>We could not sign you in</AlertTitle>
@@ -91,7 +64,7 @@ export default function LoginPage() {
             </Alert>
           ) : null}
           <form className={styles.form} onSubmit={submit}>
-            <FormField label="Email address" required>
+            <FormField label="Email" required>
               <Input
                 autoComplete="email"
                 name="email"
@@ -105,6 +78,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 minLength={8}
                 name="password"
+                placeholder="••••••••"
                 required
                 type="password"
               />
@@ -114,7 +88,7 @@ export default function LoginPage() {
             </Button>
           </form>
           <p className={styles.switchText}>
-            New to CodeKids? <a href="/register">Create a parent account</a>
+            Don&apos;t have an account? <Link href="/register">Sign up</Link>
           </p>
         </section>
       </main>

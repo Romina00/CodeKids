@@ -16,6 +16,7 @@ export {
   LockKeyhole,
   Menu,
   PlayCircle,
+  Plus,
   Rocket,
   Settings,
   ShieldCheck,

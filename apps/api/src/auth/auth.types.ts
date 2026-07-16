@@ -22,6 +22,7 @@ export interface AuthTokens {
 }
 
 export interface RegisterParentInput {
+  displayName?: string;
   email?: string;
   password?: string;
   confirmPassword?: string;

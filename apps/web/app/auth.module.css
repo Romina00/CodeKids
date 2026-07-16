@@ -1,148 +1,118 @@
 .page {
   min-height: 100svh;
-  padding: 1.5rem;
-  background: #f1f7ff;
+  padding: 2rem 1rem;
+  background: #f3f7ff;
 }
-.topbar {
-  display: flex;
-  width: min(100%, 72rem);
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto 2rem;
+.page::before,
+.page::after {
+  position: fixed;
+  width: 4rem;
+  height: 4rem;
+  content: '';
+  border-radius: 1rem;
+  background: #e5efff;
 }
-.topbar :global(.logoMark) {
-  width: 2.25rem;
+.page::before {
+  top: 12%;
+  left: 15%;
 }
-.topbar :global(.logoWordmark) {
-  font-size: 1.25rem;
-}
-.backLink {
-  color: #5b697d;
-  font-size: 0.9rem;
-  font-weight: 650;
+.page::after {
+  right: 16%;
+  bottom: 10%;
+  border-radius: 50%;
+  background: #e5f7f5;
 }
 .layout {
-  display: grid;
-  grid-template-columns: minmax(18rem, 0.85fr) minmax(22rem, 1fr);
-  width: min(100%, 64rem);
-  min-height: 38rem;
-  margin: 3rem auto;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid #d8e4f0;
-  border-radius: 1.5rem;
-  box-shadow: 0 24px 60px rgb(32 72 111 / 12%);
-}
-.aside {
   position: relative;
   display: grid;
-  align-content: center;
-  gap: 1.3rem;
-  padding: clamp(2rem, 5vw, 4rem);
-  color: #fff;
-  background: linear-gradient(150deg, #149df9, #087edc);
-  overflow: hidden;
+  justify-items: center;
+  width: min(100%, 31rem);
+  margin: 3rem auto;
 }
-.aside::after {
-  position: absolute;
-  right: -5rem;
-  bottom: -5rem;
-  width: 15rem;
-  height: 15rem;
-  content: '';
-  background: rgb(255 255 255 / 9%);
-  border-radius: 50%;
-}
-.aside h1 {
-  max-width: 12ch;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  line-height: 1.04;
-  letter-spacing: -0.045em;
-}
-.aside p {
-  max-width: 30rem;
-  color: rgb(255 255 255 / 80%);
-  line-height: 1.65;
-}
-.trustList {
-  display: grid;
-  gap: 0.8rem;
-  padding: 0;
-  list-style: none;
-}
-.trustList li {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.backLink {
+  justify-self: start;
+  margin-bottom: 1.6rem;
+  color: #667085;
   font-size: 0.9rem;
 }
+.logo {
+  margin-bottom: 1rem;
+}
+.logo :global(.logoMark) {
+  width: 3.25rem;
+}
+.logo :global(.logoCopy) {
+  display: none;
+}
+.pageHeading {
+  margin-bottom: 1.8rem;
+  text-align: center;
+}
+.pageHeading h1 {
+  color: #172033;
+  font-size: 1.7rem;
+  letter-spacing: -0.025em;
+}
+.pageHeading p {
+  margin-top: 0.45rem;
+  color: #667085;
+}
 .formPanel {
-  display: grid;
-  align-content: center;
-  gap: 1.5rem;
-  padding: clamp(2rem, 5vw, 4rem);
-}
-.formHeader {
-  display: grid;
-  gap: 0.55rem;
-}
-.formHeader h2 {
-  font-size: clamp(1.8rem, 3vw, 2.45rem);
-  letter-spacing: -0.04em;
-}
-.formHeader p,
-.finePrint {
-  color: #66758a;
-  line-height: 1.55;
+  width: 100%;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #d8e2ef;
+  border-radius: 1.1rem;
+  box-shadow: 0 2px 5px rgb(25 45 75 / 10%);
 }
 .form {
   display: grid;
-  gap: 1.1rem;
+  gap: 1rem;
+}
+.form input {
+  min-height: 2.75rem;
+  border-color: #dbe6f3;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 5px rgb(30 60 90 / 5%);
 }
 .form button {
   width: 100%;
-  margin-top: 0.3rem;
+  margin-top: 0.25rem;
+  border-radius: 0.75rem;
+  background: #5890eb;
 }
-.switchText {
-  color: #69778a;
-  font-size: 0.9rem;
+.switchText,
+.finePrint {
+  margin-top: 1.15rem;
+  color: #697386;
+  font-size: 0.86rem;
   text-align: center;
 }
 .switchText a {
-  color: #0c8bea;
-  font-weight: 750;
+  color: #4f8ff2;
+  font-weight: 700;
 }
 .finePrint {
-  font-size: 0.76rem;
-  text-align: center;
+  padding: 0.8rem;
+  background: #f4f7fb;
+  border-radius: 0.9rem;
+  font-size: 0.78rem;
 }
 .error {
-  margin-bottom: 0.2rem;
+  margin-bottom: 1rem;
 }
-.passwordHint {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.3rem 0.8rem;
-  color: #758296;
-  font-size: 0.72rem;
-}
-.passwordHint span::before {
-  margin-right: 0.3rem;
-  content: '•';
-  color: #1598f3;
-}
-@media (max-width: 46rem) {
+@media (max-width: 36rem) {
   .page {
     padding: 1rem;
   }
   .layout {
-    grid-template-columns: 1fr;
-    margin-block: 1rem;
+    margin: 1rem auto;
   }
-  .aside {
-    min-height: 17rem;
+  .formPanel {
+    padding: 1.25rem;
   }
-  .aside h1 {
-    max-width: 17ch;
+  .page::before,
+  .page::after {
+    display: none;
   }
 }

@@ -49,9 +49,19 @@ export function EnterKidsMode({ childId }: { childId: number }) {
       const session = (await response.json()) as {
         accessToken: string;
         refreshToken: string;
+        child: { id: number; nickname: string | null };
       };
-      saveSession(session);
-      window.location.assign('/kid');
+      saveSession({
+        ...session,
+        user: {
+          id: session.child.id,
+          role: 'kid',
+          email: null,
+          displayName: null,
+          nickname: session.child.nickname,
+        },
+      });
+      window.location.assign('/profile');
     } catch (reason) {
       setError(
         reason instanceof Error ? reason.message : 'Kids Mode could not start.',
@@ -80,7 +90,13 @@ export function EnterKidsMode({ childId }: { childId: number }) {
   );
 }
 
-export function AddChildProfile() {
+export function AddChildProfile({
+  className,
+  label = 'Add child profile',
+}: {
+  className?: string;
+  label?: string;
+} = {}) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
 
@@ -115,7 +131,7 @@ export function AddChildProfile() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className={styles.addChild}>Add child profile</Button>
+        <Button className={className ?? styles.addChild}>{label}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Create a child profile</DialogTitle>

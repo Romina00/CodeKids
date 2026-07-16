@@ -46,6 +46,7 @@ export class AuthService {
     }
 
     const parent = await this.usersService.createParent({
+      displayName: input.displayName,
       email: input.email,
       password: input.password,
     });

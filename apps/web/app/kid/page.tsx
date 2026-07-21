@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge } from '@repo/ui/badge';
 import {
   Award,
@@ -13,12 +15,22 @@ import {
   NavigationLink,
 } from '@repo/ui/navigation';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { LogoMark } from '../../components/logo';
+import { getSessionUser } from '../../lib/auth-session';
 import styles from './kid-dashboard.module.css';
+import { LearningPath } from './learning-path';
 import { ParentModeExit } from './parent-mode-exit';
 import GameGL1 from '../../components/games/gl1';
 
 export default function KidDashboard() {
+  const [profileName, setProfileName] = useState('Young coder');
+
+  useEffect(() => {
+    const user = getSessionUser();
+    setProfileName(user?.nickname || user?.displayName || 'Young coder');
+  }, []);
+
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
@@ -28,12 +40,12 @@ export default function KidDashboard() {
         </Link>
         <Navigation label="Kid dashboard">
           <NavigationItem>
-            <NavigationLink current href="#home">
+            <NavigationLink current href="#learning-path">
               <Icon icon={Sparkles} size="sm" /> Home
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink href="#levels">
+            <NavigationLink href="#learning-path">
               <Icon icon={BookOpen} size="sm" /> Levels
             </NavigationLink>
           </NavigationItem>
@@ -49,9 +61,9 @@ export default function KidDashboard() {
           </NavigationItem>
         </Navigation>
         <a className={styles.profileLink} href="#profile">
-          <span className={styles.avatar}>M</span>
+          <span className={styles.avatar}>{profileName.charAt(0)}</span>
           <span>
-            <strong>Mina</strong>
+            <strong>{profileName}</strong>
             <small>Explorer</small>
           </span>
           <Icon icon={Settings} size="sm" />
@@ -62,11 +74,18 @@ export default function KidDashboard() {
       <main className={styles.main} id="main-content" tabIndex={-1}>
         <header className={styles.welcome} id="home">
           <div>
-            <Badge variant="success">Title</Badge>
-            <h1>Hi Mina, ready to build?</h1>
+            <Badge variant="success">Algorithms</Badge>
+            <h1>Hi {profileName}, ready to build?</h1>
           </div>
-          <GameGL1 />
         </header>
+        <section
+          className={styles.gameArea}
+          id="tom-and-jerry"
+          aria-label="Tom and Jerry level"
+        >
+          <GameGL1 />
+        </section>
+        <LearningPath />
       </main>
     </div>
   );

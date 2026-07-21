@@ -1,0 +1,130 @@
+.learningPath {
+  display: grid;
+  width: min(100%, 48rem);
+  gap: var(--space-6);
+  margin: 0 auto;
+  scroll-margin-top: var(--space-6);
+}
+
+.heading {
+  display: grid;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.heading > span {
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--text-heading-line-height);
+}
+
+.worlds {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.world {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.world h3 {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.level {
+  position: relative;
+  flex: 1 1 9rem;
+}
+
+.level:not(:last-child)::after {
+  position: absolute;
+  top: 1.5rem;
+  right: calc(var(--space-3) * -1);
+  width: var(--space-3);
+  border-top: 1px dashed var(--color-border);
+  content: '';
+}
+
+.availableLevel,
+.lockedLevel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3.5rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.availableLevel {
+  color: var(--color-text);
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+  text-decoration: none;
+}
+
+.availableLevel:hover {
+  background: var(--color-surface-subtle);
+}
+
+.lockedLevel {
+  color: var(--color-text-muted);
+  background: var(--color-surface-subtle);
+}
+
+.levelNumber {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  place-items: center;
+}
+
+.lockedLevel .levelNumber {
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.availableLevel strong,
+.lockedLevel strong,
+.availableLevel small,
+.lockedLevel small {
+  display: block;
+}
+
+.availableLevel small,
+.lockedLevel small {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+}
+
+@media (max-width: 40rem) {
+  .level:not(:last-child)::after {
+    display: none;
+  }
+}

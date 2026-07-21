@@ -6,6 +6,7 @@ export {
   BarChart3,
   BookOpen,
   BrainCircuit,
+  Cat,
   Check,
   ChevronDown,
   CircleAlert,

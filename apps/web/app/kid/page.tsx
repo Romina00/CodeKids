@@ -61,8 +61,10 @@ export default function KidDashboard() {
 
       <main className={styles.main} id="main-content" tabIndex={-1}>
         <header className={styles.welcome} id="home">
-          <Badge variant="success">Titel </Badge>
-          <h1>Hi Mina, ready to build?</h1>
+          <div>
+            <Badge variant="success">Title</Badge>
+            <h1>Hi Mina, ready to build?</h1>
+          </div>
           <GameGL1 />
         </header>
       </main>

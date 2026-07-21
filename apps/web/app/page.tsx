@@ -53,7 +53,7 @@ const paths = [
     items: [
       'Skip skills you already know',
       'Take harder logic challenges',
-      'Move toward algorithms and C++',
+      'Move toward algorithms and programming',
     ],
     action: 'Find my level',
   },
@@ -82,8 +82,8 @@ const learningPath = [
     tone: 'mint',
   },
   {
-    title: 'C++ intro',
-    description: 'Your first real code',
+    title: 'Programming basics',
+    description: 'Your next step in programming',
     icon: LockKeyhole,
     status: 'Unlocks later',
     tone: 'amber',
@@ -104,7 +104,7 @@ const reviews = [
   [
     'Mia',
     'Learner, age 14',
-    'I already knew a little Scratch, but here I finally started real C++ steps. The levels kept me challenged.',
+    'I already knew a little Scratch, but here I could take my first real steps in programming. The levels kept me challenged.',
   ],
 ] as const;
 
@@ -143,7 +143,7 @@ export default function Home() {
             <p>
               Textbooks are boring and tutorials move too fast. On CodeKids,
               children learn programming through short lessons, playful puzzles
-              and clickable challenges—from pure logic to real C++.
+              and clickable challenges, from pure logic to real programming.
             </p>
             <div className={styles.heroActions}>
               <a className={styles.primaryAction} href="/register">
@@ -189,7 +189,7 @@ export default function Home() {
             </div>
             <div>
               <dt>4</dt>
-              <dd>Levels from zero to C++</dd>
+              <dd>Levels from zero to programming</dd>
             </div>
             <div>
               <dt>100%</dt>

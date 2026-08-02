@@ -22,6 +22,10 @@ import styles from './kid-dashboard.module.css';
 import { LearningPath } from './learning-path';
 import { ParentModeExit } from './parent-mode-exit';
 import GameGL1 from '../../components/games/gl1';
+import GameGL5 from '../../components/games/gl5';
+import GameGL6 from '../../components/games/gl6';
+import GameGL7 from '../../components/games/gl7';
+import GameGL8 from '../../components/games/gl8';
 
 export default function KidDashboard() {
   const [profileName, setProfileName] = useState('Young coder');
@@ -84,6 +88,38 @@ export default function KidDashboard() {
           aria-label="Tom and Jerry level"
         >
           <GameGL1 />
+        </section>
+
+        <section
+          className={styles.gameArea}
+          id="if-adventure"
+          aria-label="If adventure level"
+        >
+          <GameGL5 />
+        </section>
+
+        <section
+          className={styles.gameArea}
+          id="secret-gates"
+          aria-label="Secret gates level"
+        >
+          <GameGL6 />
+        </section>
+
+        <section
+          className={styles.gameArea}
+          id="coin-count"
+          aria-label="Coin count level"
+        >
+          <GameGL7 />
+        </section>
+
+        <section
+          className={styles.gameArea}
+          id="data-types"
+          aria-label="Data types level"
+        >
+          <GameGL8 />
         </section>
         <LearningPath />
       </main>

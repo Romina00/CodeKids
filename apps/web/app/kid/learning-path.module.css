@@ -64,8 +64,7 @@
   content: '';
 }
 
-.availableLevel,
-.lockedLevel {
+.availableLevel {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -87,11 +86,6 @@
   background: var(--color-surface-subtle);
 }
 
-.lockedLevel {
-  color: var(--color-text-muted);
-  background: var(--color-surface-subtle);
-}
-
 .levelNumber {
   display: grid;
   width: 2rem;
@@ -104,21 +98,12 @@
   place-items: center;
 }
 
-.lockedLevel .levelNumber {
-  color: var(--color-text-muted);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-}
-
 .availableLevel strong,
-.lockedLevel strong,
-.availableLevel small,
-.lockedLevel small {
+.availableLevel small {
   display: block;
 }
 
-.availableLevel small,
-.lockedLevel small {
+.availableLevel small {
   margin-top: var(--space-1);
   font-size: var(--font-size-xs);
 }

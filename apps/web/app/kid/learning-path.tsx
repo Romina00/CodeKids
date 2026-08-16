@@ -1,20 +1,15 @@
-import { Icon, LockKeyhole } from '@repo/ui/icon';
 import styles from './learning-path.module.css';
 
-const worlds = [
-  { title: 'World 1 – Think Like a Programmer', firstLevel: 1, lastLevel: 6 },
-  { title: 'World 2 – Programming Fundamentals', firstLevel: 7, lastLevel: 11 },
-  { title: 'World 3 – Problem Solving', firstLevel: 12, lastLevel: 14 },
-  { title: 'World 4 – Reusable Code', firstLevel: 15, lastLevel: 16 },
-  { title: 'World 5 – Build Your Own Game', firstLevel: 17, lastLevel: 20 },
+const levels = [
+  { number: 1, title: 'Tom & Jerry', href: '#tom-and-jerry' },
+  { number: 2, title: 'Pizza order', href: '#pizza-order' },
+  { number: 3, title: 'Treasure loop', href: '#treasure-loop' },
+  { number: 4, title: 'True or false', href: '#true-or-false' },
+  { number: 5, title: 'If adventure', href: '#if-adventure' },
+  { number: 6, title: 'Secret gates', href: '#secret-gates' },
+  { number: 7, title: 'Coin count', href: '#coin-count' },
+  { number: 8, title: 'Data types', href: '#data-types' },
 ];
-
-function getLevels(firstLevel: number, lastLevel: number) {
-  return Array.from(
-    { length: lastLevel - firstLevel + 1 },
-    (_, index) => firstLevel + index,
-  );
-}
 
 export function LearningPath() {
   return (
@@ -29,42 +24,22 @@ export function LearningPath() {
       </div>
 
       <div className={styles.worlds}>
-        {worlds.map((world) => (
-          <section className={styles.world} key={world.title}>
-            <h3>{world.title}</h3>
-            <ol className={styles.levels}>
-              {getLevels(world.firstLevel, world.lastLevel).map((level) => {
-                const isAvailable = level === 1;
-
-                return (
-                  <li className={styles.level} key={level}>
-                    {isAvailable ? (
-                      <a
-                        className={styles.availableLevel}
-                        href="#tom-and-jerry"
-                      >
-                        <span className={styles.levelNumber}>{level}</span>
-                        <span>
-                          <strong>Level {level}</strong>
-                          <small>Tom &amp; Jerry</small>
-                        </span>
-                      </a>
-                    ) : (
-                      <span className={styles.lockedLevel} aria-disabled="true">
-                        <span className={styles.levelNumber}>{level}</span>
-                        <span>
-                          <strong>Level {level}</strong>
-                          <small>Locked</small>
-                        </span>
-                        <Icon icon={LockKeyhole} size="sm" />
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-        ))}
+        <section className={styles.world}>
+          <h3>Available games</h3>
+          <ol className={styles.levels}>
+            {levels.map((level) => (
+              <li className={styles.level} key={level.number}>
+                <a className={styles.availableLevel} href={level.href}>
+                  <span className={styles.levelNumber}>{level.number}</span>
+                  <span>
+                    <strong>Level {level.number}</strong>
+                    <small>{level.title}</small>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
       </div>
     </section>
   );

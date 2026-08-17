@@ -9,11 +9,15 @@ services:
       MYSQL_PASSWORD: codekids-local
       MYSQL_ROOT_PASSWORD: codekids-root-local
     ports:
-      - "3307:3306"
+      - '3307:3306'
     volumes:
       - codekids_mysql:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      test:
+        [
+          'CMD-SHELL',
+          'mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent',
+        ]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -33,21 +37,27 @@ services:
       DB_USERNAME: codekids
       DB_PASSWORD: codekids-local
       DB_DATABASE: code_kids
-      DB_SYNCHRONIZE: "true"
+      DB_SYNCHRONIZE: 'true'
       JWT_SECRET: local-codekids-access-secret-change-for-production
       JWT_REFRESH_SECRET: local-codekids-refresh-secret-change-for-production
       JWT_EXPIRES_IN: 15m
       JWT_REFRESH_EXPIRES_IN: 7d
       AVATAR_UPLOAD_DIR: /app/storage/avatars
     ports:
-      - "3001:3001"
+      - '3001:3001'
     volumes:
       - codekids_avatars:/app/storage/avatars
     depends_on:
       database:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/api/docs').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:3001/api/docs').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
       interval: 10s
       timeout: 5s
       retries: 12
@@ -64,12 +74,18 @@ services:
       NODE_ENV: production
       PORT: 3003
     ports:
-      - "3003:3003"
+      - '3003:3003'
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3003').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://localhost:3003').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+        ]
       interval: 10s
       timeout: 5s
       retries: 12

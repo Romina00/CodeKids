@@ -11,7 +11,12 @@
     "DB_PASSWORD",
     "DB_DATABASE",
     "DB_SYNCHRONIZE",
-    "AVATAR_UPLOAD_DIR"
+    "AVATAR_UPLOAD_DIR",
+    "NODE_ENV",
+    "JWT_SECRET",
+    "JWT_REFRESH_SECRET",
+    "JWT_EXPIRES_IN",
+    "JWT_REFRESH_EXPIRES_IN"
   ],
   "tasks": {
     "build": {

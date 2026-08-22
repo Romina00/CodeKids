@@ -29,7 +29,10 @@ export function LearningPath() {
           <ol className={styles.levels}>
             {levels.map((level) => (
               <li className={styles.level} key={level.number}>
-                <a className={styles.availableLevel} href={level.href}>
+                <a
+                  className={styles.availableLevel}
+                  href={`/kid/levels/${level.number}`}
+                >
                   <span className={styles.levelNumber}>{level.number}</span>
                   <span>
                     <strong>Level {level.number}</strong>

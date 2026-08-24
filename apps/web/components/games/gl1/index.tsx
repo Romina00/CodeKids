@@ -3,6 +3,7 @@
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
 import { DirectionalCat } from './directional-cat';
+import { GameGuide, type GuideMood } from '../game-guide';
 import styles from './game.module.css';
 
 const numberOfRows = 5;
@@ -54,6 +55,7 @@ export default function GameGL1() {
   const [robot, setRobot] = useState<Robot>(startPosition);
   const [commands, setCommands] = useState<Command[]>([]);
   const [message, setMessage] = useState('Find the path.');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   function addCommand(command: Command) {
     setCommands([...commands, command]);
@@ -111,6 +113,7 @@ export default function GameGL1() {
 
         if (outside || hitWall) {
           setMessage('You cannot move there!');
+          setGuideMood('sad');
           return;
         }
 
@@ -127,8 +130,10 @@ export default function GameGL1() {
 
     if (reachedGoal) {
       setMessage('You won!');
+      setGuideMood('happy');
     } else {
       setMessage('Try again and find Jerry.');
+      setGuideMood('sad');
     }
   }
 
@@ -136,10 +141,12 @@ export default function GameGL1() {
     setRobot(startPosition);
     setCommands([]);
     setMessage('Find the best path');
+    setGuideMood('idle');
   }
 
   return (
     <main className={styles.game}>
+      <GameGuide mood={guideMood} message={message} />
       <div className={styles.missionPanel}>
         <span className={styles.levelLabel}>Algorithms</span>
         <h2>Tom &amp; Jerry</h2>

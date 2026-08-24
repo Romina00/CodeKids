@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 const pathLength = 6;
 const treasurePosition = pathLength - 1;
@@ -15,6 +16,7 @@ export default function GameGL3() {
     'Add Move forward commands to reach the treasure.',
   );
   const [isWinner, setIsWinner] = useState(false);
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   function addMove() {
     if (moveCount === treasurePosition) return;
@@ -22,6 +24,7 @@ export default function GameGL3() {
     setMoveCount(moveCount + 1);
     setPlayerPosition(0);
     setMessage('Now run your commands.');
+    setGuideMood('idle');
   }
 
   function runCommands() {
@@ -33,8 +36,10 @@ export default function GameGL3() {
       setMessage(
         'It works, but you repeated one command 5 times. Make it shorter.',
       );
+      setGuideMood('happy');
     } else {
       setMessage('Not far enough. Add another Move forward command.');
+      setGuideMood('sad');
     }
   }
 
@@ -47,6 +52,7 @@ export default function GameGL3() {
     setPlayerPosition(0);
     setMessage('Now run the loop.');
     setIsWinner(false);
+    setGuideMood('idle');
   }
 
   function runLoop() {
@@ -55,9 +61,11 @@ export default function GameGL3() {
     if (repeatCount === treasurePosition) {
       setMessage('Correct. You found the treasure.');
       setIsWinner(true);
+      setGuideMood('happy');
     } else {
       setMessage('Not far enough. Increase the repeat number.');
       setIsWinner(false);
+      setGuideMood('sad');
     }
   }
 
@@ -68,10 +76,12 @@ export default function GameGL3() {
     setPlayerPosition(0);
     setMessage('Add Move forward commands to reach the treasure.');
     setIsWinner(false);
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6">
         <div className="grid grid-cols-6 gap-2" aria-label="Treasure path">
           {Array.from({ length: pathLength }).map((_, index) => (

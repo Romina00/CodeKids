@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type Question = {
   fact: string;
@@ -31,12 +32,14 @@ export default function GameGL4() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [message, setMessage] = useState('Choose True or False.');
   const [isWinner, setIsWinner] = useState(false);
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const question = questions[questionIndex];
 
   function checkAnswer(answer: boolean) {
     if (!question || answer !== question.answer) {
       setMessage('That is not correct. Try again.');
+      setGuideMood('sad');
       return;
     }
 
@@ -45,9 +48,11 @@ export default function GameGL4() {
     if (isLastQuestion) {
       setMessage('Correct. You understand Boolean values.');
       setIsWinner(true);
+      setGuideMood('happy');
     } else {
       setQuestionIndex(questionIndex + 1);
       setMessage('Correct. Try the next one.');
+      setGuideMood('happy');
     }
   }
 
@@ -55,10 +60,12 @@ export default function GameGL4() {
     setQuestionIndex(0);
     setMessage('Choose True or False.');
     setIsWinner(false);
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6 border border-black p-4">
         <p className="mb-4 text-sm font-bold">
           Question {questionIndex + 1} of {questions.length}

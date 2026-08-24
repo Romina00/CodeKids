@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type FinalGame = {
   id: number;
@@ -62,6 +63,7 @@ export default function GameGL15() {
   const [message, setMessage] = useState('Complete your final adventure.');
   const [isWinner, setIsWinner] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = finalGames[gameIndex];
 
@@ -76,14 +78,17 @@ export default function GameGL15() {
       if (isLastGame) {
         setMessage('Amazing! You completed your programming adventure!');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Great! Continue your adventure.');
+        setGuideMood('happy');
       }
 
       setSelectedAnswer('');
     } else {
       setMessage('Not quite. Think like a programmer and try again.');
+      setGuideMood('sad');
     }
   }
 
@@ -92,10 +97,12 @@ export default function GameGL15() {
     setMessage('Complete your final adventure.');
     setIsWinner(false);
     setSelectedAnswer('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section>
         <p className="mb-2 font-bold">
           Challenge {gameIndex + 1} of {finalGames.length}

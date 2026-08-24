@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type PseudocodeGame = {
   id: number;
@@ -36,6 +37,7 @@ export default function GameGL11() {
   const [message, setMessage] = useState('Choose the correct pseudocode.');
   const [isWinner, setIsWinner] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = pseudocodeGames[gameIndex];
 
@@ -50,14 +52,17 @@ export default function GameGL11() {
       if (isLastGame) {
         setMessage('Correct! You can read pseudocode.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Correct! Try the next one.');
+        setGuideMood('happy');
       }
 
       setSelectedAnswer('');
     } else {
       setMessage('Not quite. Check the order of the steps.');
+      setGuideMood('sad');
     }
   }
 
@@ -66,10 +71,12 @@ export default function GameGL11() {
     setMessage('Choose the correct pseudocode.');
     setIsWinner(false);
     setSelectedAnswer('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section>
         <p className="mb-2 font-bold">
           Question {gameIndex + 1} of {pseudocodeGames.length}

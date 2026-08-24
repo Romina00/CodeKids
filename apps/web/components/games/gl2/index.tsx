@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type Step = {
   id: number;
@@ -26,6 +27,7 @@ export default function GameGL2() {
   const [steps, setSteps] = useState<Step[]>(mixedSteps);
   const [message, setMessage] = useState('Put the steps in the correct order.');
   const [isWinner, setIsWinner] = useState(false);
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   function moveStep(index: number, direction: -1 | 1) {
     const newIndex = index + direction;
@@ -44,6 +46,7 @@ export default function GameGL2() {
 
     setSteps(newSteps);
     setMessage('Now check your answer.');
+    setGuideMood('idle');
     setIsWinner(false);
   }
 
@@ -59,9 +62,11 @@ export default function GameGL2() {
     if (answerIsCorrect) {
       setMessage('Correct. The pizza is ready.');
       setIsWinner(true);
+      setGuideMood('happy');
     } else {
       setMessage('The order is not correct. Try again.');
       setIsWinner(false);
+      setGuideMood('sad');
     }
   }
 
@@ -69,10 +74,12 @@ export default function GameGL2() {
     setSteps(mixedSteps);
     setMessage('Put the steps in the correct order.');
     setIsWinner(false);
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6">
         <ol className="grid list-none gap-2.5 p-0">
           {steps.map((step, index) => (

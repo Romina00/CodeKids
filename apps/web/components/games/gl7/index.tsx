@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type CoinGame = {
   id: number;
@@ -21,6 +22,7 @@ export default function GameGL7() {
   const [message, setMessage] = useState('How many coins do you have now?');
   const [isWinner, setIsWinner] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = coinGames[gameIndex];
 
@@ -31,6 +33,7 @@ export default function GameGL7() {
 
     if (Number.isNaN(answer)) {
       setMessage('Please type a number.');
+      setGuideMood('sad');
       return;
     }
 
@@ -40,13 +43,16 @@ export default function GameGL7() {
       if (isLastGame) {
         setMessage('Correct! You understand variables.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Correct! Try the next one.');
+        setGuideMood('happy');
       }
       setInputValue('');
     } else {
       setMessage('Not quite. Try counting again.');
+      setGuideMood('sad');
     }
   }
 
@@ -55,10 +61,12 @@ export default function GameGL7() {
     setMessage('How many coins do you have now?');
     setIsWinner(false);
     setInputValue('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6 border border-black p-4">
         <p className="mb-4 text-sm font-bold">
           Question {gameIndex + 1} of {coinGames.length}

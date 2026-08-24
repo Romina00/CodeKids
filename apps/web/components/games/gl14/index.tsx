@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type ParameterGame = {
   id: number;
@@ -36,6 +37,7 @@ export default function GameGL14() {
   const [message, setMessage] = useState('Choose enough attack power.');
   const [isWinner, setIsWinner] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = parameterGames[gameIndex];
 
@@ -50,14 +52,17 @@ export default function GameGL14() {
       if (isLastGame) {
         setMessage('Correct! You understand parameters.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Correct! A new enemy appears.');
+        setGuideMood('happy');
       }
 
       setSelectedAnswer('');
     } else {
       setMessage('Not enough power. Check the parameter.');
+      setGuideMood('sad');
     }
   }
 
@@ -66,10 +71,12 @@ export default function GameGL14() {
     setMessage('Choose enough attack power.');
     setIsWinner(false);
     setSelectedAnswer('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section>
         <p className="mb-2 font-bold">
           Question {gameIndex + 1} of {parameterGames.length}

@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type DataTypeGame = {
   id: number;
@@ -21,6 +22,7 @@ export default function GameGL8() {
   const [message, setMessage] = useState('What kind of data is this?');
   const [isWinner, setIsWinner] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = dataGames[gameIndex];
 
@@ -33,13 +35,16 @@ export default function GameGL8() {
       if (isLastGame) {
         setMessage('Correct! You know the data types.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Correct! Try the next one.');
+        setGuideMood('happy');
       }
       setSelectedAnswer('');
     } else {
       setMessage('Not quite. Think about the value type.');
+      setGuideMood('sad');
     }
   }
 
@@ -48,10 +53,12 @@ export default function GameGL8() {
     setMessage('What kind of data is this?');
     setIsWinner(false);
     setSelectedAnswer('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6 border border-black p-4">
         <p className="mb-4 text-sm font-bold">
           Question {gameIndex + 1} of {dataGames.length}

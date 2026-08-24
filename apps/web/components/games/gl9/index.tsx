@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type PaintGame = {
   id: number;
@@ -23,6 +24,7 @@ export default function GameGL9() {
   );
   const [isWinner, setIsWinner] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const game = paintGames[gameIndex];
 
@@ -33,6 +35,7 @@ export default function GameGL9() {
 
     if (Number.isNaN(answer)) {
       setMessage('Please type a number.');
+      setGuideMood('sad');
       return;
     }
 
@@ -42,14 +45,17 @@ export default function GameGL9() {
       if (isLastGame) {
         setMessage('Correct! You understand nested loops.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setGameIndex((prev) => prev + 1);
         setMessage('Correct! Try the next one.');
+        setGuideMood('happy');
       }
 
       setInputValue('');
     } else {
       setMessage('Not quite. Multiply rows by columns.');
+      setGuideMood('sad');
     }
   }
 
@@ -58,10 +64,12 @@ export default function GameGL9() {
     setMessage('How many squares will the robot paint?');
     setIsWinner(false);
     setInputValue('');
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section>
         <p className="mb-2 font-bold">
           Question {gameIndex + 1} of {paintGames.length}

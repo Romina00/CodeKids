@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { useState } from 'react';
+import { GameGuide, type GuideMood } from '../game-guide';
 
 type Scenario = {
   id: number;
@@ -41,6 +42,7 @@ export default function GameGL5() {
   const [scenarioIndex, setScenarioIndex] = useState(0);
   const [message, setMessage] = useState('Choose what the robot should do.');
   const [isWinner, setIsWinner] = useState(false);
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
 
   const scenario = scenarios[scenarioIndex];
 
@@ -53,12 +55,15 @@ export default function GameGL5() {
       if (isLastScenario) {
         setMessage('Correct! You finished the if-game.');
         setIsWinner(true);
+        setGuideMood('happy');
       } else {
         setScenarioIndex((prev) => prev + 1);
         setMessage('Correct! Try the next one.');
+        setGuideMood('happy');
       }
     } else {
       setMessage('Not quite. Think about the condition again.');
+      setGuideMood('sad');
     }
   }
 
@@ -66,10 +71,12 @@ export default function GameGL5() {
     setScenarioIndex(0);
     setMessage('Choose what the robot should do.');
     setIsWinner(false);
+    setGuideMood('idle');
   }
 
   return (
     <div>
+      <GameGuide mood={guideMood} message={message} />
       <section className="mt-6 border border-black p-4">
         <p className="mb-4 text-sm font-bold">
           Question {scenarioIndex + 1} of {scenarios.length}

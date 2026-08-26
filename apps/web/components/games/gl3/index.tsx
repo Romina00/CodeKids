@@ -80,7 +80,7 @@ export default function GameGL3() {
   }
 
   return (
-    <div>
+    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
       <GameGuide mood={guideMood} message={message} />
       <section className="mt-6">
         <div className="grid grid-cols-6 gap-2" aria-label="Treasure path">

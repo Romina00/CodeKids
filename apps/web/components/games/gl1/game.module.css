@@ -1,7 +1,9 @@
 .game {
   display: grid;
+  box-sizing: border-box;
   width: 100%;
-  max-width: 32rem;
+  min-width: 0;
+  max-width: none;
   gap: var(--space-5);
   padding: var(--space-4);
   color: var(--color-text);

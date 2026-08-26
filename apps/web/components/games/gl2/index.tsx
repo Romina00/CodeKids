@@ -78,7 +78,7 @@ export default function GameGL2() {
   }
 
   return (
-    <div>
+    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
       <GameGuide mood={guideMood} message={message} />
       <section className="mt-6">
         <ol className="grid list-none gap-2.5 p-0">

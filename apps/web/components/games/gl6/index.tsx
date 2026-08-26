@@ -55,7 +55,7 @@ export default function GameGL6() {
   }
 
   return (
-    <div>
+    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
       <GameGuide mood={guideMood} message={message} />
       <section className="mt-6 border border-black p-4">
         <p className="mb-4 text-sm font-bold">

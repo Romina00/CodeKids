@@ -85,7 +85,7 @@ export default function GameGL12() {
   }
 
   return (
-    <div>
+    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
       <GameGuide mood={guideMood} message={message} />
       <section>
         <p className="mb-2 font-bold">

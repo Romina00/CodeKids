@@ -13,6 +13,7 @@ import GameGL12 from '../../../../components/games/gl12';
 import GameGL13 from '../../../../components/games/gl13';
 import GameGL14 from '../../../../components/games/gl14';
 import GameGL15 from '../../../../components/games/gl15';
+import { LevelNavigation } from './level-navigation';
 
 const games = {
   1: GameGL1,
@@ -44,10 +45,15 @@ export default async function LevelPage({
     return <p>Level not found</p>;
   }
 
+  const currentLevel = Number(levelId);
+
   return (
-    <main>
-      <h1>Level {levelId}</h1>
-      <Game />
-    </main>
+    <div className="mx-auto flex h-full min-h-0 w-full max-w-[120rem] min-w-0 flex-col gap-5 overflow-hidden bg-[var(--color-canvas)] p-4 sm:p-6">
+      <h1 className="text-2xl font-bold sm:text-3xl">Level {levelId}</h1>
+      <div className="min-h-0 flex-1 overflow-hidden">
+        <Game />
+      </div>
+      <LevelNavigation levelId={currentLevel} totalLevels={15} />
+    </div>
   );
 }

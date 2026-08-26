@@ -146,7 +146,7 @@ export default function GameGL1() {
 
   return (
     <main
-      className={`${styles.game} grid-cols-1 overflow-x-hidden min-[701px]:grid-cols-2`}
+      className={`${styles.game} h-full max-h-full grid-cols-1 overflow-x-hidden min-[701px]:grid-cols-2`}
     >
       <GameGuide
         mood={guideMood}

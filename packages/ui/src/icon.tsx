@@ -1,6 +1,7 @@
 import type { LucideIcon, LucideProps } from 'lucide-react';
 
 export {
+  ArrowLeft,
   ArrowRight,
   Award,
   BarChart3,

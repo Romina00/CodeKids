@@ -57,7 +57,7 @@ export default function GameGL8() {
   }
 
   return (
-    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+    <div className="grid h-full max-h-full w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
       <GameGuide mood={guideMood} message={message} hint={game?.answer ?? ''} />
       <div className="min-w-0">
         <section className="mt-6 border border-black p-4">

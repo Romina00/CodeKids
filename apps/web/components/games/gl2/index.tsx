@@ -78,60 +78,66 @@ export default function GameGL2() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6">
-        <ol className="grid list-none gap-2.5 p-0">
-          {steps.map((step, index) => (
-            <li
-              className="flex items-center gap-2.5 border border-black bg-white p-2.5"
-              key={step.id}
-            >
-              <span className="grid size-7 shrink-0 place-items-center border border-black">
-                {index + 1}
-              </span>
-              <span className="flex-1 text-sm font-bold sm:text-base">
-                {step.title}
-              </span>
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide
+        mood={guideMood}
+        message={message}
+        hint={correctSteps.map((step) => step.title).join(' → ')}
+      />
+      <div className="min-w-0">
+        <section className="mt-6">
+          <ol className="grid list-none gap-2.5 p-0">
+            {steps.map((step, index) => (
+              <li
+                className="flex items-center gap-2.5 border border-black bg-white p-2.5"
+                key={step.id}
+              >
+                <span className="grid size-7 shrink-0 place-items-center border border-black">
+                  {index + 1}
+                </span>
+                <span className="flex-1 text-sm font-bold sm:text-base">
+                  {step.title}
+                </span>
 
-              <div className="flex gap-1">
-                <Button
-                  variant="outline"
-                  className="flex-1 gap-2 sm:flex-none"
-                  disabled={index === 0}
-                  onClick={() => moveStep(index, -1)}
-                >
-                  Up
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1 gap-2 sm:flex-none"
-                  disabled={index === steps.length - 1}
-                  onClick={() => moveStep(index, 1)}
-                >
-                  Down
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
+                <div className="flex gap-1">
+                  <Button
+                    variant="outline"
+                    className="flex-1 gap-2 sm:flex-none"
+                    disabled={index === 0}
+                    onClick={() => moveStep(index, -1)}
+                  >
+                    Up
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="flex-1 gap-2 sm:flex-none"
+                    disabled={index === steps.length - 1}
+                    onClick={() => moveStep(index, 1)}
+                  >
+                    Down
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
 
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
+        </p>
 
-      <div className="flex gap-2.5">
-        <Button variant="secondary" onClick={cookPizza}>
-          Check answer
-        </Button>
-        <Button variant="secondary" onClick={resetGame}>
-          Reset
-        </Button>
+        <div className="flex gap-2.5">
+          <Button variant="secondary" onClick={cookPizza}>
+            Check answer
+          </Button>
+          <Button variant="secondary" onClick={resetGame}>
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );

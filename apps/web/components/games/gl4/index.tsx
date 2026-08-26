@@ -64,56 +64,62 @@ export default function GameGL4() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6 border border-black p-4">
-        <p className="mb-4 text-sm font-bold">
-          Question {questionIndex + 1} of {questions.length}
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide
+        mood={guideMood}
+        message={message}
+        hint={question?.answer ? 'True' : 'False'}
+      />
+      <div className="min-w-0">
+        <section className="mt-6 border border-black p-4">
+          <p className="mb-4 text-sm font-bold">
+            Question {questionIndex + 1} of {questions.length}
+          </p>
+
+          {question && (
+            <>
+              <div className="border border-black p-4">
+                <p className="mb-2 text-sm">Fact</p>
+                <p className="font-bold">{question.fact}</p>
+              </div>
+
+              <div className="mt-3 border border-black p-4">
+                <p className="mb-2 text-sm">Statement</p>
+                <p className="font-bold">{question.statement}</p>
+              </div>
+            </>
+          )}
+
+          <div className="mt-4 flex gap-2">
+            <Button
+              variant="outline"
+              disabled={isWinner}
+              onClick={() => checkAnswer(true)}
+            >
+              True
+            </Button>
+            <Button
+              variant="outline"
+              disabled={isWinner}
+              onClick={() => checkAnswer(false)}
+            >
+              False
+            </Button>
+          </div>
+        </section>
+
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
         </p>
 
-        {question && (
-          <>
-            <div className="border border-black p-4">
-              <p className="mb-2 text-sm">Fact</p>
-              <p className="font-bold">{question.fact}</p>
-            </div>
-
-            <div className="mt-3 border border-black p-4">
-              <p className="mb-2 text-sm">Statement</p>
-              <p className="font-bold">{question.statement}</p>
-            </div>
-          </>
-        )}
-
-        <div className="mt-4 flex gap-2">
-          <Button
-            variant="outline"
-            disabled={isWinner}
-            onClick={() => checkAnswer(true)}
-          >
-            True
-          </Button>
-          <Button
-            variant="outline"
-            disabled={isWinner}
-            onClick={() => checkAnswer(false)}
-          >
-            False
-          </Button>
-        </div>
-      </section>
-
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
-
-      <Button variant="secondary" onClick={resetGame}>
-        Reset
-      </Button>
+        <Button variant="secondary" onClick={resetGame}>
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }

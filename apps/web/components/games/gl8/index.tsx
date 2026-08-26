@@ -57,49 +57,51 @@ export default function GameGL8() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6 border border-black p-4">
-        <p className="mb-4 text-sm font-bold">
-          Question {gameIndex + 1} of {dataGames.length}
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide mood={guideMood} message={message} hint={game?.answer ?? ''} />
+      <div className="min-w-0">
+        <section className="mt-6 border border-black p-4">
+          <p className="mb-4 text-sm font-bold">
+            Question {gameIndex + 1} of {dataGames.length}
+          </p>
+
+          <p className="mb-4 text-sm text-black/70">
+            Choose the correct data type for the value.
+          </p>
+
+          <div className="mb-3 border border-black p-4">
+            <p className="mb-2 text-sm">Value</p>
+            <p className="font-bold">{game?.item}</p>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {['Text', 'Number', 'Boolean'].map((option) => (
+              <Button
+                key={option}
+                variant={selectedAnswer === option ? 'secondary' : 'outline'}
+                onClick={() => {
+                  setSelectedAnswer(option);
+                  checkAnswer(option);
+                }}
+              >
+                {option}
+              </Button>
+            ))}
+          </div>
+        </section>
+
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
         </p>
 
-        <p className="mb-4 text-sm text-black/70">
-          Choose the correct data type for the value.
-        </p>
-
-        <div className="mb-3 border border-black p-4">
-          <p className="mb-2 text-sm">Value</p>
-          <p className="font-bold">{game?.item}</p>
-        </div>
-
-        <div className="mt-4 flex flex-wrap gap-2">
-          {['Text', 'Number', 'Boolean'].map((option) => (
-            <Button
-              key={option}
-              variant={selectedAnswer === option ? 'secondary' : 'outline'}
-              onClick={() => {
-                setSelectedAnswer(option);
-                checkAnswer(option);
-              }}
-            >
-              {option}
-            </Button>
-          ))}
-        </div>
-      </section>
-
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
-
-      <Button variant="secondary" onClick={resetGame}>
-        Reset
-      </Button>
+        <Button variant="secondary" onClick={resetGame}>
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }

@@ -65,57 +65,63 @@ export default function GameGL7() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6 border border-black p-4">
-        <p className="mb-4 text-sm font-bold">
-          Question {gameIndex + 1} of {coinGames.length}
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide
+        mood={guideMood}
+        message={message}
+        hint={String(game?.answer ?? '')}
+      />
+      <div className="min-w-0">
+        <section className="mt-6 border border-black p-4">
+          <p className="mb-4 text-sm font-bold">
+            Question {gameIndex + 1} of {coinGames.length}
+          </p>
+
+          <p className="mb-4 text-sm text-black/70">
+            A variable stores a value. Count the coins carefully.
+          </p>
+
+          <div className="mb-3 border border-black p-4">
+            <p className="mb-2 text-sm">Start</p>
+            <p className="font-bold">{game?.coins} coins</p>
+          </div>
+
+          <div className="mb-3 border border-black p-4">
+            <p className="mb-2 text-sm">Action</p>
+            <p className="font-bold">{game?.action}</p>
+          </div>
+
+          <input
+            className="w-full border border-black p-2"
+            placeholder="Type the total"
+            type="number"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                checkAnswer(inputValue);
+              }
+            }}
+          />
+
+          <div className="mt-4 flex gap-2">
+            <Button variant="secondary" onClick={() => checkAnswer(inputValue)}>
+              Check answer
+            </Button>
+            <Button variant="outline" onClick={resetGame}>
+              Reset
+            </Button>
+          </div>
+        </section>
+
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
         </p>
-
-        <p className="mb-4 text-sm text-black/70">
-          A variable stores a value. Count the coins carefully.
-        </p>
-
-        <div className="mb-3 border border-black p-4">
-          <p className="mb-2 text-sm">Start</p>
-          <p className="font-bold">{game?.coins} coins</p>
-        </div>
-
-        <div className="mb-3 border border-black p-4">
-          <p className="mb-2 text-sm">Action</p>
-          <p className="font-bold">{game?.action}</p>
-        </div>
-
-        <input
-          className="w-full border border-black p-2"
-          placeholder="Type the total"
-          type="number"
-          value={inputValue}
-          onChange={(event) => setInputValue(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              checkAnswer(inputValue);
-            }
-          }}
-        />
-
-        <div className="mt-4 flex gap-2">
-          <Button variant="secondary" onClick={() => checkAnswer(inputValue)}>
-            Check answer
-          </Button>
-          <Button variant="outline" onClick={resetGame}>
-            Reset
-          </Button>
-        </div>
-      </section>
-
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
+      </div>
     </div>
   );
 }

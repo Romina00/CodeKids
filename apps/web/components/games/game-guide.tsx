@@ -1,10 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 export type GuideMood = 'idle' | 'happy' | 'sad';
 
 type GameGuideProps = {
   mood: GuideMood;
   message: string;
+  hint: string;
 };
 
 function HappyStickman() {
@@ -65,7 +68,13 @@ function SadStickman() {
   );
 }
 
-export function GameGuide({ mood, message }: GameGuideProps) {
+export function GameGuide({ mood, message, hint }: GameGuideProps) {
+  const [isHintVisible, setIsHintVisible] = useState(false);
+
+  useEffect(() => {
+    setIsHintVisible(false);
+  }, [hint, message, mood]);
+
   const moodStyles = {
     idle: 'border-blue-600 bg-blue-50 text-blue-600',
     happy: 'border-green-700 bg-green-50 text-green-700',
@@ -74,7 +83,7 @@ export function GameGuide({ mood, message }: GameGuideProps) {
 
   return (
     <aside
-      className={`float-right mb-5 ml-5 grid w-[calc(50%-0.625rem)] max-w-none min-w-0 grid-cols-[minmax(0,1fr)_minmax(4.5rem,5rem)] items-center gap-3 overflow-hidden rounded-xl border-2 px-3 pb-2 pt-3 ${moodStyles} max-[700px]:float-none max-[700px]:ml-0 max-[700px]:w-full max-[700px]:max-w-none max-[480px]:grid-cols-[minmax(0,1fr)_4.5rem] max-[480px]:px-2.5`}
+      className={`grid h-full min-h-56 w-full max-w-none min-w-0 grid-cols-[minmax(0,1fr)_minmax(4.5rem,5rem)] items-center gap-3 overflow-hidden rounded-xl border-2 px-3 pb-2 pt-3 ${moodStyles} max-[700px]:min-h-0 max-[480px]:grid-cols-[minmax(0,1fr)_4.5rem] max-[480px]:px-2.5`}
       aria-live="polite"
       aria-label="Game guide"
     >
@@ -87,6 +96,23 @@ export function GameGuide({ mood, message }: GameGuideProps) {
       <span className="col-start-2 -mt-2 text-center text-xs font-extrabold">
         Codey
       </span>
+      {mood === 'sad' && (
+        <div className="col-span-full grid gap-2 border-t border-current/20 pt-2">
+          {!isHintVisible ? (
+            <button
+              className="justify-self-start rounded-md border border-current px-3 py-1.5 text-sm font-bold transition hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-2"
+              type="button"
+              onClick={() => setIsHintVisible(true)}
+            >
+              Show hint
+            </button>
+          ) : (
+            <p className="rounded-md bg-white/70 px-3 py-2 text-sm font-bold text-slate-900">
+              Hint: {hint}
+            </p>
+          )}
+        </div>
+      )}
     </aside>
   );
 }

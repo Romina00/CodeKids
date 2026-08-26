@@ -55,59 +55,67 @@ export default function GameGL6() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6 border border-black p-4">
-        <p className="mb-4 text-sm font-bold">
-          Question {scenarioIndex + 1} of {scenarios.length}
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide
+        mood={guideMood}
+        message={message}
+        hint={scenario?.answer ? 'Yes, open the gate' : 'No, keep it closed'}
+      />
+      <div className="min-w-0">
+        <section className="mt-6 border border-black p-4">
+          <p className="mb-4 text-sm font-bold">
+            Question {scenarioIndex + 1} of {scenarios.length}
+          </p>
+
+          <p className="mb-4 text-sm text-black/70">
+            The gate opens only when the robot has both the key and the card.
+          </p>
+
+          <div className="mb-3 grid gap-2 border border-black p-4">
+            <div className="flex items-center justify-between border border-black p-2">
+              <span>Key</span>
+              <span className="font-bold">
+                {scenario?.hasKey ? 'Yes' : 'No'}
+              </span>
+            </div>
+            <div className="flex items-center justify-between border border-black p-2">
+              <span>Card</span>
+              <span className="font-bold">
+                {scenario?.hasCard ? 'Yes' : 'No'}
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex gap-2">
+            <Button
+              variant="outline"
+              disabled={isWinner}
+              onClick={() => checkAnswer(true)}
+            >
+              Yes, open the gate
+            </Button>
+            <Button
+              variant="outline"
+              disabled={isWinner}
+              onClick={() => checkAnswer(false)}
+            >
+              No, keep it closed
+            </Button>
+          </div>
+        </section>
+
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
         </p>
 
-        <p className="mb-4 text-sm text-black/70">
-          The gate opens only when the robot has both the key and the card.
-        </p>
-
-        <div className="mb-3 grid gap-2 border border-black p-4">
-          <div className="flex items-center justify-between border border-black p-2">
-            <span>Key</span>
-            <span className="font-bold">{scenario?.hasKey ? 'Yes' : 'No'}</span>
-          </div>
-          <div className="flex items-center justify-between border border-black p-2">
-            <span>Card</span>
-            <span className="font-bold">
-              {scenario?.hasCard ? 'Yes' : 'No'}
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-4 flex gap-2">
-          <Button
-            variant="outline"
-            disabled={isWinner}
-            onClick={() => checkAnswer(true)}
-          >
-            Yes, open the gate
-          </Button>
-          <Button
-            variant="outline"
-            disabled={isWinner}
-            onClick={() => checkAnswer(false)}
-          >
-            No, keep it closed
-          </Button>
-        </div>
-      </section>
-
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
-
-      <Button variant="secondary" onClick={resetGame}>
-        Reset
-      </Button>
+        <Button variant="secondary" onClick={resetGame}>
+          Reset
+        </Button>
+      </div>
     </div>
   );
 }

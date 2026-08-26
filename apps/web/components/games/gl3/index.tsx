@@ -80,102 +80,112 @@ export default function GameGL3() {
   }
 
   return (
-    <div className="w-full min-w-0 max-w-none overflow-x-hidden">
-      <GameGuide mood={guideMood} message={message} />
-      <section className="mt-6">
-        <div className="grid grid-cols-6 gap-2" aria-label="Treasure path">
-          {Array.from({ length: pathLength }).map((_, index) => (
-            <div
-              className={`grid min-h-16 place-items-center border border-black p-2 text-center text-xs font-bold sm:min-h-20 sm:text-sm ${
-                playerPosition === index
-                  ? 'bg-black text-white'
-                  : 'bg-white text-black'
-              }`}
-              key={index}
-            >
-              {playerPosition === index
-                ? 'PLAYER'
-                : index === treasurePosition
-                  ? 'TREASURE'
-                  : index === 0
-                    ? 'START'
-                    : index}
-            </div>
-          ))}
-        </div>
-
-        {phase === 1 ? (
-          <>
-            <div className="mt-4 border border-black p-4">
-              <p className="mb-3 font-bold">Commands</p>
-              <div className="grid gap-2">
-                {moveCount === 0 ? (
-                  <p>No commands yet.</p>
-                ) : (
-                  Array.from({ length: moveCount }).map((_, index) => (
-                    <div className="border border-black p-3" key={index}>
-                      Move forward
-                    </div>
-                  ))
-                )}
+    <div className="grid w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+      <GameGuide
+        mood={guideMood}
+        message={message}
+        hint={
+          phase === 1
+            ? 'Add 5 Move forward commands.'
+            : 'Repeat Move forward 5 times.'
+        }
+      />
+      <div className="min-w-0">
+        <section className="mt-6">
+          <div className="grid grid-cols-6 gap-2" aria-label="Treasure path">
+            {Array.from({ length: pathLength }).map((_, index) => (
+              <div
+                className={`grid min-h-16 place-items-center border border-black p-2 text-center text-xs font-bold sm:min-h-20 sm:text-sm ${
+                  playerPosition === index
+                    ? 'bg-black text-white'
+                    : 'bg-white text-black'
+                }`}
+                key={index}
+              >
+                {playerPosition === index
+                  ? 'PLAYER'
+                  : index === treasurePosition
+                    ? 'TREASURE'
+                    : index === 0
+                      ? 'START'
+                      : index}
               </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="mt-3 flex gap-2">
-              <Button
-                variant="outline"
-                disabled={moveCount === treasurePosition}
-                onClick={addMove}
-              >
-                Add Move
-              </Button>
-              <Button variant="secondary" onClick={runCommands}>
-                Run commands
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="mt-4 border border-black p-4">
-              <p className="mb-3 font-bold">Repeat {repeatCount} times</p>
-              <div className="border border-black p-3">Move forward</div>
-            </div>
+          {phase === 1 ? (
+            <>
+              <div className="mt-4 border border-black p-4">
+                <p className="mb-3 font-bold">Commands</p>
+                <div className="grid gap-2">
+                  {moveCount === 0 ? (
+                    <p>No commands yet.</p>
+                  ) : (
+                    Array.from({ length: moveCount }).map((_, index) => (
+                      <div className="border border-black p-3" key={index}>
+                        Move forward
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
 
-            <div className="mt-3 flex gap-2">
-              <Button
-                variant="outline"
-                disabled={repeatCount === 1}
-                onClick={() => changeRepeatCount(-1)}
-              >
-                Less
-              </Button>
-              <Button
-                variant="outline"
-                disabled={repeatCount === treasurePosition}
-                onClick={() => changeRepeatCount(1)}
-              >
-                More
-              </Button>
-              <Button variant="secondary" onClick={runLoop}>
-                Run loop
-              </Button>
-            </div>
-          </>
-        )}
-      </section>
+              <div className="mt-3 flex gap-2">
+                <Button
+                  variant="outline"
+                  disabled={moveCount === treasurePosition}
+                  onClick={addMove}
+                >
+                  Add Move
+                </Button>
+                <Button variant="secondary" onClick={runCommands}>
+                  Run commands
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="mt-4 border border-black p-4">
+                <p className="mb-3 font-bold">Repeat {repeatCount} times</p>
+                <div className="border border-black p-3">Move forward</div>
+              </div>
 
-      <p
-        className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-          isWinner ? 'bg-black text-white' : 'bg-white text-black'
-        }`}
-      >
-        {message}
-      </p>
+              <div className="mt-3 flex gap-2">
+                <Button
+                  variant="outline"
+                  disabled={repeatCount === 1}
+                  onClick={() => changeRepeatCount(-1)}
+                >
+                  Less
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={repeatCount === treasurePosition}
+                  onClick={() => changeRepeatCount(1)}
+                >
+                  More
+                </Button>
+                <Button variant="secondary" onClick={runLoop}>
+                  Run loop
+                </Button>
+              </div>
+            </>
+          )}
+        </section>
 
-      <div className="flex gap-2.5">
-        <Button variant="secondary" onClick={resetGame}>
-          Reset
-        </Button>
+        <p
+          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
+            isWinner ? 'bg-black text-white' : 'bg-white text-black'
+          }`}
+        >
+          {message}
+        </p>
+
+        <div className="flex gap-2.5">
+          <Button variant="secondary" onClick={resetGame}>
+            Reset
+          </Button>
+        </div>
       </div>
     </div>
   );

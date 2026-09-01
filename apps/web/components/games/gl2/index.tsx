@@ -1,6 +1,18 @@
 'use client';
 
 import { Button } from '@repo/ui/button';
+import {
+  Flame,
+  Icon,
+  Milk,
+  Play,
+  RotateCcw,
+  Soup,
+  Undo2,
+  Utensils,
+  Wheat,
+  type LucideIcon,
+} from '@repo/ui/icon';
 import { useState } from 'react';
 import { GameGuide, type GuideMood } from '../game-guide';
 
@@ -22,12 +34,12 @@ const emptyPizza: PizzaState = {
   isServed: false,
 };
 
-const commandDetails: Record<Command, { icon: string; label: string }> = {
-  dough: { icon: '🫓', label: 'Prepare dough' },
-  sauce: { icon: '🍅', label: 'Add sauce' },
-  cheese: { icon: '🧀', label: 'Add cheese' },
-  bake: { icon: '🔥', label: 'Bake pizza' },
-  serve: { icon: '🍽️', label: 'Serve pizza' },
+const commandDetails: Record<Command, { icon: LucideIcon; label: string }> = {
+  dough: { icon: Wheat, label: 'Prepare dough' },
+  sauce: { icon: Soup, label: 'Add sauce' },
+  cheese: { icon: Milk, label: 'Add cheese' },
+  bake: { icon: Flame, label: 'Bake pizza' },
+  serve: { icon: Utensils, label: 'Serve pizza' },
 };
 
 const availableCommands = Object.keys(commandDetails) as Command[];
@@ -221,15 +233,15 @@ export default function GameGL2() {
                   )}
                   {pizza.hasCheese && (
                     <div
-                      className="absolute z-10 grid grid-cols-3 gap-4 text-xl"
+                      className="absolute z-10 grid grid-cols-3 gap-5"
                       aria-hidden="true"
                     >
-                      <span>🍅</span>
-                      <span>🫑</span>
-                      <span>🍄</span>
-                      <span>🍄</span>
-                      <span>🍅</span>
-                      <span>🫑</span>
+                      <span className="size-3 rounded-full bg-red-600" />
+                      <span className="size-3 rounded-full bg-green-600" />
+                      <span className="size-3 rounded-full bg-red-600" />
+                      <span className="size-3 rounded-full bg-green-600" />
+                      <span className="size-3 rounded-full bg-red-600" />
+                      <span className="size-3 rounded-full bg-green-600" />
                     </div>
                   )}
                 </div>
@@ -238,15 +250,15 @@ export default function GameGL2() {
 
             <p className="rounded-xl bg-white/80 px-3 py-2 text-center font-bold text-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
               {pizza.isServed
-                ? '🍽️ Pizza served!'
+                ? 'Pizza served!'
                 : pizza.isBaked
-                  ? '🔥 Pizza baked'
+                  ? 'Pizza baked'
                   : pizza.hasCheese
-                    ? '🧀 Cheese added'
+                    ? 'Cheese added'
                     : pizza.hasSauce
-                      ? '🍅 Sauce added'
+                      ? 'Sauce added'
                       : pizza.hasDough
-                        ? '🫓 Dough prepared'
+                        ? 'Dough prepared'
                         : 'Waiting for the first command'}
             </p>
           </div>
@@ -265,9 +277,7 @@ export default function GameGL2() {
                     onClick={() => addCommand(command)}
                     className="justify-start gap-2"
                   >
-                    <span aria-hidden="true" className="text-xl">
-                      {commandDetails[command].icon}
-                    </span>
+                    <Icon icon={commandDetails[command].icon} size="lg" />
                     {commandDetails[command].label}
                   </Button>
                 ))}
@@ -306,9 +316,7 @@ export default function GameGL2() {
                     <span className="grid size-6 place-items-center rounded-full bg-orange-500 text-xs text-white">
                       {index + 1}
                     </span>
-                    <span aria-hidden="true" className="text-xl">
-                      {commandDetails[command].icon}
-                    </span>
+                    <Icon icon={commandDetails[command].icon} size="lg" />
                     {commandDetails[command].label}
                   </li>
                 ))}
@@ -321,16 +329,19 @@ export default function GameGL2() {
                 disabled={isRunning}
                 className="min-w-32 flex-1"
               >
-                {isRunning ? 'Running...' : '▶ Run program'}
+                {!isRunning && <Icon icon={Play} size="sm" />}
+                {isRunning ? 'Running...' : 'Run program'}
               </Button>
               <Button
                 onClick={undoLastCommand}
                 disabled={isRunning || commands.length === 0}
                 variant="secondary"
               >
+                <Icon icon={Undo2} size="sm" />
                 Undo
               </Button>
               <Button onClick={resetGame} disabled={isRunning} variant="ghost">
+                <Icon icon={RotateCcw} size="sm" />
                 Reset
               </Button>
             </div>

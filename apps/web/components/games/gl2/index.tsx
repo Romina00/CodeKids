@@ -4,141 +4,339 @@ import { Button } from '@repo/ui/button';
 import { useState } from 'react';
 import { GameGuide, type GuideMood } from '../game-guide';
 
-type Step = {
-  id: number;
-  title: string;
+type Command = 'dough' | 'sauce' | 'cheese' | 'bake' | 'serve';
+
+type PizzaState = {
+  hasDough: boolean;
+  hasSauce: boolean;
+  hasCheese: boolean;
+  isBaked: boolean;
+  isServed: boolean;
 };
 
-const correctSteps: Step[] = [
-  { id: 1, title: 'Prepare the dough' },
-  { id: 2, title: 'Add the sauce' },
-  { id: 3, title: 'Add the cheese' },
-  { id: 4, title: 'Bake the pizza' },
-];
+const emptyPizza: PizzaState = {
+  hasDough: false,
+  hasSauce: false,
+  hasCheese: false,
+  isBaked: false,
+  isServed: false,
+};
 
-const mixedSteps: Step[] = [
-  { id: 3, title: 'Add the cheese' },
-  { id: 1, title: 'Prepare the dough' },
-  { id: 4, title: 'Bake the pizza' },
-  { id: 2, title: 'Add the sauce' },
-];
+const commandDetails: Record<Command, { icon: string; label: string }> = {
+  dough: { icon: '🫓', label: 'Prepare dough' },
+  sauce: { icon: '🍅', label: 'Add sauce' },
+  cheese: { icon: '🧀', label: 'Add cheese' },
+  bake: { icon: '🔥', label: 'Bake pizza' },
+  serve: { icon: '🍽️', label: 'Serve pizza' },
+};
 
-export default function GameGL2() {
-  const [steps, setSteps] = useState<Step[]>(mixedSteps);
-  const [message, setMessage] = useState('Put the steps in the correct order.');
-  const [isWinner, setIsWinner] = useState(false);
-  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
+const availableCommands = Object.keys(commandDetails) as Command[];
 
-  function moveStep(index: number, direction: -1 | 1) {
-    const newIndex = index + direction;
+function wait(milliseconds: number) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
 
-    if (newIndex < 0 || newIndex >= steps.length) return;
-
-    const newSteps = [...steps];
-
-    const currentStep = newSteps[index];
-    const otherStep = newSteps[newIndex];
-
-    if (currentStep && otherStep) {
-      newSteps[index] = otherStep;
-      newSteps[newIndex] = currentStep;
-    }
-
-    setSteps(newSteps);
-    setMessage('Now check your answer.');
-    setGuideMood('idle');
-    setIsWinner(false);
+function checkCommand(command: Command, pizza: PizzaState) {
+  if (command === 'dough' && pizza.hasDough) {
+    return 'The dough is already prepared.';
   }
 
-  function cookPizza() {
-    let answerIsCorrect = true;
+  if (command === 'sauce' && !pizza.hasDough) {
+    return 'Prepare the dough before adding sauce.';
+  }
 
-    for (let index = 0; index < steps.length; index++) {
-      if (steps[index]?.id !== correctSteps[index]?.id) {
-        answerIsCorrect = false;
-      }
+  if (command === 'sauce' && pizza.hasSauce) {
+    return 'The pizza already has sauce.';
+  }
+
+  if (command === 'cheese' && !pizza.hasSauce) {
+    return 'Add the sauce before adding cheese.';
+  }
+
+  if (command === 'cheese' && pizza.hasCheese) {
+    return 'The pizza already has cheese.';
+  }
+
+  if (command === 'bake' && !pizza.hasCheese) {
+    return 'Add the cheese before baking the pizza.';
+  }
+
+  if (command === 'bake' && pizza.isBaked) {
+    return 'The pizza is already baked.';
+  }
+
+  if (command === 'serve' && !pizza.isBaked) {
+    return 'Bake the pizza before serving it.';
+  }
+
+  if (command === 'serve' && pizza.isServed) {
+    return 'The pizza is already served.';
+  }
+
+  return null;
+}
+
+function applyCommand(command: Command, pizza: PizzaState) {
+  const newPizza = { ...pizza };
+
+  if (command === 'dough') newPizza.hasDough = true;
+  if (command === 'sauce') newPizza.hasSauce = true;
+  if (command === 'cheese') newPizza.hasCheese = true;
+  if (command === 'bake') newPizza.isBaked = true;
+  if (command === 'serve') newPizza.isServed = true;
+
+  return newPizza;
+}
+
+export default function GameGL2() {
+  const [commands, setCommands] = useState<Command[]>([]);
+  const [pizza, setPizza] = useState<PizzaState>(emptyPizza);
+  const [activeCommand, setActiveCommand] = useState<number | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const [message, setMessage] = useState(
+    'Build a program that prepares and serves a pizza.',
+  );
+  const [guideMood, setGuideMood] = useState<GuideMood>('idle');
+
+  function addCommand(command: Command) {
+    setCommands([...commands, command]);
+    setMessage('Nice! Add another command or run your program.');
+    setGuideMood('idle');
+  }
+
+  function undoLastCommand() {
+    setCommands(commands.slice(0, -1));
+  }
+
+  function resetGame() {
+    setCommands([]);
+    setPizza({ ...emptyPizza });
+    setActiveCommand(null);
+    setMessage('Build a program that prepares and serves a pizza.');
+    setGuideMood('idle');
+  }
+
+  async function runProgram() {
+    if (commands.length === 0) {
+      setMessage('Add at least one command before you press Run.');
+      setGuideMood('sad');
+      return;
     }
 
-    if (answerIsCorrect) {
-      setMessage('Correct. The pizza is ready.');
-      setIsWinner(true);
+    setIsRunning(true);
+    setGuideMood('idle');
+    setMessage('The chef is running your program...');
+
+    let currentPizza = { ...emptyPizza };
+    setPizza(currentPizza);
+    await wait(300);
+
+    for (let index = 0; index < commands.length; index += 1) {
+      const command = commands[index];
+
+      if (!command) continue;
+
+      setActiveCommand(index);
+
+      const errorMessage = checkCommand(command, currentPizza);
+
+      if (errorMessage) {
+        setMessage(`Command ${index + 1} cannot run. ${errorMessage}`);
+        setGuideMood('sad');
+        setIsRunning(false);
+        return;
+      }
+
+      currentPizza = applyCommand(command, currentPizza);
+      setPizza(currentPizza);
+      await wait(700);
+    }
+
+    setActiveCommand(null);
+    setIsRunning(false);
+
+    if (currentPizza.isServed) {
+      setMessage('Great job! Your program made and served the pizza.');
       setGuideMood('happy');
     } else {
-      setMessage('The order is not correct. Try again.');
-      setIsWinner(false);
+      setMessage('The program finished, but the pizza is not served yet.');
       setGuideMood('sad');
     }
   }
 
-  function resetGame() {
-    setSteps(mixedSteps);
-    setMessage('Put the steps in the correct order.');
-    setIsWinner(false);
-    setGuideMood('idle');
-  }
-
   return (
-    <div className="grid h-full max-h-full w-full min-w-0 max-w-none grid-cols-1 gap-5 overflow-x-hidden min-[701px]:grid-cols-2">
+    <main className="grid min-h-full gap-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[18rem_1fr] lg:p-6 dark:border-slate-700 dark:bg-slate-900">
       <GameGuide
         mood={guideMood}
         message={message}
-        hint={correctSteps.map((step) => step.title).join(' → ')}
+        hint="Think like a chef: dough, sauce, cheese, bake, then serve."
       />
-      <div className="min-w-0">
-        <section className="mt-6">
-          <ol className="grid list-none gap-2.5 p-0">
-            {steps.map((step, index) => (
-              <li
-                className="flex items-center gap-2.5 border border-black bg-white p-2.5"
-                key={step.id}
-              >
-                <span className="grid size-7 shrink-0 place-items-center border border-black">
-                  {index + 1}
-                </span>
-                <span className="flex-1 text-sm font-bold sm:text-base">
-                  {step.title}
-                </span>
 
-                <div className="flex gap-1">
-                  <Button
-                    variant="outline"
-                    className="flex-1 gap-2 sm:flex-none"
-                    disabled={index === 0}
-                    onClick={() => moveStep(index, -1)}
-                  >
-                    Up
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="flex-1 gap-2 sm:flex-none"
-                    disabled={index === steps.length - 1}
-                    onClick={() => moveStep(index, 1)}
-                  >
-                    Down
-                  </Button>
+      <section className="grid min-w-0 content-start gap-5">
+        <header className="rounded-2xl border border-orange-200 border-l-4 border-l-orange-500 bg-orange-50 p-5 dark:border-orange-800 dark:bg-orange-950/40">
+          <p className="text-sm font-extrabold uppercase tracking-wider text-orange-700 dark:text-orange-300">
+            Algorithm · Sequence
+          </p>
+          <h2 className="mt-1 text-2xl font-extrabold text-slate-900 dark:text-white">
+            Pizza Builder
+          </h2>
+          <p className="mt-2 text-slate-600 dark:text-slate-300">
+            Create a program and watch the chef follow every command.
+          </p>
+        </header>
+
+        <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(19rem,0.8fr)_minmax(20rem,1fr)]">
+          <div className="grid min-h-80 content-between overflow-hidden rounded-2xl border border-orange-200 bg-amber-50 p-5 dark:border-orange-800 dark:bg-amber-950/30">
+            <div>
+              <h3 className="text-center text-lg font-extrabold text-slate-900 dark:text-white">
+                Pizza station
+              </h3>
+              <p className="mt-1 text-center text-sm font-semibold text-slate-500 dark:text-slate-400">
+                Each command changes the pizza.
+              </p>
+            </div>
+
+            <div className="grid place-items-center py-6" aria-live="polite">
+              {!pizza.hasDough ? (
+                <div className="grid size-44 place-items-center rounded-full border-4 border-dashed border-orange-300 text-center text-sm font-bold text-orange-700 dark:text-orange-300">
+                  The plate is empty
                 </div>
-              </li>
-            ))}
-          </ol>
-        </section>
+              ) : (
+                <div
+                  className={`relative grid size-44 place-items-center rounded-full border-8 shadow-lg transition-all duration-500 ${
+                    pizza.isBaked
+                      ? 'border-amber-700 bg-orange-400'
+                      : 'border-amber-500 bg-amber-200'
+                  }`}
+                >
+                  {pizza.hasSauce && (
+                    <div className="absolute inset-3 rounded-full bg-red-500" />
+                  )}
+                  {pizza.hasCheese && (
+                    <div
+                      className={`absolute inset-5 rounded-full ${
+                        pizza.isBaked ? 'bg-yellow-300' : 'bg-yellow-100'
+                      }`}
+                    />
+                  )}
+                  {pizza.hasCheese && (
+                    <div
+                      className="absolute z-10 grid grid-cols-3 gap-4 text-xl"
+                      aria-hidden="true"
+                    >
+                      <span>🍅</span>
+                      <span>🫑</span>
+                      <span>🍄</span>
+                      <span>🍄</span>
+                      <span>🍅</span>
+                      <span>🫑</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
 
-        <p
-          className={`my-4 grid min-h-12 place-items-center border border-black p-2.5 text-center font-bold ${
-            isWinner ? 'bg-black text-white' : 'bg-white text-black'
-          }`}
-        >
-          {message}
-        </p>
+            <p className="rounded-xl bg-white/80 px-3 py-2 text-center font-bold text-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
+              {pizza.isServed
+                ? '🍽️ Pizza served!'
+                : pizza.isBaked
+                  ? '🔥 Pizza baked'
+                  : pizza.hasCheese
+                    ? '🧀 Cheese added'
+                    : pizza.hasSauce
+                      ? '🍅 Sauce added'
+                      : pizza.hasDough
+                        ? '🫓 Dough prepared'
+                        : 'Waiting for the first command'}
+            </p>
+          </div>
 
-        <div className="flex gap-2.5">
-          <Button variant="secondary" onClick={cookPizza}>
-            Check answer
-          </Button>
-          <Button variant="secondary" onClick={resetGame}>
-            Reset
-          </Button>
+          <div className="grid content-start gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/60">
+            <div>
+              <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                1. Choose commands
+              </h3>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {availableCommands.map((command) => (
+                  <Button
+                    key={command}
+                    variant="outline"
+                    disabled={isRunning}
+                    onClick={() => addCommand(command)}
+                    className="justify-start gap-2"
+                  >
+                    <span aria-hidden="true" className="text-xl">
+                      {commandDetails[command].icon}
+                    </span>
+                    {commandDetails[command].label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between gap-3">
+                <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">
+                  2. Your program
+                </h3>
+                <span className="text-sm font-bold text-slate-500">
+                  {commands.length} commands
+                </span>
+              </div>
+
+              <ol
+                aria-live="polite"
+                className="mt-3 grid min-h-28 content-start gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-white p-3 dark:border-slate-600 dark:bg-slate-900"
+              >
+                {commands.length === 0 && (
+                  <li className="m-auto text-center text-sm font-semibold text-slate-500">
+                    Your command blocks will appear here.
+                  </li>
+                )}
+
+                {commands.map((command, index) => (
+                  <li
+                    key={`${command}-${index}`}
+                    className={`flex items-center gap-3 rounded-lg border px-3 py-2 font-bold transition ${
+                      activeCommand === index
+                        ? 'border-amber-400 bg-amber-100 text-amber-950 ring-2 ring-amber-300'
+                        : 'border-orange-200 bg-orange-50 text-orange-950 dark:border-orange-800 dark:bg-orange-950/50 dark:text-orange-100'
+                    }`}
+                  >
+                    <span className="grid size-6 place-items-center rounded-full bg-orange-500 text-xs text-white">
+                      {index + 1}
+                    </span>
+                    <span aria-hidden="true" className="text-xl">
+                      {commandDetails[command].icon}
+                    </span>
+                    {commandDetails[command].label}
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <Button
+                onClick={runProgram}
+                disabled={isRunning}
+                className="min-w-32 flex-1"
+              >
+                {isRunning ? 'Running...' : '▶ Run program'}
+              </Button>
+              <Button
+                onClick={undoLastCommand}
+                disabled={isRunning || commands.length === 0}
+                variant="secondary"
+              >
+                Undo
+              </Button>
+              <Button onClick={resetGame} disabled={isRunning} variant="ghost">
+                Reset
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

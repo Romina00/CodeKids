@@ -140,6 +140,10 @@ function SadStickman() {
 
 export function GameGuide({ mood, message, hint }: GameGuideProps) {
   const [isHintVisible, setIsHintVisible] = useState(false);
+  const visibleMessage =
+    mood === 'sad'
+      ? "Hmm… something isn't working yet. Let's figure it out together!"
+      : message;
 
   useEffect(() => {
     setIsHintVisible(false);
@@ -158,7 +162,7 @@ export function GameGuide({ mood, message, hint }: GameGuideProps) {
       aria-label="Game guide"
     >
       <div className="relative rounded-[0.6rem] border border-slate-900 bg-white px-3.5 py-3 text-[0.95rem] font-bold leading-snug text-slate-900 after:absolute after:right-[-0.45rem] after:top-1/2 after:size-3 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-slate-900 after:bg-white">
-        {message}
+        {visibleMessage}
       </div>
       <div className="grid min-h-28 max-h-[calc(100svh-2rem)] min-w-0 place-items-center">
         {mood === 'sad' ? <SadStickman /> : <HappyStickman />}

@@ -41,29 +41,99 @@ function HappyStickman() {
 function SadStickman() {
   return (
     <svg
-      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="250"
       viewBox="0 0 200 250"
-      className="h-[6.25rem] w-20 motion-safe:animate-pulse motion-reduce:animate-none sm:w-20"
     >
-      <g
+      <circle
+        cx="100"
+        cy="60"
+        r="35"
+        fill="#F39C12"
+        stroke="black"
+        stroke-width="4"
+      />
+
+      <line
+        x1="76"
+        y1="50"
+        x2="88"
+        y2="54"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+      <line
+        x1="112"
+        y1="54"
+        x2="124"
+        y2="50"
+        stroke="black"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+      <circle cx="85" cy="62" r="2.8" fill="black" />
+      <circle cx="115" cy="62" r="2.8" fill="black" />
+
+      <path
+        d="M88 83 Q100 79 112 83"
+        stroke="black"
+        stroke-width="3"
         fill="none"
-        stroke="currentColor"
-        strokeWidth="6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="100" cy="60" r="35" />
-        <line x1="75" y1="48" x2="92" y2="55" />
-        <line x1="108" y1="55" x2="125" y2="48" />
-        <circle cx="85" cy="62" r="2" fill="currentColor" />
-        <circle cx="115" cy="62" r="2" fill="currentColor" />
-        <path d="M82 82 Q100 70 118 82" />
-        <line x1="100" y1="95" x2="100" y2="170" />
-        <line x1="100" y1="110" x2="50" y2="80" />
-        <line x1="100" y1="110" x2="150" y2="80" />
-        <line x1="100" y1="170" x2="60" y2="225" />
-        <line x1="100" y1="170" x2="140" y2="225" />
-      </g>
+        stroke-linecap="round"
+      />
+
+      <line
+        x1="100"
+        y1="95"
+        x2="100"
+        y2="170"
+        stroke="black"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+
+      <line
+        x1="100"
+        y1="112"
+        x2="62"
+        y2="95"
+        stroke="black"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+
+      <line
+        x1="100"
+        y1="112"
+        x2="118"
+        y2="86"
+        stroke="black"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+
+      <line
+        x1="100"
+        y1="170"
+        x2="70"
+        y2="225"
+        stroke="black"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
+
+      <line
+        x1="100"
+        y1="170"
+        x2="130"
+        y2="225"
+        stroke="black"
+        stroke-width="5"
+        stroke-linecap="round"
+      />
     </svg>
   );
 }
@@ -78,7 +148,7 @@ export function GameGuide({ mood, message, hint }: GameGuideProps) {
   const moodStyles = {
     idle: 'border-blue-600 bg-blue-50 text-blue-600',
     happy: 'border-green-700 bg-green-50 text-green-700',
-    sad: 'border-red-600 bg-red-50 text-red-600',
+    sad: 'border-orange-600 bg-blue-50 text-orange-600',
   }[mood];
 
   return (

@@ -8,6 +8,7 @@ export {
   Ampersand,
   Award,
   BarChart3,
+  BatteryCharging,
   BellRing,
   BookOpen,
   Bot,
@@ -18,6 +19,7 @@ export {
   ChevronDown,
   CircleAlert,
   CircleDollarSign,
+  CornerUpLeft,
   Clock,
   Clock3,
   Coins,
@@ -26,8 +28,10 @@ export {
   DoorOpen,
   DoorClosed,
   Flame,
+  Footprints,
   Gamepad2,
   GitFork,
+  GitBranch,
   Hash,
   KeyRound,
   LockKeyhole,
@@ -39,6 +43,7 @@ export {
   Play,
   PlayCircle,
   Plus,
+  Octagon,
   Power,
   RotateCcw,
   Rocket,
@@ -58,6 +63,7 @@ export {
   WalletCards,
   Wheat,
   X,
+  Zap,
 } from 'lucide-react';
 
 export const iconSizes = {

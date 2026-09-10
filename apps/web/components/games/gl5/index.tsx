@@ -21,6 +21,7 @@ import { useState } from 'react';
 import { GameGuide, type GuideMood } from '../game-guide';
 
 type Condition = 'hasGoldenKey' | 'hasMagicCard' | 'hasCoin';
+type ProgramStatus = 'idle' | 'running' | 'correct' | 'incorrect';
 
 type Test = {
   hasGoldenKey: boolean;
@@ -53,6 +54,7 @@ export default function GameGL5() {
   const [activeLine, setActiveLine] = useState<number | null>(null);
   const [gateIsOpen, setGateIsOpen] = useState(false);
   const [testPassed, setTestPassed] = useState(false);
+  const [programStatus, setProgramStatus] = useState<ProgramStatus>('idle');
   const [isRunning, setIsRunning] = useState(false);
   const [message, setMessage] = useState(
     'Choose the two items that can open the gate.',
@@ -68,6 +70,7 @@ export default function GameGL5() {
     setSelectedConditions([...selectedConditions, condition]);
     setGateIsOpen(false);
     setTestPassed(false);
+    setProgramStatus('idle');
     setMessage('Good. Complete the OR condition and run your program.');
     setGuideMood('idle');
   }
@@ -76,6 +79,7 @@ export default function GameGL5() {
     setSelectedConditions(selectedConditions.slice(0, -1));
     setGateIsOpen(false);
     setTestPassed(false);
+    setProgramStatus('idle');
   }
 
   async function runProgram() {
@@ -90,14 +94,30 @@ export default function GameGL5() {
 
     if (!firstCondition || !secondCondition) return;
 
+    const checksGoldenKey = selectedConditions.includes('hasGoldenKey');
+    const checksMagicCard = selectedConditions.includes('hasMagicCard');
+    const programIsValid = checksGoldenKey && checksMagicCard;
+
     setIsRunning(true);
     setGateIsOpen(false);
     setTestPassed(false);
+    setProgramStatus('running');
     setMessage('Checking both sides of OR...');
     setGuideMood('idle');
 
     setActiveLine(1);
     await wait(800);
+
+    if (!programIsValid) {
+      setActiveLine(null);
+      setIsRunning(false);
+      setProgramStatus('incorrect');
+      setMessage(
+        'Program rejected: this gate requires a golden key OR a magic card. A coin cannot open it.',
+      );
+      setGuideMood('sad');
+      return;
+    }
 
     const result = currentTest[firstCondition] || currentTest[secondCondition];
 
@@ -108,19 +128,8 @@ export default function GameGL5() {
     setActiveLine(null);
     setIsRunning(false);
 
-    const checksGoldenKey = selectedConditions.includes('hasGoldenKey');
-    const checksMagicCard = selectedConditions.includes('hasMagicCard');
-    const programIsCorrect = checksGoldenKey && checksMagicCard;
-
-    if (!programIsCorrect) {
-      setMessage(
-        'The gate accepts a golden key OR a magic card. Check your conditions.',
-      );
-      setGuideMood('sad');
-      return;
-    }
-
     setTestPassed(true);
+    setProgramStatus('correct');
     setGuideMood('happy');
     setMessage(
       result
@@ -135,6 +144,7 @@ export default function GameGL5() {
 
     setGateIsOpen(false);
     setTestPassed(false);
+    setProgramStatus('idle');
     setMessage('Run the same OR program with these new values.');
     setGuideMood('idle');
   }
@@ -145,6 +155,7 @@ export default function GameGL5() {
     setActiveLine(null);
     setGateIsOpen(false);
     setTestPassed(false);
+    setProgramStatus('idle');
     setMessage('Choose the two items that can open the gate.');
     setGuideMood('idle');
   }
@@ -215,9 +226,13 @@ export default function GameGL5() {
             <div className="grid place-items-center py-5 text-center">
               <div
                 className={`grid size-36 place-items-center rounded-3xl border-4 transition duration-500 ${
-                  gateIsOpen
+                  programStatus === 'correct'
                     ? 'border-green-400 bg-green-400/20 text-green-300 shadow-[0_0_35px_rgba(74,222,128,0.4)]'
-                    : 'border-red-500 bg-red-500/10 text-red-300'
+                    : programStatus === 'incorrect'
+                      ? 'border-red-500 bg-red-500/10 text-red-300'
+                      : programStatus === 'running'
+                        ? 'border-amber-400 bg-amber-400/10 text-amber-300'
+                        : 'border-slate-500 bg-slate-500/10 text-slate-300'
                 }`}
               >
                 <Icon
@@ -227,7 +242,15 @@ export default function GameGL5() {
                 />
               </div>
               <p className="mt-4 font-extrabold">
-                {gateIsOpen ? 'Gate open' : 'Gate closed'}
+                {programStatus === 'correct'
+                  ? gateIsOpen
+                    ? 'Gate correctly opened'
+                    : 'Gate correctly stayed closed'
+                  : programStatus === 'incorrect'
+                    ? 'Gate stayed closed because the program is invalid'
+                    : gateIsOpen
+                      ? 'Gate open'
+                      : 'Gate closed'}
               </p>
             </div>
 

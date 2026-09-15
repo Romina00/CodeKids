@@ -226,6 +226,18 @@
   font-weight: var(--font-weight-bold);
 }
 
+.secondaryAction {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: var(--space-1);
+}
+
+.secondaryAction:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
 .robotScene {
   position: relative;
   display: grid;
@@ -296,6 +308,138 @@
 
 .levelGrid article {
   box-shadow: none;
+}
+
+/* Kid dashboard layout */
+.shell {
+  min-height: 100svh;
+  height: auto;
+  overflow: visible;
+}
+
+.sidebar {
+  width: 16rem;
+}
+
+.profileLink:focus-visible,
+.primaryAction:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.main {
+  min-height: 100svh;
+  height: auto;
+  max-width: 88rem;
+  padding: var(--space-10);
+  margin-left: 16rem;
+  overflow: visible;
+}
+
+.welcome {
+  align-items: center;
+}
+
+.welcome > div:first-child,
+.continueCopy {
+  justify-items: start;
+}
+
+.welcome h1 {
+  max-width: 15ch;
+}
+
+.welcome p {
+  max-width: 56ch;
+}
+
+.welcomeIcon,
+.challengePreview {
+  display: grid;
+  color: var(--color-primary);
+  background: color-mix(
+    in srgb,
+    var(--color-primary) 10%,
+    var(--color-surface)
+  );
+  border-radius: var(--radius-xl);
+  place-items: center;
+}
+
+.welcomeIcon {
+  width: 5rem;
+  height: 5rem;
+  flex: none;
+}
+
+.continueCard {
+  grid-template-columns: minmax(0, 1.3fr) minmax(13rem, 0.7fr);
+}
+
+.challengePreview {
+  align-content: center;
+  gap: var(--space-3);
+  min-height: 14rem;
+  padding: var(--space-6);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+.challengePreview svg {
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+@media (max-width: 64rem) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sidebar nav ul {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .profileLink {
+    margin-top: var(--space-6);
+  }
+
+  .main {
+    min-height: auto;
+    padding: var(--space-8);
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 40rem) {
+  .sidebar,
+  .main {
+    padding: var(--space-5);
+  }
+
+  .sidebar nav ul {
+    grid-template-columns: 1fr;
+  }
+
+  .welcome {
+    align-items: flex-start;
+  }
+
+  .welcomeIcon {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .continueCard {
+    grid-template-columns: 1fr;
+  }
+
+  .challengePreview {
+    min-height: 9rem;
+  }
 }
 
 .levelNumber {

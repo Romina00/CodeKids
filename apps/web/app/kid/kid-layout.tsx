@@ -1,19 +1,13 @@
 'use client';
 
-import {
-  Award,
-  BookOpen,
-  CodeXml,
-  Icon,
-  Settings,
-  Sparkles,
-} from '@repo/ui/icon';
+import { BookOpen, Gamepad2, Icon, Map, Settings } from '@repo/ui/icon';
 import {
   Navigation,
   NavigationItem,
   NavigationLink,
 } from '@repo/ui/navigation';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { LogoMark } from '../../components/logo';
 import { getSessionUser } from '../../lib/auth-session';
@@ -22,6 +16,7 @@ import { ParentModeExit } from './parent-mode-exit';
 
 export function KidLayout({ children }: { children: ReactNode }) {
   const [profileName, setProfileName] = useState('Young coder');
+  const pathname = usePathname();
 
   useEffect(() => {
     const user = getSessionUser();
@@ -39,34 +34,32 @@ export function KidLayout({ children }: { children: ReactNode }) {
         </Link>
         <Navigation label="Kid dashboard">
           <NavigationItem>
-            <NavigationLink current href="/kid#learning-path">
-              <Icon icon={Sparkles} size="sm" /> Home
+            <NavigationLink current={pathname === '/kid'} href="/kid">
+              <Icon icon={Gamepad2} size="sm" /> Home
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink href="/kid#learning-path">
+            <NavigationLink
+              current={pathname === '/kid/levels'}
+              href="/kid/levels"
+            >
               <Icon icon={BookOpen} size="sm" /> Levels
             </NavigationLink>
           </NavigationItem>
           <NavigationItem>
-            <NavigationLink href="/kid#code-lab">
-              <Icon icon={CodeXml} size="sm" /> Code lab
-            </NavigationLink>
-          </NavigationItem>
-          <NavigationItem>
-            <NavigationLink href="/kid#rewards">
-              <Icon icon={Award} size="sm" /> Rewards
+            <NavigationLink href="/kid/levels/1">
+              <Icon icon={Map} size="sm" /> Continue learning
             </NavigationLink>
           </NavigationItem>
         </Navigation>
-        <a className={styles.profileLink} href="#profile">
+        <Link className={styles.profileLink} href="/profile">
           <span className={styles.avatar}>{profileName.charAt(0)}</span>
           <span>
             <strong>{profileName}</strong>
-            <small>Explorer</small>
+            <small>Your profile</small>
           </span>
           <Icon icon={Settings} size="sm" />
-        </a>
+        </Link>
         <ParentModeExit />
       </aside>
 

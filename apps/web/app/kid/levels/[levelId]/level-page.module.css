@@ -1,0 +1,52 @@
+.levelPage {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-canvas);
+  flex-direction: column;
+}
+
+.levelHeader {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.levelHeader span {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.levelHeader h1 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--text-heading-line-height);
+}
+
+.gameFrame {
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.levelNavigation {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.levelNavigationButton {
+  max-width: 48%;
+  gap: var(--space-2);
+}
+
+@media (max-width: 40rem) {
+  .levelPage {
+    padding: var(--space-4);
+  }
+}

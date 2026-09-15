@@ -14,6 +14,7 @@ import GameGL13 from '../../../../components/games/gl13';
 import GameGL14 from '../../../../components/games/gl14';
 import GameGL15 from '../../../../components/games/gl15';
 import { LevelNavigation } from './level-navigation';
+import styles from './level-page.module.css';
 
 const games = {
   1: GameGL1,
@@ -48,9 +49,12 @@ export default async function LevelPage({
   const currentLevel = Number(levelId);
 
   return (
-    <div className="mx-auto flex h-full min-h-0 w-full max-w-[120rem] min-w-0 flex-col gap-5 overflow-hidden bg-[var(--color-canvas)] p-4 sm:p-6">
-      <h1 className="text-2xl font-bold sm:text-3xl">Level {levelId}</h1>
-      <div className="min-h-0 flex-1 overflow-hidden">
+    <div className={styles.levelPage}>
+      <header className={styles.levelHeader}>
+        <span>Challenge {levelId} of 15</span>
+        <h1>Level {levelId}</h1>
+      </header>
+      <div className={styles.gameFrame}>
         <Game />
       </div>
       <LevelNavigation levelId={currentLevel} totalLevels={15} />

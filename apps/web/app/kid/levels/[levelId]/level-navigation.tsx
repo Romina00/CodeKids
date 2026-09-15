@@ -3,6 +3,7 @@
 import { Button } from '@repo/ui/button';
 import { ArrowLeft, ArrowRight, Icon } from '@repo/ui/icon';
 import { useRouter } from 'next/navigation';
+import styles from './level-page.module.css';
 
 type LevelNavigationProps = {
   levelId: number;
@@ -16,27 +17,24 @@ export function LevelNavigation({
   const router = useRouter();
 
   return (
-    <nav
-      aria-label="Level navigation"
-      className="flex w-full min-w-0 justify-between gap-3"
-    >
+    <nav aria-label="Level navigation" className={styles.levelNavigation}>
       <Button
-        className="max-w-[48%] gap-2"
+        className={styles.levelNavigationButton}
         disabled={levelId === 1}
         variant="outline"
         onClick={() => router.push(`/kid/levels/${levelId - 1}`)}
       >
         <Icon icon={ArrowLeft} size="sm" />
-        <span className="truncate">Previous game</span>
+        <span>Previous game</span>
       </Button>
 
       <Button
-        className="max-w-[48%] gap-2"
+        className={styles.levelNavigationButton}
         disabled={levelId === totalLevels}
         variant="primary"
         onClick={() => router.push(`/kid/levels/${levelId + 1}`)}
       >
-        <span className="truncate">Next game</span>
+        <span>Next game</span>
         <Icon icon={ArrowRight} size="sm" />
       </Button>
     </nav>

@@ -10,6 +10,13 @@
 }
 
 .levelHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.levelHeader > div:first-child {
   display: grid;
   gap: var(--space-1);
 }
@@ -25,11 +32,32 @@
   line-height: var(--text-heading-line-height);
 }
 
+.levelHeader p,
+.levelProgress span {
+  color: var(--color-text-muted);
+}
+
+.levelProgress {
+  display: grid;
+  min-width: 10rem;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.levelProgress progress {
+  width: 100%;
+  height: var(--space-3);
+  overflow: hidden;
+  accent-color: var(--color-primary);
+  border-radius: var(--radius-full);
+}
+
 .gameFrame {
   min-width: 0;
   min-height: 0;
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .levelNavigation {
@@ -48,5 +76,14 @@
 @media (max-width: 40rem) {
   .levelPage {
     padding: var(--space-4);
+  }
+
+  .levelHeader {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .levelProgress {
+    width: 100%;
   }
 }

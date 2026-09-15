@@ -171,7 +171,7 @@ export default function GameGL8() {
   }
 
   return (
-    <main className="grid min-h-full gap-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[18rem_1fr] lg:p-6 dark:border-slate-700 dark:bg-slate-900">
+    <main className="grid min-h-full gap-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[minmax(18rem,35%)_minmax(0,1fr)] lg:p-6 dark:border-slate-700 dark:bg-slate-900">
       <GameGuide
         mood={guideMood}
         message={message}
@@ -183,7 +183,7 @@ export default function GameGL8() {
         ]}
       />
 
-      <section className="grid min-w-0 content-start gap-5">
+      <section className="grid min-h-full min-w-0 grid-rows-[auto_minmax(0,1fr)] gap-5">
         <header className="rounded-2xl border border-indigo-200 border-l-4 border-l-indigo-600 bg-indigo-50 p-5 dark:border-indigo-800 dark:bg-indigo-950/40">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">

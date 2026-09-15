@@ -13,12 +13,16 @@ type GameGuideProps = {
   tutorial?: string[];
 };
 
-function HappyStickman() {
+function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
   return (
     <svg
       aria-hidden="true"
       viewBox="0 0 200 250"
-      className="h-[6.25rem] w-20 motion-safe:animate-bounce motion-reduce:animate-none sm:w-20"
+      className={`h-48 w-36 sm:h-56 sm:w-44 ${
+        isCelebrating
+          ? 'motion-safe:animate-bounce motion-reduce:animate-none'
+          : ''
+      }`}
     >
       <g
         fill="none"
@@ -46,7 +50,7 @@ function SadStickman() {
     <svg
       aria-hidden="true"
       viewBox="0 0 200 250"
-      className="h-[6.25rem] w-20 sm:w-20"
+      className="h-48 w-36 sm:h-56 sm:w-44"
     >
       <circle
         cx="100"
@@ -165,44 +169,63 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
 
   return (
     <aside
-      className={`grid h-full min-h-56 w-full max-w-none min-w-0 grid-cols-[minmax(0,1fr)_minmax(4.5rem,5rem)] items-center gap-3 overflow-hidden rounded-xl border-2 px-3 pb-2 pt-3 ${moodStyles} max-[700px]:min-h-0 max-[480px]:grid-cols-[minmax(0,1fr)_4.5rem] max-[480px]:px-2.5`}
+      className={`grid h-full min-h-[32rem] w-full max-w-none min-w-0 content-end gap-4 overflow-hidden rounded-xl border-2 p-4 ${moodStyles} max-[700px]:min-h-0 max-[480px]:p-3`}
       aria-live="polite"
       aria-label="Milo, your game guide"
     >
-      <div className="relative rounded-[0.6rem] border border-slate-900 bg-white px-3.5 py-3 text-[0.95rem] font-bold leading-snug text-slate-900 after:absolute after:right-[-0.45rem] after:top-1/2 after:size-3 after:-translate-y-1/2 after:rotate-45 after:border-r after:border-t after:border-slate-900 after:bg-white">
-        {visibleMessage}
+      <div className="relative grid min-h-72 w-full min-w-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-5 rounded-xl border border-slate-900 bg-white px-6 pb-10 pt-5 text-slate-900 after:absolute after:bottom-[-0.45rem] after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b after:border-r after:border-slate-900 after:bg-white">
+        {isTutorialVisible && (
+          <div className="mt-2 flex justify-start pl-4">
+            <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-extrabold text-slate-600">
+              Tip {tutorialStep + 1} of {tutorialSteps.length}
+            </span>
+          </div>
+        )}
+        <p className="text-xl font-bold leading-relaxed sm:text-2xl">
+          {visibleMessage}
+        </p>
+        {isTutorialVisible && (
+          <>
+            <span aria-hidden="true" className="h-px w-full bg-slate-200" />
+            <div className="flex justify-start pl-4">
+              <Button
+                className="min-h-14 gap-3 px-6 text-lg"
+                onClick={() => setTutorialStep((step) => step + 1)}
+                variant="primary"
+              >
+                {tutorialStep === tutorialSteps.length - 1
+                  ? 'Start game'
+                  : 'Next'}
+                <Icon icon={ArrowRight} size="sm" />
+              </Button>
+            </div>
+          </>
+        )}
       </div>
-      <div className="grid min-h-28 max-h-[calc(100svh-2rem)] min-w-0 place-items-center">
-        {mood === 'sad' ? <SadStickman /> : <HappyStickman />}
+      <div className="grid place-items-center gap-1">
+        {mood === 'sad' ? (
+          <SadStickman />
+        ) : (
+          <HappyStickman isCelebrating={mood === 'happy'} />
+        )}
+        <span className="rounded-full bg-white/70 px-3 py-1 text-center text-sm font-extrabold">
+          Milo
+        </span>
       </div>
-      <span className="col-start-2 -mt-2 rounded-full bg-white/70 px-2 py-1 text-center text-sm font-extrabold">
-        Milo
-      </span>
-      <div className="col-span-full flex flex-wrap gap-2 border-t border-current/20 pt-3">
-        {isTutorialVisible ? (
+      <div className="flex flex-wrap gap-2">
+        {tutorialSteps.length > 0 && !isTutorialVisible && (
           <Button
             className="min-h-11 gap-2"
-            onClick={() => setTutorialStep((step) => step + 1)}
-            variant="primary"
+            onClick={restartTutorial}
+            variant="secondary"
           >
-            {tutorialStep === tutorialSteps.length - 1 ? "Let's go" : 'Next'}
-            <Icon icon={ArrowRight} size="sm" />
+            <Icon icon={BrainCircuit} size="sm" />
+            Ask Milo
           </Button>
-        ) : (
-          tutorialSteps.length > 0 && (
-            <Button
-              className="min-h-11 gap-2"
-              onClick={restartTutorial}
-              variant="secondary"
-            >
-              <Icon icon={BrainCircuit} size="sm" />
-              Ask Milo
-            </Button>
-          )
         )}
         <Button
           aria-expanded={isHintVisible}
-          className="min-h-11 gap-2"
+          className="min-h-12 gap-2 text-base"
           onClick={() => setIsHintVisible((visible) => !visible)}
           variant="outline"
         >
@@ -211,7 +234,7 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
         </Button>
       </div>
       {isHintVisible && (
-        <p className="col-span-full rounded-lg bg-white/70 px-4 py-3 text-base font-bold text-slate-900">
+        <p className="rounded-lg bg-white px-5 py-4 text-lg font-bold leading-relaxed text-slate-900">
           Hint: {hint}
         </p>
       )}

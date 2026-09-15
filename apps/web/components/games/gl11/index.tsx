@@ -114,6 +114,11 @@ export default function GameGL11() {
         mood={guideMood}
         message={message}
         hint="Use Start → Check weather → Deliver package → End, and add the rain path."
+        tutorial={[
+          'Goal: draw the plan for a delivery drone before it starts flying.',
+          'A flowchart shows a program as connected steps. A decision asks a question and can have more than one path.',
+          'Start at the beginning, add each step in order, and remember what happens when it rains!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

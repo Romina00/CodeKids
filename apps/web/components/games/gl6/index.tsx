@@ -174,6 +174,11 @@ export default function GameGL6() {
         mood={guideMood}
         message={message}
         hint={`Start at ${mission.startCoins}. Use plus or minus commands to reach ${mission.targetCoins}.`}
+        tutorial={[
+          'Goal: change the coin count until it reaches the target.',
+          'A variable is a named box that stores information. Here, the box is called coins.',
+          'Use plus or minus commands to change the number, then run your plan!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

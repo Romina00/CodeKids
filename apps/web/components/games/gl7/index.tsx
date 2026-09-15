@@ -177,6 +177,11 @@ export default function GameGL7() {
         mood={guideMood}
         message={message}
         hint={`${mission.variableName} needs a ${mission.expectedType} value.`}
+        tutorial={[
+          'Goal: put the right kind of value into each variable.',
+          'A number is for counting, text is for words, and a Boolean is true or false.',
+          'Read the variable name for a clue, choose its matching value, and test it!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

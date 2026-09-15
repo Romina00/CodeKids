@@ -166,6 +166,11 @@ export default function GameGL1() {
         mood={guideMood}
         message={message}
         hint="Move forward, turn left, move forward 4 times, turn right, then move forward 2 times."
+        tutorial={[
+          'Goal: help Tom reach Jerry by placing commands in the right order.',
+          'Move forward takes Tom one square ahead. Turn left and turn right only change where he faces.',
+          'Build your steps from top to bottom, then press Run. You can try again as often as you like!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

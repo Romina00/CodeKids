@@ -153,6 +153,11 @@ export default function GameGL4() {
         mood={guideMood}
         message={message}
         hint="The gate requires the key and the password. A map is not required."
+        tutorial={[
+          'Goal: open the gate by choosing what it really needs.',
+          'A condition is a question a program checks, like “Do I have the key?”',
+          'This gate needs both things. Pick the clues that must be true, then test your choice!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

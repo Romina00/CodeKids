@@ -120,6 +120,11 @@ export default function GameGL10() {
         mood={guideMood}
         message={message}
         hint="Use REPEAT 3 for the rows and put REPEAT 4 inside it for the tiles."
+        tutorial={[
+          'Goal: build a whole garden using two repeat loops.',
+          'A loop inside another loop is called a nested loop. One loop makes rows; the inner loop fills each row.',
+          'Choose the number of rows first, then the tiles in each row. You can do this!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

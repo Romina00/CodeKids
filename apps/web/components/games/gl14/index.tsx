@@ -127,6 +127,11 @@ export default function GameGL14() {
         mood={guideMood}
         message={message}
         hint="Create castSpell(direction), put LIGHT TORCH inside it, then call it with left and right."
+        tutorial={[
+          'Goal: use one spell to light both torches.',
+          'A function is a named mini-program you can use again whenever you need it.',
+          'Define the spell once, put the torch action inside it, then call it for left and right!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

@@ -166,6 +166,11 @@ export default function GameGL5() {
         mood={guideMood}
         message={message}
         hint="The gate accepts the golden key or the magic card. A coin does not work."
+        tutorial={[
+          'Goal: find a way to open the gate.',
+          'Programs can use “or”: one true choice is enough to continue.',
+          'Choose either item that can open the gate. A smart choice is better than guessing!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

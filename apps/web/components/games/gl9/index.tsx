@@ -127,6 +127,11 @@ export default function GameGL9() {
         mood={guideMood}
         message={message}
         hint="Use REPEAT 5 TIMES with Clean tile, then Move forward inside it."
+        tutorial={[
+          'Goal: clean every tile without writing the same steps again and again.',
+          'A repeat loop tells the computer to do the steps inside it more than once.',
+          'Put clean and move inside the loop, choose how many times to repeat, then run it!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

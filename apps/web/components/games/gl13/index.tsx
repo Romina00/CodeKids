@@ -181,6 +181,11 @@ export default function GameGL13() {
         mood={guideMood}
         message={message}
         hint="Test each part separately: Wall, Gate, and Tower."
+        tutorial={[
+          'Goal: build a castle by solving one small problem at a time.',
+          'Big programs are easier when we split them into smaller parts. Each part gets its own plan.',
+          'Choose a castle part, make its program work, and then move to the next part!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

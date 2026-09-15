@@ -120,6 +120,11 @@ export default function GameGL12() {
         mood={guideMood}
         message={message}
         hint="Use MOVE, REPEAT, COLLECT, IF HAS KEY, then OPEN DOOR."
+        tutorial={[
+          'Goal: make a clear plan before the robot starts its adventure.',
+          'Planning means putting actions in a useful order before writing the program.',
+          'Think: move, repeat, collect, check for the key, then open the door. Build your plan one token at a time!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

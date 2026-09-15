@@ -176,6 +176,11 @@ export default function GameGL8() {
         mood={guideMood}
         message={message}
         hint="If energy is at least 3, the robot should jump."
+        tutorial={[
+          'Goal: tell the robot what to do when a condition is true.',
+          'An if statement means: if this is true, then do this action.',
+          'Pick the correct condition and the action that belongs after it. Then test your rule!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

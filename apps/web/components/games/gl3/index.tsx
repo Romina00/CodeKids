@@ -131,6 +131,11 @@ export default function GameGL3() {
             ? 'The robot needs power. Which value means on?'
             : 'The alarm must be off. Which value means off?'
         }
+        tutorial={[
+          'Goal: choose the value that makes the robot do the right thing.',
+          'A Boolean is a simple answer with only two choices: true means yes or on; false means no or off.',
+          'Read the mission, choose true or false, then run the program. Great coders test their ideas!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

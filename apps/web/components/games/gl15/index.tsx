@@ -155,6 +155,11 @@ export default function GameGL15() {
         mood={guideMood}
         message={message}
         hint="Name your game, add all five checklist ideas, then run and test it."
+        tutorial={[
+          'Goal: create and test your own mini game. You are the game designer now!',
+          'Use the ideas you learned: steps in order, repeats, conditions, variables, and functions.',
+          'Give your game a name, build one piece at a time, and press Run to test your creation!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

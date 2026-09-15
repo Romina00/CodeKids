@@ -182,6 +182,11 @@ export default function GameGL2() {
         mood={guideMood}
         message={message}
         hint="Think like a chef: dough, sauce, cheese, bake, then serve."
+        tutorial={[
+          'Goal: give the chef the steps for one tasty pizza.',
+          'A program is a recipe for a computer: it follows each step in order.',
+          'Choose the pizza steps from first to last, then run your recipe!',
+        ]}
       />
 
       <section className="grid min-w-0 content-start gap-5">

@@ -32,6 +32,7 @@ type Mission = {
   expectedValue: ValueId;
   expectedType: DataType;
   instruction: string;
+  hint: string;
 };
 
 type Profile = {
@@ -60,18 +61,21 @@ const missions: [Mission, Mission, Mission] = [
     expectedValue: 'number12',
     expectedType: 'Number',
     instruction: 'Store the number 12 in score.',
+    hint: 'Choose 12 without quotation marks. It is a Number. "12" in quotation marks is Text.',
   },
   {
     variableName: 'playerName',
     expectedValue: 'textAlex',
     expectedType: 'Text',
     instruction: 'Store the text Alex in playerName.',
+    hint: 'Choose "Alex" for the player name. Both "Alex" and "12" are Text, but this mission asks for Alex.',
   },
   {
     variableName: 'hasKey',
     expectedValue: 'booleanTrue',
     expectedType: 'Boolean',
     instruction: 'Store true in hasKey.',
+    hint: 'Choose true without quotation marks. It is a Boolean value, used for yes-or-no information.',
   },
 ];
 
@@ -114,7 +118,9 @@ export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
 
   async function runProgram() {
     if (!selectedValue) {
-      setMessage('Choose a value before you press Run.');
+      setMessage(
+        'Choose a value before you press Run. Take your time! Click "Show hint" if you need a clue.',
+      );
       setGuideMood('thinking');
       return;
     }
@@ -133,14 +139,16 @@ export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
 
     if (option.dataType !== mission.expectedType) {
       setMessage(
-        `Type error: ${mission.variableName} needs ${mission.expectedType}, but ${option.label} is ${option.dataType}.`,
+        `Not quite yet! ${mission.variableName} needs ${mission.expectedType}, but ${option.label} is ${option.dataType}. You can click another value to change your selection. Try again — mistakes help us learn! Click "Show hint" for a clue.`,
       );
       setGuideMood('thinking');
       return;
     }
 
     if (selectedValue !== mission.expectedValue) {
-      setMessage(`The type is correct, but choose the value in the mission.`);
+      setMessage(
+        'You found the right type! Now look at the value the mission asks for. You can click another value to change your selection. Keep going! Click "Show hint" for a clue.',
+      );
       setGuideMood('thinking');
       return;
     }
@@ -177,7 +185,7 @@ export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
       <GameGuide
         mood={guideMood}
         message={message}
-        hint={`${mission.variableName} needs a ${mission.expectedType} value.`}
+        hint={mission.hint}
         tutorial={[
           'Goal: put the right kind of value into each variable.',
           'A number is for counting, text is for words, and a Boolean is true or false.',

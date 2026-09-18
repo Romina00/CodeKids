@@ -26,12 +26,37 @@ type Action = 'jump' | 'stop' | 'turnAround';
 type Test = {
   energy: number;
   hasKey: boolean;
+  condition: Condition;
+  action: Action;
+  instruction: string;
+  hint: string;
 };
 
 const tests: [Test, Test, Test] = [
-  { energy: 5, hasKey: false },
-  { energy: 2, hasKey: true },
-  { energy: 3, hasKey: false },
+  {
+    energy: 3,
+    hasKey: false,
+    condition: 'enoughEnergy',
+    action: 'jump',
+    instruction: 'Make the robot jump when it has at least 3 energy points.',
+    hint: 'Choose energy >= 3 and JUMP. At least 3 includes exactly 3.',
+  },
+  {
+    energy: 0,
+    hasKey: false,
+    condition: 'noEnergy',
+    action: 'stop',
+    instruction: 'Make the robot stop when its energy is zero.',
+    hint: 'Choose energy == 0 and STOP. The robot has no energy left.',
+  },
+  {
+    energy: 2,
+    hasKey: true,
+    condition: 'hasKey',
+    action: 'turnAround',
+    instruction: 'Make the robot turn around when it has found the key.',
+    hint: 'Choose hasKey == true and TURN AROUND. The robot has the key and should head back.',
+  },
 ];
 
 const conditionDetails: Record<Condition, { label: string; icon: LucideIcon }> =
@@ -132,10 +157,13 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
     setIsRunning(false);
 
     const programIsCorrect =
-      selectedCondition === 'enoughEnergy' && selectedAction === 'jump';
+      selectedCondition === currentTest.condition &&
+      selectedAction === currentTest.action;
 
     if (!programIsCorrect) {
-      setMessage('The robot must check its energy and jump over the obstacle.');
+      setMessage(
+        `Not quite yet! ${currentTest.instruction} You can change your selection. Click "Show hint" for a clue.`,
+      );
       setGuideMood('thinking');
       return;
     }
@@ -145,8 +173,8 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
     if (testNumber === 2) onComplete?.();
     setMessage(
       conditionIsTrue
-        ? 'The condition is true, so the JUMP action runs.'
-        : 'The condition is false, so the JUMP action is skipped.',
+        ? `Correct! The condition is true, so ${actionDetails[selectedAction].label} runs.`
+        : `Correct! The condition is false, so ${actionDetails[selectedAction].label} is skipped.`,
     );
   }
 
@@ -154,9 +182,14 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
     if (testNumber === 0) setTestNumber(1);
     if (testNumber === 1) setTestNumber(2);
 
+    setSelectedCondition(null);
+    setSelectedAction(null);
+    setActiveLine(null);
     setActionRan(false);
     setTestPassed(false);
-    setMessage('Run the same if statement with the new energy value.');
+    setMessage(
+      'New mission! Read the goal and choose a new condition and action.',
+    );
     setGuideMood('idle');
   }
 
@@ -176,7 +209,7 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
       <GameGuide
         mood={guideMood}
         message={message}
-        hint="If energy is at least 3, the robot should jump."
+        hint={currentTest.hint}
         tutorial={[
           'Goal: tell the robot what to do when a condition is true.',
           'An if statement means: if this is true, then do this action.',
@@ -195,10 +228,10 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
             </p>
           </div>
           <h2 className="mt-2 text-2xl font-extrabold text-slate-900 dark:text-white">
-            Robot Jump
+            Robot Missions
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
-            Make the robot jump when it has at least 3 energy points.
+            {currentTest.instruction}
           </p>
         </header>
 
@@ -211,22 +244,32 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
               </span>
             </div>
 
+            <p className="mt-3 text-sm font-bold text-slate-300">
+              hasKey = {String(currentTest.hasKey)}
+            </p>
+
             <div className="relative my-8 h-40 border-b-4 border-slate-600">
               <div
                 className={`absolute bottom-2 left-8 grid size-20 place-items-center rounded-2xl border-2 border-indigo-400 bg-indigo-400/20 text-indigo-200 transition-transform duration-500 ${
                   actionRan && selectedAction === 'jump'
                     ? 'translate-x-28 -translate-y-20'
-                    : ''
+                    : actionRan && selectedAction === 'turnAround'
+                      ? '-scale-x-100'
+                      : ''
                 }`}
               >
                 <Icon icon={Bot} size="xl" className="size-14" />
               </div>
-              <div
-                className="absolute bottom-0 left-40 h-20 w-12 rounded-t-lg bg-red-500"
-                aria-label="Obstacle"
-              />
+              {testNumber === 0 && (
+                <div
+                  className="absolute bottom-0 left-40 h-20 w-12 rounded-t-lg bg-red-500"
+                  aria-label="Obstacle"
+                />
+              )}
               <div className="absolute bottom-2 right-4 text-sm font-bold text-green-300">
-                FINISH
+                {actionRan && selectedAction
+                  ? actionDetails[selectedAction].label
+                  : 'READY'}
               </div>
             </div>
 

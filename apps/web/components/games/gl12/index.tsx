@@ -23,7 +23,13 @@ const tokenDetails: Record<Token, { label: string; code: string }> = {
   openDoor: { label: 'Open door', code: 'OPEN DOOR' },
 };
 
-const availableTokens = Object.keys(tokenDetails) as Token[];
+const availableTokens: Token[] = [
+  'ifKey',
+  'collect',
+  'openDoor',
+  'move',
+  'repeat',
+];
 const correctPlan: Token[] = ['move', 'repeat', 'collect', 'ifKey', 'openDoor'];
 
 function wait(milliseconds: number) {

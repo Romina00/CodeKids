@@ -80,6 +80,8 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
     setGateIsOpen(false);
     setTestPassed(false);
     setProgramStatus('idle');
+    setMessage('Choose two conditions. At least one must be true.');
+    setGuideMood('idle');
   }
 
   async function runProgram() {
@@ -94,10 +96,6 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
 
     if (!firstCondition || !secondCondition) return;
 
-    const checksGoldenKey = selectedConditions.includes('hasGoldenKey');
-    const checksMagicCard = selectedConditions.includes('hasMagicCard');
-    const programIsValid = checksGoldenKey && checksMagicCard;
-
     setIsRunning(true);
     setGateIsOpen(false);
     setTestPassed(false);
@@ -108,17 +106,6 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
     setActiveLine(1);
     await wait(800);
 
-    if (!programIsValid) {
-      setActiveLine(null);
-      setIsRunning(false);
-      setProgramStatus('incorrect');
-      setMessage(
-        'Program rejected: this gate requires a golden key OR a magic card. A coin cannot open it.',
-      );
-      setGuideMood('thinking');
-      return;
-    }
-
     const result = currentTest[firstCondition] || currentTest[secondCondition];
 
     setActiveLine(2);
@@ -128,14 +115,21 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
     setActiveLine(null);
     setIsRunning(false);
 
+    if (!result) {
+      setProgramStatus('incorrect');
+      setMessage(
+        'Both conditions are false. Choose at least one true condition to open the gate.',
+      );
+      setGuideMood('thinking');
+      return;
+    }
+
     setTestPassed(true);
     setProgramStatus('correct');
     setGuideMood('happy');
     if (testNumber === 2) onComplete?.();
     setMessage(
-      result
-        ? 'At least one condition is true, so OR opens the gate.'
-        : 'Both conditions are false, so the gate stays closed.',
+      'Correct! At least one condition is true, so OR opens the gate.',
     );
   }
 
@@ -143,10 +137,14 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
     if (testNumber === 0) setTestNumber(1);
     if (testNumber === 1) setTestNumber(2);
 
+    setSelectedConditions([]);
+    setActiveLine(null);
     setGateIsOpen(false);
     setTestPassed(false);
     setProgramStatus('idle');
-    setMessage('Run the same OR program with these new values.');
+    setMessage(
+      'New test! Choose two conditions. At least one must be true in the current values.',
+    );
     setGuideMood('idle');
   }
 
@@ -164,13 +162,14 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
   return (
     <main className="grid min-h-full gap-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[minmax(18rem,35%)_minmax(0,1fr)] lg:p-6 dark:border-slate-700 dark:bg-slate-900">
       <GameGuide
+        key={testNumber}
         mood={guideMood}
         message={message}
-        hint="The gate accepts the golden key or the magic card. A coin does not work."
+        hint="Look at the current values. Choose two conditions with at least one marked true. OR only needs one true condition."
         tutorial={[
           'Goal: find a way to open the gate.',
           'Programs can use “or”: one true choice is enough to continue.',
-          'Choose either item that can open the gate. A smart choice is better than guessing!',
+          'Choose two conditions from the current values. At least one must be true to open the gate!',
         ]}
       />
 
@@ -188,8 +187,8 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
             Magic Gate
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
-            Build a program that opens the gate when at least one accepted item
-            is available.
+            Choose two conditions from the current values. The gate opens when
+            at least one is true.
           </p>
         </header>
 
@@ -253,7 +252,7 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
                     ? 'Gate correctly opened'
                     : 'Gate correctly stayed closed'
                   : programStatus === 'incorrect'
-                    ? 'Gate stayed closed because the program is invalid'
+                    ? 'Gate stayed closed because both conditions are false'
                     : gateIsOpen
                       ? 'Gate open'
                       : 'Gate closed'}

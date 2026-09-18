@@ -79,6 +79,7 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
   function addCommand(command: Command) {
     if (commands.length === 8) return;
 
+    setActiveLine(null);
     setCommands([...commands, command]);
     setCoins(mission.startCoins);
     setMissionPassed(false);
@@ -87,9 +88,14 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
   }
 
   function undoCommand() {
+    setActiveLine(null);
     setCommands(commands.slice(0, -1));
     setCoins(mission.startCoins);
     setMissionPassed(false);
+    setMessage(
+      `Start with ${mission.startCoins} coins. Reach ${mission.targetCoins} coins.`,
+    );
+    setGuideMood('idle');
   }
 
   async function runProgram() {
@@ -151,21 +157,25 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
     const nextMissionNumber = missionNumber === 0 ? 1 : 2;
     const nextMission = missions[nextMissionNumber];
 
+    setActiveLine(null);
     setMissionNumber(nextMissionNumber);
     setCommands([]);
     setCoins(nextMission.startCoins);
     setMissionPassed(false);
-    setMessage('Build a new program for this target.');
+    setMessage(
+      `New mission! Start with ${nextMission.startCoins} coins and reach ${nextMission.targetCoins}.`,
+    );
     setGuideMood('idle');
   }
 
-  function resetGame() {
-    setMissionNumber(0);
+  function resetMission() {
     setCommands([]);
-    setCoins(missions[0].startCoins);
+    setCoins(mission.startCoins);
     setActiveLine(null);
     setMissionPassed(false);
-    setMessage('Build a program that changes the coins variable.');
+    setMessage(
+      `Start with ${mission.startCoins} coins. Reach ${mission.targetCoins} coins.`,
+    );
     setGuideMood('idle');
   }
 
@@ -217,7 +227,7 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
               <div className="grid size-40 place-items-center rounded-full border-4 border-amber-400 bg-amber-400/10 text-amber-300 shadow-[0_0_35px_rgba(251,191,36,0.25)]">
                 <Icon icon={Coins} size="xl" className="size-20" />
               </div>
-              <p className="mt-5 font-mono text-lg text-slate-300">coins =</p>
+              <p className="mt-5 text-lg text-slate-300">Current coins</p>
               <p
                 className="text-6xl font-extrabold text-amber-300 transition-all duration-300"
                 aria-live="polite"
@@ -227,7 +237,8 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
             </div>
 
             <p className="rounded-xl bg-slate-800 px-3 py-2 text-center text-sm font-semibold text-slate-300">
-              A variable stores a value that your program can change.
+              Each run starts with {mission.startCoins} coins. Reach{' '}
+              {mission.targetCoins} coins.
             </p>
           </div>
 
@@ -317,8 +328,12 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
                 </Button>
               )}
 
-              <Button onClick={resetGame} disabled={isRunning} variant="ghost">
-                <Icon icon={RotateCcw} size="sm" /> Reset
+              <Button
+                onClick={resetMission}
+                disabled={isRunning}
+                variant="ghost"
+              >
+                <Icon icon={RotateCcw} size="sm" /> Reset mission
               </Button>
             </div>
 

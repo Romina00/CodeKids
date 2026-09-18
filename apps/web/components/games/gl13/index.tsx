@@ -143,26 +143,39 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
       return;
     }
 
-    setTestedParts({ ...testedParts, [selectedPart]: true });
+    const updatedTests = { ...testedParts, [selectedPart]: true };
+    setTestedParts(updatedTests);
+
+    if (parts.every((part) => updatedTests[part])) {
+      setMessage(
+        'All three tests passed! Click "Build castle" to finish the level.',
+      );
+      setGuideMood('happy');
+      return;
+    }
+
     setMessage(
-      `The ${currentInfo.label.toLowerCase()} works. Test the other parts.`,
+      `The ${currentInfo.label.toLowerCase()} works! Next, program and test: ${parts
+        .filter((part) => !updatedTests[part])
+        .map((part) => partInfo[part].label)
+        .join(', ')}. When all three pass, click "Build castle".`,
     );
     setGuideMood('happy');
   }
 
   function buildCastle() {
-    if (!parts.every((part) => testedParts[part])) {
-      setMessage('Test the wall, gate, and tower before building the castle.');
-      setGuideMood('thinking');
-      return;
-    }
+    if (isRunning || !parts.every((part) => testedParts[part])) return;
 
+    completeCastle();
+  }
+
+  function completeCastle() {
     setCastleBuilt(true);
     setMessage(
-      'Castle complete! You solved one big task with smaller programs.',
+      'Castle complete! All three parts passed. You can now click "Next game".',
     );
     setGuideMood('happy');
-    onComplete?.();
+    if (!castleBuilt) onComplete?.();
   }
 
   function resetGame() {
@@ -181,11 +194,15 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
       <GameGuide
         mood={guideMood}
         message={message}
-        hint="Test each part separately: Wall, Gate, and Tower."
+        hint={
+          castleBuilt
+            ? 'Your castle is complete! Click "Next game" below the game to continue.'
+            : `${currentInfo.goal} Click "Test part" to check it. When Wall, Gate, and Tower all pass, click "Build castle" to finish.`
+        }
         tutorial={[
           'Goal: build a castle by solving one small problem at a time.',
           'Big programs are easier when we split them into smaller parts. Each part gets its own plan.',
-          'Choose a castle part, make its program work, and then move to the next part!',
+          'Choose each castle part, add its two actions, and click "Test part". When all three parts pass, click "Build castle" to finish!',
         ]}
       />
 
@@ -220,7 +237,15 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
                 }`}
                 disabled={isRunning}
                 key={part}
-                onClick={() => setSelectedPart(part)}
+                onClick={() => {
+                  setSelectedPart(part);
+                  setGuideMood(testedParts[part] ? 'happy' : 'idle');
+                  setMessage(
+                    testedParts[part]
+                      ? `${partInfo[part].label} has passed its test.`
+                      : `${partInfo[part].goal} Click "Test part" to check your program.`,
+                  );
+                }}
                 type="button"
               >
                 <span>{partInfo[part].label}</span>
@@ -281,6 +306,21 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
               )}
             </div>
 
+            <p
+              role="status"
+              className="text-sm font-bold text-slate-600 dark:text-slate-300"
+            >
+              {isRunning
+                ? `Testing ${currentInfo.label}...`
+                : castleBuilt
+                  ? 'Castle complete! Click "Next game".'
+                  : parts.every((part) => testedParts[part])
+                    ? 'All tests passed! Click "Build castle".'
+                    : testedParts[selectedPart]
+                      ? `${currentInfo.label}: test passed. Choose another part.`
+                      : `${currentInfo.label}: not passed yet. Click "Test part" to check it.`}
+            </p>
+
             <div className="flex flex-wrap gap-2">
               <Button
                 onClick={testPart}
@@ -292,10 +332,15 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
               </Button>
               <Button
                 onClick={buildCastle}
-                disabled={isRunning}
+                disabled={
+                  isRunning ||
+                  castleBuilt ||
+                  !parts.every((part) => testedParts[part])
+                }
                 variant="secondary"
               >
-                <Icon icon={ShieldCheck} size="sm" /> Build castle
+                <Icon icon={ShieldCheck} size="sm" />{' '}
+                {castleBuilt ? 'Castle built' : 'Build castle'}
               </Button>
               <Button
                 onClick={undoAction}

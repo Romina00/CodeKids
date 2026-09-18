@@ -109,13 +109,7 @@ function ThinkingStickman() {
 export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
   const [isHintVisible, setIsHintVisible] = useState(false);
   const [tutorialStep, setTutorialStep] = useState(0);
-  // Stickman Milo introduces itself
-  const tutorialSteps = tutorial
-    ? [
-        "Hi, I'm Milo! I'm your coding buddy. I explain each challenge, give clues, and cheer you on.",
-        ...tutorial,
-      ]
-    : [];
+  const tutorialSteps = tutorial ?? [];
   const isTutorialVisible =
     mood === 'idle' && tutorialStep < tutorialSteps.length;
   const visibleMessage = isTutorialVisible

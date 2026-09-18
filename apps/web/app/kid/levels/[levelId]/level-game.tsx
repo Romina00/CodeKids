@@ -91,6 +91,28 @@ const levelDetails = {
   15: { title: 'Mini Game', objective: 'Create and test your own mini game.' },
 };
 
+function completeLevelLocally(levels: GameLevel[], levelPosition: number) {
+  return levels.map((level) => {
+    if (level.position === levelPosition) {
+      return {
+        ...level,
+        completed: true,
+        activities: level.activities.map((activity) => ({
+          ...activity,
+          completed:
+            activity.content?.game === `gl${levelPosition}`
+              ? true
+              : activity.completed,
+        })),
+      };
+    }
+    if (level.position === levelPosition + 1) {
+      return { ...level, unlocked: true };
+    }
+    return level;
+  });
+}
+
 export function LevelGame({ levelId }: { levelId: number }) {
   const [levels, setLevels] = useState<GameLevel[] | null>(null);
   const [error, setError] = useState('');
@@ -117,6 +139,16 @@ export function LevelGame({ levelId }: { levelId: number }) {
         if (level.unlocked && !game.completed) {
           await saveProgress(level.id, game.id, 'IN_PROGRESS');
         }
+        if (game.completed && !level.completed) {
+          await saveProgress(level.id, game.id, 'COMPLETED');
+          const repairedRecords = await loadGameLevels();
+          if (!cancelled) {
+            completed.current = true;
+            setNeedsSave(false);
+            setLevels(completeLevelLocally(repairedRecords, levelId));
+          }
+          return;
+        }
         if (!cancelled) {
           completed.current = game.completed;
           setLevels(records);
@@ -133,8 +165,10 @@ export function LevelGame({ levelId }: { levelId: number }) {
   }, [levelId]);
 
   async function completeGame() {
-    if (!levelRecord || !activity || pending.current || completed.current)
+    if (!levelRecord || !activity || pending.current) return;
+    if (completed.current && levelRecord.completed) {
       return;
+    }
     pending.current = true;
     setSaving(true);
     setNeedsSave(true);
@@ -142,8 +176,8 @@ export function LevelGame({ levelId }: { levelId: number }) {
     try {
       await saveProgress(levelRecord.id, activity.id, 'COMPLETED');
       const records = await loadGameLevels();
-      setLevels(records);
       completed.current = true;
+      setLevels(completeLevelLocally(records, levelId));
       setNeedsSave(false);
     } catch {
       setError(

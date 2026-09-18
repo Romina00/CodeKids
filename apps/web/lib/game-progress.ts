@@ -1,4 +1,8 @@
-import { apiBaseUrl, getAccessToken } from './auth-session';
+import {
+  authorizedFetch,
+  getAccessToken,
+  getSessionUser,
+} from './auth-session';
 
 export type GameLevel = {
   id: number;
@@ -17,8 +21,11 @@ export type GameLevel = {
 export async function loadGameLevels(): Promise<GameLevel[]> {
   const token = getAccessToken();
   if (!token) throw new Error('Please log in again.');
-  const response = await fetch(`${apiBaseUrl}/learning/levels`, {
-    headers: { Authorization: `Bearer ${token}` },
+  if (getSessionUser()?.role !== 'kid') {
+    window.location.assign('/select-profile');
+    throw new Error('Please choose a child profile first.');
+  }
+  const response = await authorizedFetch('/learning/levels', {
     cache: 'no-store',
   });
   if (!response.ok) throw new Error('Could not load progress.');

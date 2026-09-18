@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { LogoMark } from '../../components/logo';
-import { getSessionUser } from '../../lib/auth-session';
+import { getAccessToken, getSessionUser } from '../../lib/auth-session';
 import styles from './kid-dashboard.module.css';
 import { ParentModeExit } from './parent-mode-exit';
 
@@ -20,6 +20,14 @@ export function KidLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const user = getSessionUser();
+    if (!getAccessToken()) {
+      window.location.assign('/login');
+      return;
+    }
+    if (user?.role !== 'kid') {
+      window.location.assign('/select-profile');
+      return;
+    }
     setProfileName(user?.nickname || user?.displayName || 'Young coder');
   }, []);
 

@@ -28,6 +28,9 @@ services:
     build:
       context: .
       target: api
+    command: >
+      sh -c "npm run seed:games --workspace @codekids/backend &&
+      npm run start:prod --workspace @codekids/backend"
     environment:
       NODE_ENV: production
       PORT: 3001

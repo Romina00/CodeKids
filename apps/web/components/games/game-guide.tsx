@@ -173,9 +173,9 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
       aria-live="polite"
       aria-label="Milo, your game guide"
     >
-      <div className="relative grid min-h-72 w-full min-w-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-5 rounded-xl border border-slate-900 bg-white px-6 pb-10 pt-5 text-slate-900 after:absolute after:bottom-[-0.45rem] after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b after:border-r after:border-slate-900 after:bg-white">
+      <div className="relative grid min-h-72 w-full min-w-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-5 rounded-xl border border-slate-900 bg-white p-3 text-slate-900 after:absolute after:bottom-[-0.45rem] after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b after:border-r after:border-slate-900 after:bg-white sm:p-4">
         {isTutorialVisible && (
-          <div className="mt-2 flex justify-start pl-4">
+          <div className="flex justify-start">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-extrabold text-slate-600">
               Tip {tutorialStep + 1} of {tutorialSteps.length}
             </span>
@@ -187,7 +187,7 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
         {isTutorialVisible && (
           <>
             <span aria-hidden="true" className="h-px w-full bg-slate-200" />
-            <div className="flex justify-start pl-4">
+            <div className="flex justify-end">
               <Button
                 className="min-h-14 gap-3 px-6 text-lg"
                 onClick={() => setTutorialStep((step) => step + 1)}

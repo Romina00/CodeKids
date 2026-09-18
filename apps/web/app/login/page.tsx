@@ -37,7 +37,9 @@ export default function LoginPage() {
       const session = (await response.json()) as AuthSession;
       saveSession(session);
       window.location.assign(
-        session.user.role === 'admin' ? '/admin' : '/select-profile',
+        session.user.role.toLowerCase() === 'admin'
+          ? '/admin'
+          : '/select-profile',
       );
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : 'Login failed.');

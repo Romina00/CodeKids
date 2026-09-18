@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { apiBaseUrl, getAccessToken } from '../../../../lib/auth-session';
+import { authorizedFetch } from '../../../../lib/auth-session';
 import { type GameLevel, loadGameLevels } from '../../../../lib/game-progress';
 import GameGL1 from '../../../../components/games/gl1';
 import GameGL2 from '../../../../components/games/gl2';
@@ -232,12 +232,9 @@ async function saveProgress(
   activityId: number,
   status: 'IN_PROGRESS' | 'COMPLETED',
 ) {
-  const token = getAccessToken();
-  if (!token) throw new Error('Please log in again.');
-  const response = await fetch(`${apiBaseUrl}/learning/progress`, {
+  const response = await authorizedFetch('/learning/progress', {
     method: 'PATCH',
     headers: {
-      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ levelId, activityId, status }),

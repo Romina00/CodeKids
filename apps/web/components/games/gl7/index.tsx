@@ -91,7 +91,7 @@ function showValue(value: number | string | boolean | null) {
   return String(value);
 }
 
-export default function GameGL7() {
+export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
   const [missionNumber, setMissionNumber] = useState<0 | 1 | 2>(0);
   const [selectedValue, setSelectedValue] = useState<ValueId | null>(null);
   const [profile, setProfile] = useState<Profile>(emptyProfile);
@@ -149,6 +149,7 @@ export default function GameGL7() {
     setMissionPassed(true);
     setMessage(`Correct! ${option.label} is a ${option.dataType} value.`);
     setGuideMood('happy');
+    if (missionNumber === 2) onComplete?.();
   }
 
   function goToNextMission() {

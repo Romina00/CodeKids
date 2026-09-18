@@ -30,7 +30,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL12() {
+export default function GameGL12({ onComplete }: { onComplete?: () => void }) {
   const [plan, setPlan] = useState<Token[]>([]);
   const [blocks, setBlocks] = useState<Token[]>([]);
   const [activeToken, setActiveToken] = useState<Token | null>(null);
@@ -101,6 +101,7 @@ export default function GameGL12() {
     setMissionPassed(true);
     setMessage('Mission complete! Your plan and program match.');
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

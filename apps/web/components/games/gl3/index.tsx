@@ -43,7 +43,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL3() {
+export default function GameGL3({ onComplete }: { onComplete?: () => void }) {
   const [missionNumber, setMissionNumber] = useState<0 | 1>(0);
   const [selectedValue, setSelectedValue] = useState<BooleanValue | null>(null);
   const [activeLine, setActiveLine] = useState<number | null>(null);
@@ -94,6 +94,7 @@ export default function GameGL3() {
           : 'Correct! false means the alarm is off. Level complete!',
       );
       setGuideMood('happy');
+      if (missionNumber === 1) onComplete?.();
     } else {
       setMessage(
         missionNumber === 0

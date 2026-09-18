@@ -100,7 +100,7 @@ function applyCommand(command: Command, pizza: PizzaState) {
   return newPizza;
 }
 
-export default function GameGL2() {
+export default function GameGL2({ onComplete }: { onComplete?: () => void }) {
   const [commands, setCommands] = useState<Command[]>([]);
   const [pizza, setPizza] = useState<PizzaState>(emptyPizza);
   const [activeCommand, setActiveCommand] = useState<number | null>(null);
@@ -170,6 +170,7 @@ export default function GameGL2() {
     if (currentPizza.isServed) {
       setMessage('Great job! Your program made and served the pizza.');
       setGuideMood('happy');
+      onComplete?.();
     } else {
       setMessage('The program finished, but the pizza is not served yet.');
       setGuideMood('sad');

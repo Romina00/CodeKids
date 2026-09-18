@@ -47,7 +47,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL4() {
+export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
   const [testNumber, setTestNumber] = useState<0 | 1 | 2>(0);
   const [selectedConditions, setSelectedConditions] = useState<Condition[]>([]);
   const [activeLine, setActiveLine] = useState<number | null>(null);
@@ -120,6 +120,7 @@ export default function GameGL4() {
 
     setTestPassed(true);
     setGuideMood('happy');
+    if (testNumber === 2) onComplete?.();
     setMessage(
       result
         ? 'Both conditions are true, so the gate opens.'

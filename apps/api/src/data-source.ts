@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm';
+import { SeedGameLevels1721120000000 } from './migrations/1721120000000-seed-game-levels';
 import { Invitation } from './auth/entities/invitation.entity';
 import { Achievement } from './learning/entities/achievement.entity';
 import { Activity } from './learning/entities/activity.entity';
@@ -57,5 +58,6 @@ export default new DataSource({
     CreateXpEvents1721090000000,
     AddAdminUserControls1721100000000,
     CreateLandingContent1721110000000,
+    SeedGameLevels1721120000000,
   ],
 });

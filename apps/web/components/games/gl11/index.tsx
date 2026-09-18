@@ -29,7 +29,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL11() {
+export default function GameGL11({ onComplete }: { onComplete?: () => void }) {
   const [nodes, setNodes] = useState<NodeType[]>([]);
   const [hasRainPath, setHasRainPath] = useState(false);
   const [weather, setWeather] = useState<Weather>('clear');
@@ -95,6 +95,7 @@ export default function GameGL11() {
         : 'Clear plan! The drone used the safe rain path.',
     );
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

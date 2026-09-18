@@ -62,7 +62,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL6() {
+export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
   const [missionNumber, setMissionNumber] = useState<0 | 1 | 2>(0);
   const [commands, setCommands] = useState<Command[]>([]);
   const [coins, setCoins] = useState(missions[0].startCoins);
@@ -138,6 +138,7 @@ export default function GameGL6() {
       setMissionPassed(true);
       setMessage(`Correct! The coins variable is now ${currentCoins}.`);
       setGuideMood('happy');
+      if (missionNumber === 2) onComplete?.();
     } else {
       setMessage(
         `Your program made ${currentCoins} coins. The target is ${mission.targetCoins}.`,

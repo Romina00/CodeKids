@@ -21,7 +21,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL14() {
+export default function GameGL14({ onComplete }: { onComplete?: () => void }) {
   const [functionDefined, setFunctionDefined] = useState(false);
   const [functionBody, setFunctionBody] = useState(false);
   const [calls, setCalls] = useState<Direction[]>([]);
@@ -107,6 +107,7 @@ export default function GameGL14() {
     setMissionPassed(true);
     setMessage('Powerful design! One function works for every target.');
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

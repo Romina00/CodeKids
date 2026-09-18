@@ -48,7 +48,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL5() {
+export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
   const [testNumber, setTestNumber] = useState<0 | 1 | 2>(0);
   const [selectedConditions, setSelectedConditions] = useState<Condition[]>([]);
   const [activeLine, setActiveLine] = useState<number | null>(null);
@@ -131,6 +131,7 @@ export default function GameGL5() {
     setTestPassed(true);
     setProgramStatus('correct');
     setGuideMood('happy');
+    if (testNumber === 2) onComplete?.();
     setMessage(
       result
         ? 'At least one condition is true, so OR opens the gate.'

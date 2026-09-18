@@ -68,7 +68,7 @@ function getNextPosition(robot: Robot) {
   return nextPosition;
 }
 
-export default function GameGL1() {
+export default function GameGL1({ onComplete }: { onComplete?: () => void }) {
   const [robot, setRobot] = useState<Robot>(startPosition);
   const [commands, setCommands] = useState<Command[]>([]);
   const [activeCommand, setActiveCommand] = useState<number | null>(null);
@@ -154,6 +154,7 @@ export default function GameGL1() {
     if (reachedJerry) {
       setMessage('You did it! Your program helped Tom reach Jerry.');
       setGuideMood('happy');
+      onComplete?.();
     } else {
       setMessage('The program finished, but Tom did not reach Jerry yet.');
       setGuideMood('sad');

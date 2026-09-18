@@ -29,7 +29,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL9() {
+export default function GameGL9({ onComplete }: { onComplete?: () => void }) {
   const [repeatCount, setRepeatCount] = useState<number | null>(null);
   const [loopSteps, setLoopSteps] = useState<Step[]>([]);
   const [cleanedTiles, setCleanedTiles] = useState(emptyTiles);
@@ -107,6 +107,7 @@ export default function GameGL9() {
     setMissionPassed(true);
     setMessage('Efficient cleaning! One loop cleaned every tile.');
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

@@ -166,3 +166,18 @@ The repository is under active development. Some modules and UI areas are still 
 The pre-commit hook runs staged-file ESLint and Prettier checks, blocks newly
 added `console.log` calls, and runs workspace type checking. Run
 `npm run check:staged` manually to reproduce the staged-file portion.
+
+### Game progress
+
+The 15 games save level status through the authenticated learning progress API.
+The dashboard and learning path read the same database records after login on any device.
+A completed game unlocks the next level; moves inside an unfinished game are not restored.
+
+The game catalog is included in the migrations. For an existing database whose tables
+were created with schema synchronization, populate the catalog once with:
+
+```sh
+npm run seed:games --workspace @codekids/backend
+```
+
+This command uses `apps/api/.env`, is safe to repeat, and keeps existing progress.

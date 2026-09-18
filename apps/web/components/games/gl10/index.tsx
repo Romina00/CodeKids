@@ -23,7 +23,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL10() {
+export default function GameGL10({ onComplete }: { onComplete?: () => void }) {
   const [rows, setRows] = useState<number | null>(null);
   const [columns, setColumns] = useState<number | null>(null);
   const [garden, setGarden] = useState<boolean[][]>(emptyGarden);
@@ -97,6 +97,7 @@ export default function GameGL10() {
     setMissionPassed(true);
     setMessage('Garden complete! Your nested loops created the pattern.');
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

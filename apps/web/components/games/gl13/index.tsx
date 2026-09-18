@@ -71,7 +71,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL13() {
+export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
   const [selectedPart, setSelectedPart] = useState<Part>('wall');
   const [programs, setPrograms] =
     useState<Record<Part, Action[]>>(emptyPrograms);
@@ -162,6 +162,7 @@ export default function GameGL13() {
       'Castle complete! You solved one big task with smaller programs.',
     );
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

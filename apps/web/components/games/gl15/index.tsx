@@ -37,7 +37,7 @@ function wait(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export default function GameGL15() {
+export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
   const [projectName, setProjectName] = useState('');
   const [program, setProgram] = useState<Block[]>([]);
   const [activeBlock, setActiveBlock] = useState<Block | null>(null);
@@ -134,6 +134,7 @@ export default function GameGL15() {
       `Your game is playable! ${projectName.trim()} earned ${currentScore} point(s).`,
     );
     setGuideMood('happy');
+    onComplete?.();
   }
 
   function resetGame() {

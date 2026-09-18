@@ -12,7 +12,7 @@ import {
 } from '@repo/ui/icon';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { apiBaseUrl, getAccessToken } from '../../lib/auth-session';
+import { loadGameLevels } from '../../lib/game-progress';
 import styles from './learning-path.module.css';
 
 type LevelStatus = 'available' | 'completed' | 'current' | 'locked';
@@ -22,12 +22,6 @@ type LearningLevel = {
   title: string;
   topic: string;
   completed: boolean;
-  unlocked: boolean;
-};
-
-type LevelProgressResponse = {
-  completed: boolean;
-  position: number;
   unlocked: boolean;
 };
 
@@ -49,10 +43,10 @@ const LEVEL_DETAILS = [
   { number: 15, title: 'Build Your Own Mini Game', topic: 'Create' },
 ];
 
-const initialLevels: LearningLevel[] = LEVEL_DETAILS.map((level, index) => ({
+const initialLevels: LearningLevel[] = LEVEL_DETAILS.map((level) => ({
   ...level,
   completed: false,
-  unlocked: index === 0,
+  unlocked: false,
 }));
 
 function getLevelStatus(
@@ -90,18 +84,14 @@ function StatusIcon({ status }: { status: LevelStatus }) {
 export function LearningPath() {
   const [levels, setLevels] = useState(initialLevels);
 
-  useEffect(() => {
-    const accessToken = getAccessToken();
-    if (!accessToken) return;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-    fetch(`${apiBaseUrl}/learning/levels`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error('Unable to load learning progress.');
-        return response.json() as Promise<LevelProgressResponse[]>;
-      })
+  useEffect(() => {
+    let cancelled = false;
+    loadGameLevels()
       .then((progressLevels) => {
+        if (cancelled) return;
         const progressByPosition = new Map(
           progressLevels.map((level) => [level.position, level]),
         );
@@ -115,14 +105,24 @@ export function LearningPath() {
         );
       })
       .catch(() => {
-        // The first level remains available when progress cannot be loaded.
+        if (!cancelled)
+          setError('Could not load your progress. Please reload to try again.');
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const completedCount = levels.filter((level) => level.completed).length;
   const currentLevelNumber = levels.find(
     (level) => level.unlocked && !level.completed,
   )?.number;
+
+  if (loading || error)
+    return <p role="status">{error || 'Loading your progress...'}</p>;
 
   return (
     <section

@@ -8,11 +8,13 @@ import styles from './level-page.module.css';
 type LevelNavigationProps = {
   levelId: number;
   totalLevels: number;
+  nextUnlocked: boolean;
 };
 
 export function LevelNavigation({
   levelId,
   totalLevels,
+  nextUnlocked,
 }: LevelNavigationProps) {
   const router = useRouter();
 
@@ -30,7 +32,7 @@ export function LevelNavigation({
 
       <Button
         className={styles.levelNavigationButton}
-        disabled={levelId === totalLevels}
+        disabled={levelId === totalLevels || !nextUnlocked}
         variant="primary"
         onClick={() => router.push(`/kid/levels/${levelId + 1}`)}
       >

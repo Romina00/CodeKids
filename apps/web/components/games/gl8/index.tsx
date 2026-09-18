@@ -60,7 +60,7 @@ function checkCondition(condition: Condition, test: Test) {
   return test.hasKey;
 }
 
-export default function GameGL8() {
+export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
   const [testNumber, setTestNumber] = useState<0 | 1 | 2>(0);
   const [selectedCondition, setSelectedCondition] = useState<Condition | null>(
     null,
@@ -142,6 +142,7 @@ export default function GameGL8() {
 
     setTestPassed(true);
     setGuideMood('happy');
+    if (testNumber === 2) onComplete?.();
     setMessage(
       conditionIsTrue
         ? 'The condition is true, so the JUMP action runs.'

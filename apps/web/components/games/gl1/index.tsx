@@ -4,6 +4,7 @@ import { Button } from '@repo/ui/button';
 import { useState } from 'react';
 import { GameGuide, type GuideMood } from '../game-guide';
 import { DirectionalCat } from './directional-cat';
+import { Jerry } from './jerry';
 
 const rows = 5;
 const columns = 4;
@@ -220,9 +221,7 @@ export default function GameGL1({ onComplete }: { onComplete?: () => void }) {
                       />
                     )}
                     {!tomIsHere && jerryIsHere && (
-                      <span aria-label="Jerry" className="text-4xl sm:text-5xl">
-                        🐭
-                      </span>
+                      <Jerry className="h-14 w-14 sm:h-16 sm:w-16" />
                     )}
                   </div>
                 );

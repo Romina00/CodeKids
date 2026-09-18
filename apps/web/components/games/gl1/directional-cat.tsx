@@ -88,9 +88,12 @@ export function DirectionalCat({
           d="M16.243 36.17s.651-2.17 2.651-1.915c0 0 1-1.255 2.72-.379 0 0-1.456 4.124-3.72 4.124 0 0-1.651.17-1.651-1.83Z"
         />
         <path
-          d="M13.4 24H9.2l1.35-1.35-.9-.9-2.9 2.9 2.9 2.9.9-.9L9.2 25.3h4.2z"
+          d="M2 24 10 16v5h8v6h-8v5Z"
           fill="#2563eb"
-          opacity=".9"
+          stroke="#fff"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+          paintOrder="stroke fill"
         />
       </g>
     </svg>

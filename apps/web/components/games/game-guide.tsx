@@ -147,7 +147,7 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
       ]
     : [];
   const isTutorialVisible =
-    mood !== 'sad' && tutorialStep < tutorialSteps.length;
+    mood === 'idle' && tutorialStep < tutorialSteps.length;
   const visibleMessage = isTutorialVisible
     ? tutorialSteps[tutorialStep]
     : message;

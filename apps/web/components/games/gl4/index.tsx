@@ -76,6 +76,8 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
     setSelectedConditions(selectedConditions.slice(0, -1));
     setTestPassed(false);
     setGateIsOpen(false);
+    setMessage('Choose two conditions that are true, then run your program.');
+    setGuideMood('idle');
   }
 
   async function runProgram() {
@@ -108,12 +110,10 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
     setActiveLine(null);
     setIsRunning(false);
 
-    const checksKey = selectedConditions.includes('hasKey');
-    const checksPassword = selectedConditions.includes('hasPassword');
-    const programIsCorrect = checksKey && checksPassword;
-
-    if (!programIsCorrect) {
-      setMessage('The gate needs a key AND a password. Check your conditions.');
+    if (!result) {
+      setMessage(
+        'One condition is false. Choose two true conditions to open the gate.',
+      );
       setGuideMood('sad');
       return;
     }
@@ -121,20 +121,20 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
     setTestPassed(true);
     setGuideMood('happy');
     if (testNumber === 2) onComplete?.();
-    setMessage(
-      result
-        ? 'Both conditions are true, so the gate opens.'
-        : 'One condition is false, so AND keeps the gate closed.',
-    );
+    setMessage('Correct! Both conditions are true, so the gate opens.');
   }
 
   function goToNextTest() {
     if (testNumber === 0) setTestNumber(1);
     if (testNumber === 1) setTestNumber(2);
 
+    setSelectedConditions([]);
+    setActiveLine(null);
     setGateIsOpen(false);
     setTestPassed(false);
-    setMessage('Run the same AND program with these new values.');
+    setMessage(
+      'New test! Choose two conditions that are true in the current values.',
+    );
     setGuideMood('idle');
   }
 
@@ -151,13 +151,14 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
   return (
     <main className="grid min-h-full gap-5 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm lg:grid-cols-[minmax(18rem,35%)_minmax(0,1fr)] lg:p-6 dark:border-slate-700 dark:bg-slate-900">
       <GameGuide
+        key={testNumber}
         mood={guideMood}
         message={message}
-        hint="The gate requires the key and the password. A map is not required."
+        hint="Look at the current values. Choose the two conditions marked true. AND opens the gate when both are true."
         tutorial={[
-          'Goal: open the gate by choosing what it really needs.',
+          'Goal: open the gate by choosing two true conditions.',
           'A condition is a question a program checks, like “Do I have the key?”',
-          'This gate needs both things. Pick the clues that must be true, then test your choice!',
+          'Look at the current values. Pick two conditions marked true, then run your program!',
         ]}
       />
 
@@ -175,8 +176,8 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
             Security Gate
           </h2>
           <p className="mt-2 text-slate-600 dark:text-slate-300">
-            Build a program that opens the gate only when both requirements are
-            true.
+            Choose two conditions that are true in the current values to open
+            the gate.
           </p>
         </header>
 

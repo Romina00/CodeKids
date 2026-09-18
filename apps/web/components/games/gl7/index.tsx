@@ -115,7 +115,7 @@ export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!selectedValue) {
       setMessage('Choose a value before you press Run.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -135,13 +135,13 @@ export default function GameGL7({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         `Type error: ${mission.variableName} needs ${mission.expectedType}, but ${option.label} is ${option.dataType}.`,
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
     if (selectedValue !== mission.expectedValue) {
       setMessage(`The type is correct, but choose the value in the mission.`);
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

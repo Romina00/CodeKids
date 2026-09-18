@@ -112,7 +112,7 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
   async function testPart() {
     if (currentProgram.length === 0) {
       setMessage('Add actions to this part before testing it.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -139,7 +139,7 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         `The ${currentInfo.label.toLowerCase()} needs a different action order.`,
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -153,7 +153,7 @@ export default function GameGL13({ onComplete }: { onComplete?: () => void }) {
   function buildCastle() {
     if (!parts.every((part) => testedParts[part])) {
       setMessage('Test the wall, gate, and tower before building the castle.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

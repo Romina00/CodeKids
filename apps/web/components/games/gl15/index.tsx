@@ -82,7 +82,7 @@ export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
   function saveDraft() {
     if (!projectName.trim() || program.length === 0) {
       setMessage('Give your game a name and add at least one block.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -94,7 +94,7 @@ export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
   async function runProject() {
     if (!projectName.trim()) {
       setMessage('Name your mini game before running it.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -102,7 +102,7 @@ export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'Add a sequence, variable, condition, loop, and function call.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

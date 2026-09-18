@@ -95,7 +95,7 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (commands.length === 0) {
       setMessage('Add at least one command before you press Run.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -121,7 +121,7 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
 
       if (newValue < 0) {
         setMessage(`Line ${index + 2} cannot run. Coins cannot be below zero.`);
-        setGuideMood('sad');
+        setGuideMood('thinking');
         setIsRunning(false);
         return;
       }
@@ -143,7 +143,7 @@ export default function GameGL6({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         `Your program made ${currentCoins} coins. The target is ${mission.targetCoins}.`,
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
     }
   }
 

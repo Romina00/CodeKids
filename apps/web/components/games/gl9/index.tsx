@@ -61,7 +61,7 @@ export default function GameGL9({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!repeatCount || loopSteps.length === 0) {
       setMessage('Choose a repeat number and add steps inside the loop.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -100,7 +100,7 @@ export default function GameGL9({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'The robot ran the loop, but not all tiles were cleaned. Check the number and order.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

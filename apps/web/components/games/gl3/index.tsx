@@ -68,7 +68,7 @@ export default function GameGL3({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (selectedValue === null) {
       setMessage('Choose true or false before you run the program.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -101,7 +101,7 @@ export default function GameGL3({ onComplete }: { onComplete?: () => void }) {
           ? 'The robot cannot start because its power is false.'
           : 'The door stays closed because the alarm is true.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
     }
   }
 

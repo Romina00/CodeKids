@@ -107,7 +107,7 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!selectedCondition || !selectedAction) {
       setMessage('Complete both empty parts of the if statement.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -136,7 +136,7 @@ export default function GameGL8({ onComplete }: { onComplete?: () => void }) {
 
     if (!programIsCorrect) {
       setMessage('The robot must check its energy and jump over the obstacle.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

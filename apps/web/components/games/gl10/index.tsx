@@ -49,7 +49,7 @@ export default function GameGL10({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!rows || !columns) {
       setMessage('Choose a number for both repeat loops first.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -90,7 +90,7 @@ export default function GameGL10({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'The garden shape is not right. Try 3 rows and 4 tiles per row.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

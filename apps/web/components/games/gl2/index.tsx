@@ -131,7 +131,7 @@ export default function GameGL2({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (commands.length === 0) {
       setMessage('Add at least one command before you press Run.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -154,7 +154,7 @@ export default function GameGL2({ onComplete }: { onComplete?: () => void }) {
 
       if (errorMessage) {
         setMessage(`Command ${index + 1} cannot run. ${errorMessage}`);
-        setGuideMood('sad');
+        setGuideMood('thinking');
         setIsRunning(false);
         return;
       }
@@ -173,7 +173,7 @@ export default function GameGL2({ onComplete }: { onComplete?: () => void }) {
       onComplete?.();
     } else {
       setMessage('The program finished, but the pizza is not served yet.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
     }
   }
 

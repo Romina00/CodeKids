@@ -69,7 +69,7 @@ export default function GameGL12({ onComplete }: { onComplete?: () => void }) {
 
     if (!planIsCorrect) {
       setMessage('The plan is not complete yet. Check the order of the steps.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -82,7 +82,7 @@ export default function GameGL12({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!blocksReady) {
       setMessage('Complete the pseudocode and convert it to blocks first.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

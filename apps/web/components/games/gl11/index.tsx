@@ -67,7 +67,7 @@ export default function GameGL11({ onComplete }: { onComplete?: () => void }) {
 
     if (!correctOrder || !hasRainPath) {
       setMessage('A flowchart needs Start, a decision, both paths, and End.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

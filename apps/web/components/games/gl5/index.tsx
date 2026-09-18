@@ -85,7 +85,7 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (selectedConditions.length < 2) {
       setMessage('Your OR program needs two conditions.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -115,7 +115,7 @@ export default function GameGL5({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'Program rejected: this gate requires a golden key OR a magic card. A coin cannot open it.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

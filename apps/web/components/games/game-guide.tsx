@@ -4,7 +4,7 @@ import { Button } from '@repo/ui/button';
 import { ArrowRight, BrainCircuit, CircleAlert, Icon } from '@repo/ui/icon';
 import { useEffect, useState } from 'react';
 
-export type GuideMood = 'idle' | 'happy' | 'sad';
+export type GuideMood = 'idle' | 'happy' | 'thinking';
 
 type GameGuideProps = {
   mood: GuideMood;
@@ -45,93 +45,63 @@ function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
   );
 }
 
-function SadStickman() {
+function ThinkingStickman() {
   return (
     <svg
       aria-hidden="true"
-      viewBox="0 0 200 250"
       className="h-48 w-36 sm:h-56 sm:w-44"
+      viewBox="0 0 320 500"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <circle
-        cx="100"
-        cy="60"
-        r="35"
-        fill="var(--color-warning)"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <line
-        x1="76"
-        y1="50"
-        x2="88"
-        y2="54"
-        stroke="currentColor"
-        strokeWidth="3"
+      <g
+        stroke="#FF4B00"
+        strokeWidth="10"
         strokeLinecap="round"
-      />
-      <line
-        x1="112"
-        y1="54"
-        x2="124"
-        y2="50"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <circle cx="85" cy="62" r="2.8" fill="currentColor" />
-      <circle cx="115" cy="62" r="2.8" fill="currentColor" />
-      <path
-        d="M88 83 Q100 79 112 83"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-      <line
-        x1="100"
-        y1="95"
-        x2="100"
-        y2="170"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="100"
-        y1="112"
-        x2="62"
-        y2="95"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="100"
-        y1="112"
-        x2="118"
-        y2="86"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="100"
-        y1="170"
-        x2="70"
-        y2="225"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="100"
-        y1="170"
-        x2="130"
-        y2="225"
-        stroke="currentColor"
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
+        strokeLinejoin="round"
+      >
+        <circle cx="160" cy="105" r="72" fill="#F2A000" />
+
+        <path d="M105 77 Q122 70 137 76" strokeWidth="7" />
+        <path d="M183 76 Q199 70 216 77" strokeWidth="7" />
+
+        <rect
+          x="98"
+          y="87"
+          width="54"
+          height="38"
+          rx="14"
+          fill="none"
+          strokeWidth="6"
+        />
+        <rect
+          x="168"
+          y="87"
+          width="54"
+          height="38"
+          rx="14"
+          fill="none"
+          strokeWidth="6"
+        />
+        <path d="M152 100 Q160 95 168 100" strokeWidth="6" />
+
+        <circle cx="126" cy="105" r="4" fill="#FF4B00" stroke="none" />
+        <circle cx="194" cy="105" r="4" fill="#FF4B00" stroke="none" />
+
+        <path d="M137 143 Q160 148 183 143" strokeWidth="7" />
+
+        <path d="M160 177 L160 332" />
+
+        <path d="M160 220 L95 190" />
+
+        <path d="M160 220 L205 185 L202 156" />
+
+        <path d="M202 156 L194 143" strokeWidth="8" />
+        <circle cx="194" cy="143" r="5" fill="#FF4B00" stroke="none" />
+
+        <path d="M160 332 L105 438" />
+        <path d="M160 332 L218 438" />
+      </g>
     </svg>
   );
 }
@@ -164,7 +134,7 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
   const moodStyles = {
     idle: 'border-blue-600 bg-blue-50 text-blue-600',
     happy: 'border-green-700 bg-green-50 text-green-700',
-    sad: 'border-orange-600 bg-blue-50 text-orange-600',
+    thinking: 'border-orange-600 bg-blue-50 text-orange-600',
   }[mood];
 
   return (
@@ -203,8 +173,8 @@ export function GameGuide({ mood, message, hint, tutorial }: GameGuideProps) {
         )}
       </div>
       <div className="grid place-items-center gap-1">
-        {mood === 'sad' ? (
-          <SadStickman />
+        {mood === 'thinking' ? (
+          <ThinkingStickman />
         ) : (
           <HappyStickman isCelebrating={mood === 'happy'} />
         )}

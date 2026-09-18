@@ -72,7 +72,7 @@ export default function GameGL14({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (!functionDefined || !functionBody || calls.length < 2) {
       setMessage('Define the function, add its body, and call it twice.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -100,7 +100,7 @@ export default function GameGL14({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'The function works, but use it with left and right parameters.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

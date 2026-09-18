@@ -100,7 +100,7 @@ export default function GameGL1({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (commands.length === 0) {
       setMessage('Add at least one command before you press Run.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -133,7 +133,7 @@ export default function GameGL1({ onComplete }: { onComplete?: () => void }) {
 
         if (moveIsBlocked) {
           setMessage(`Command ${index + 1} moves Tom into a wall.`);
-          setGuideMood('sad');
+          setGuideMood('thinking');
           setIsRunning(false);
           return;
         }
@@ -158,7 +158,7 @@ export default function GameGL1({ onComplete }: { onComplete?: () => void }) {
       onComplete?.();
     } else {
       setMessage('The program finished, but Tom did not reach Jerry yet.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
     }
   }
 

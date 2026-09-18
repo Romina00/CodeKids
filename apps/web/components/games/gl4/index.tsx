@@ -83,7 +83,7 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
   async function runProgram() {
     if (selectedConditions.length < 2) {
       setMessage('Your AND program needs two conditions.');
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 
@@ -114,7 +114,7 @@ export default function GameGL4({ onComplete }: { onComplete?: () => void }) {
       setMessage(
         'One condition is false. Choose two true conditions to open the gate.',
       );
-      setGuideMood('sad');
+      setGuideMood('thinking');
       return;
     }
 

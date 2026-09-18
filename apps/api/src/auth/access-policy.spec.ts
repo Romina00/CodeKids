@@ -1,7 +1,6 @@
 import { AdminController } from '../admin/admin.controller';
 import { LevelsController } from '../learning/controllers/levels.controller';
 import { ProgressController } from '../learning/controllers/progress.controller';
-import { QuizController } from '../learning/controllers/quiz.controller';
 import { RewardsController } from '../learning/controllers/rewards.controller';
 import { ParentsController } from '../parents/parents.controller';
 import { UploadController } from '../upload/upload.controller';
@@ -16,7 +15,6 @@ describe('role access policy metadata', () => {
     [AdminController, Role.ADMIN],
     [LevelsController, Role.ADMIN],
     [ProgressController, Role.KID],
-    [QuizController, Role.ADMIN],
     [RewardsController, Role.KID],
     [UploadController, Role.PARENT],
   ])('%s is restricted to %s', (controller, role) => {
@@ -38,18 +36,11 @@ describe('role access policy metadata', () => {
     ).toEqual([Role.KID]);
   });
 
-  it('allows only a child token to submit a quiz', () => {
-    expect(
-      Reflect.getMetadata(ROLES_KEY, handler(QuizController, 'submit')),
-    ).toEqual([Role.KID]);
-  });
-
-  it('keeps registration, login, refresh, and invitation requests public', () => {
+  it('keeps registration, login, and refresh public', () => {
     for (const routeHandler of [
       handler(AuthController, 'registerParent'),
       handler(AuthController, 'login'),
       handler(AuthController, 'refresh'),
-      handler(AuthController, 'kidRequest'),
     ]) {
       expect(Reflect.getMetadata(ROLES_KEY, routeHandler)).toBeUndefined();
     }

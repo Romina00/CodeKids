@@ -6,7 +6,6 @@ import { AppConfig } from './config/app.config';
 import { DatabaseConfig } from './config/database.config';
 import { JwtConfig } from './config/jwt.config';
 import { AuthModule } from './auth/auth.module';
-import { Invitation } from './auth/entities/invitation.entity';
 import { LearningModule } from './learning/learning.module';
 import { ParentsModule } from './parents/parents.module';
 import { UploadModule } from './upload/upload.module';
@@ -31,7 +30,7 @@ import { UsersModule } from './users/users.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
         autoLoadEntities: true,
-        entities: [User, Invitation, Progress, Reward],
+        entities: [User, Progress, Reward],
         synchronize: process.env.DB_SYNCHRONIZE === 'true',
       }),
     }),

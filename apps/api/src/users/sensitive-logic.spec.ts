@@ -1,9 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import {
-  Invitation,
-  InvitationStatus,
-} from '../auth/entities/invitation.entity';
 import { Progress } from '../learning/entities/progress.entity';
 import { Reward } from '../learning/entities/reward.entity';
 import {
@@ -17,7 +12,6 @@ import { UsersService } from './users.service';
 describe('UsersService sensitive calculations', () => {
   let service: UsersService;
   let users: jest.Mocked<Repository<User>>;
-  let invitations: jest.Mocked<Repository<Invitation>>;
   let progress: jest.Mocked<Repository<Progress>>;
   let rewards: jest.Mocked<Repository<Reward>>;
 
@@ -26,31 +20,11 @@ describe('UsersService sensitive calculations', () => {
       findOne: jest.fn().mockResolvedValue(parentFixture()),
       find: jest.fn().mockResolvedValue([childFixture()]),
     } as unknown as jest.Mocked<Repository<User>>;
-    invitations = {
-      findOne: jest.fn(),
-      save: jest.fn((value) => Promise.resolve(value as Invitation)),
-    } as unknown as jest.Mocked<Repository<Invitation>>;
     progress = { find: jest.fn() } as unknown as jest.Mocked<
       Repository<Progress>
     >;
     rewards = { find: jest.fn() } as unknown as jest.Mocked<Repository<Reward>>;
-    service = new UsersService(users, invitations, progress, rewards);
-  });
-
-  it('expires a stale invitation before rejecting it', async () => {
-    const invitation = {
-      id: 1,
-      token: 'a'.repeat(48),
-      status: InvitationStatus.PENDING,
-      expiresAt: new Date(Date.now() - 1),
-    } as Invitation;
-    invitations.findOne.mockResolvedValue(invitation);
-
-    await expect(
-      service.getPendingInvitation(invitation.token),
-    ).rejects.toThrow(new BadRequestException('Invitation has expired.'));
-    expect(invitation.status).toBe(InvitationStatus.EXPIRED);
-    expect(invitations.save.mock.calls[0]?.[0]).toBe(invitation);
+    service = new UsersService(users, progress, rewards);
   });
 
   it('calculates child and family progress summaries from fixtures', async () => {

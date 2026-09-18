@@ -1,7 +1,6 @@
 import { BadRequestException, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { Invitation } from '../auth/entities/invitation.entity';
 import { Progress } from '../learning/entities/progress.entity';
 import { Reward } from '../learning/entities/reward.entity';
 import { Role, User } from './entities/user.entity';
@@ -19,7 +18,6 @@ describe('UsersService parent registration', () => {
     } as unknown as jest.Mocked<Repository<User>>;
     service = new UsersService(
       usersRepository,
-      {} as Repository<Invitation>,
       {} as Repository<Progress>,
       {} as Repository<Reward>,
     );

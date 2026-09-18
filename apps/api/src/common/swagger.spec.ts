@@ -2,7 +2,6 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AdminController } from '../admin/admin.controller';
-import { LandingController } from '../admin/landing.controller';
 import { AdminService } from '../admin/admin.service';
 import { AuthController } from '../auth/auth.controller';
 import { AuthService } from '../auth/auth.service';
@@ -11,14 +10,10 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { LevelsController } from '../learning/controllers/levels.controller';
 import { ProgressController } from '../learning/controllers/progress.controller';
-import { QuizController } from '../learning/controllers/quiz.controller';
 import { RewardsController } from '../learning/controllers/rewards.controller';
-import { BlocklyController } from '../learning/controllers/blockly.controller';
 import { LevelsService } from '../learning/services/levels.service';
 import { ProgressService } from '../learning/services/progress.service';
-import { QuizService } from '../learning/services/quiz.service';
 import { RewardsService } from '../learning/services/rewards.service';
-import { BlocklyService } from '../learning/services/blockly.service';
 import { ParentsController } from '../parents/parents.controller';
 import { ParentsService } from '../parents/parents.service';
 import { UploadController } from '../upload/upload.controller';
@@ -36,13 +31,10 @@ describe('Swagger contract', () => {
         AuthController,
         ParentsController,
         AdminController,
-        LandingController,
         UsersController,
         LevelsController,
         ProgressController,
-        QuizController,
         RewardsController,
-        BlocklyController,
         UploadController,
       ],
       providers: [
@@ -53,9 +45,7 @@ describe('Swagger contract', () => {
         UsersService,
         LevelsService,
         ProgressService,
-        QuizService,
         RewardsService,
-        BlocklyService,
         UploadService,
       ].map((provide) => ({ provide, useValue: {} })),
     })
@@ -77,13 +67,9 @@ describe('Swagger contract', () => {
     expect(Object.keys(document.paths).sort()).toEqual(
       [
         '/admin',
-        '/admin/audit',
-        '/admin/landing-content',
-        '/admin/landing-content/{contentId}',
         '/admin/users',
         '/admin/users/{userId}/block',
         '/admin/users/{userId}/password-recovery',
-        '/auth/kid-request',
         '/auth/login',
         '/auth/logout',
         '/auth/me',
@@ -91,18 +77,11 @@ describe('Swagger contract', () => {
         '/auth/refresh',
         '/auth/register-parent',
         '/learning/levels',
-        '/landing-content',
-        '/learning/blockly/{activityId}/workspace',
         '/learning/levels/{levelId}',
         '/learning/levels/{levelId}/activities',
         '/learning/levels/{levelId}/activities/{activityId}',
         '/learning/progress',
         '/learning/progress/summary',
-        '/learning/quizzes',
-        '/learning/quizzes/{quizId}',
-        '/learning/quizzes/{quizId}/questions',
-        '/learning/quizzes/{quizId}/questions/{questionId}',
-        '/learning/quizzes/{quizId}/submissions',
         '/learning/rewards',
         '/learning/rewards/summary',
         '/parents/account/password',

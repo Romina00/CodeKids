@@ -3,8 +3,6 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  Length,
-  Matches,
   Max,
   MaxLength,
   Min,
@@ -35,11 +33,4 @@ export class CreateChildDto {
   @IsString()
   @MaxLength(50)
   learningLevel?: string;
-
-  @ApiPropertyOptional({ minLength: 48, maxLength: 48 })
-  @IsOptional()
-  @IsString()
-  @Length(48, 48)
-  @Matches(/^[a-f0-9]+$/, { message: 'invitationToken must be hexadecimal' })
-  invitationToken?: string;
 }

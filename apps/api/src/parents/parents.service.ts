@@ -32,7 +32,6 @@ export class ParentsService {
         avatar: body.avatar,
         birthYear: body.birthYear,
         learningLevel: body.learningLevel,
-        invitationToken: body.invitationToken,
       })
       .then((child) => this.usersService.serializeUser(child));
   }
@@ -58,8 +57,6 @@ export class ParentsService {
         visible: [
           'Learning Levels',
           'Activities',
-          'Quizzes',
-          'Blockly Tasks',
           'Rewards',
           'Profile Progress',
         ],

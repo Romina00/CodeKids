@@ -7,10 +7,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import {
-  Invitation,
-  InvitationStatus,
-} from '../auth/entities/invitation.entity';
 import { Progress } from '../learning/entities/progress.entity';
 import { Reward } from '../learning/entities/reward.entity';
 import { Role, User } from './entities/user.entity';
@@ -31,7 +27,6 @@ interface ChildProfileInput {
   avatar: string;
   birthYear: number;
   learningLevel?: string;
-  invitationToken?: string;
 }
 
 @Injectable()
@@ -39,8 +34,6 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
-    @InjectRepository(Invitation)
-    private readonly invitationsRepository: Repository<Invitation>,
     @InjectRepository(Progress)
     private readonly progressRepository: Repository<Progress>,
     @InjectRepository(Reward)
@@ -186,18 +179,6 @@ export class UsersService {
     const parent = await this.getOwnedParent(parentId);
     this.validateChildProfile(input);
 
-    if (input.invitationToken) {
-      const invitation = await this.getPendingInvitation(input.invitationToken);
-      if (this.normalizeEmail(invitation.parentEmail) !== parent.email) {
-        throw new BadRequestException(
-          'Invitation email does not match this parent account.',
-        );
-      }
-      invitation.status = InvitationStatus.ACCEPTED;
-      invitation.acceptedAt = new Date();
-      await this.invitationsRepository.save(invitation);
-    }
-
     const child = this.usersRepository.create({
       role: Role.KID,
       parentId: parent.id,
@@ -324,25 +305,6 @@ export class UsersService {
         ),
       },
     };
-  }
-
-  async getPendingInvitation(token: string): Promise<Invitation> {
-    const invitation = await this.invitationsRepository.findOne({
-      where: { token },
-    });
-    if (!invitation) {
-      throw new NotFoundException('Invitation was not found.');
-    }
-    if (
-      invitation.status !== InvitationStatus.PENDING ||
-      invitation.expiresAt <= new Date()
-    ) {
-      invitation.status = InvitationStatus.EXPIRED;
-      await this.invitationsRepository.save(invitation);
-      throw new BadRequestException('Invitation has expired.');
-    }
-
-    return invitation;
   }
 
   serializeUser(user: User) {

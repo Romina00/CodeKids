@@ -1,16 +1,10 @@
 'use client';
 
-import {
-  Icon,
-  Award,
-  BookOpen,
-  Clock,
-  Rocket,
-  ShieldCheck,
-} from '@repo/ui/icon';
+import { Icon, Award, BookOpen, Clock, ShieldCheck } from '@repo/ui/icon';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Logo } from '../../components/logo';
+import { ChildAvatar } from '../../components/child-avatar';
 import {
   apiBaseUrl,
   getAccessToken,
@@ -35,24 +29,56 @@ export default function ProfilePage() {
     timeSpentMinutes: 0,
   });
   const [rewards, setRewards] = useState<Rewards>({ xp: 0, rewards: [] });
-  const user = typeof window === 'undefined' ? null : getSessionUser();
+  const [user, setUser] = useState<{
+    nickname: string | null;
+    avatar: string | null;
+    birthYear: number | null;
+  } | null>(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const token = getAccessToken();
     if (!token || getSessionUser()?.role !== 'kid')
       return window.location.assign('/login');
     const headers = { Authorization: `Bearer ${token}` };
+    async function read<T>(path: string): Promise<T> {
+      const response = await fetch(`${apiBaseUrl}${path}`, {
+        headers,
+        cache: 'no-store',
+      });
+      if (!response.ok)
+        throw new Error(
+          'Could not load your profile. Please reload to try again.',
+        );
+      return response.json() as Promise<T>;
+    }
+    let cancelled = false;
     Promise.all([
-      fetch(`${apiBaseUrl}/learning/progress/summary`, { headers }).then(
-        (response) => response.json() as Promise<Progress>,
-      ),
-      fetch(`${apiBaseUrl}/learning/rewards/summary`, { headers }).then(
-        (response) => response.json() as Promise<Rewards>,
-      ),
-    ]).then(([nextProgress, nextRewards]) => {
-      setProgress(nextProgress);
-      setRewards(nextRewards);
-    });
+      read<Progress>('/learning/progress/summary'),
+      read<Rewards>('/learning/rewards/summary'),
+      read<{
+        nickname: string | null;
+        avatar: string | null;
+        birthYear: number | null;
+      }>('/auth/me'),
+    ])
+      .then(([nextProgress, nextRewards, profile]) => {
+        if (cancelled) return;
+        setProgress(nextProgress);
+        setRewards(nextRewards);
+        setUser(profile);
+      })
+      .catch((error: unknown) => {
+        if (!cancelled)
+          setError(
+            error instanceof Error
+              ? error.message
+              : 'Could not load your profile.',
+          );
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const name = user?.nickname || 'Young coder';
@@ -71,12 +97,14 @@ export default function ProfilePage() {
       </header>
       <main className={styles.main}>
         <h1>My Profile</h1>
+        {error && <p role="alert">{error}</p>}
         <div className={styles.grid}>
           <aside className={styles.identity}>
             <div className={styles.bigAvatar}>
-              <Icon icon={Rocket} size="xl" />
+              <ChildAvatar avatar={user?.avatar ?? null} name={name} />
             </div>
             <h2>{name}</h2>
+            {user?.birthYear != null && <p>Born in {user.birthYear}</p>}
             <p>Welcome back, keep on learning!</p>
             <span className={styles.level}>
               <Icon icon={Award} size="sm" /> Level{' '}

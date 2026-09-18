@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from '@repo/ui/card';
 import { useEffect, useState } from 'react';
+import { ChildAvatar } from '../../components/child-avatar';
 import {
   apiBaseUrl,
   getAccessToken,
@@ -20,6 +21,8 @@ import { EnterKidsMode } from './profile-actions';
 type ChildSummary = {
   id: number;
   nickname: string | null;
+  avatar: string | null;
+  birthYear: number | null;
   learningLevel: string | null;
   learningStatistics: { averageScore: number };
 };
@@ -82,7 +85,9 @@ export function ChildProfiles() {
             >
               <CardHeader>
                 <div className={styles.childIdentity}>
-                  <span className={styles.avatar}>{name[0]}</span>
+                  <span className={styles.avatar}>
+                    <ChildAvatar avatar={child.avatar} name={name} />
+                  </span>
                   <span>
                     <CardTitle>{name}</CardTitle>
                     <CardDescription>
@@ -93,6 +98,7 @@ export function ChildProfiles() {
                 {index === 0 ? <Badge variant="success">Viewing</Badge> : null}
               </CardHeader>
               <CardContent>
+                {child.birthYear !== null && <p>Born in {child.birthYear}</p>}
                 <div className={styles.progressLabel}>
                   <span>Overall progress</span>
                   <strong>{progress}%</strong>

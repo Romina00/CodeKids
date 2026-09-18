@@ -1,6 +1,5 @@
 import { NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Invitation } from '../auth/entities/invitation.entity';
 import { Progress } from '../learning/entities/progress.entity';
 import { Reward } from '../learning/entities/reward.entity';
 import { Role, User } from './entities/user.entity';
@@ -28,7 +27,6 @@ describe('UsersService child profiles', () => {
     } as unknown as jest.Mocked<Repository<User>>;
     service = new UsersService(
       users,
-      {} as Repository<Invitation>,
       {} as Repository<Progress>,
       {} as Repository<Reward>,
     );
@@ -65,6 +63,9 @@ describe('UsersService child profiles', () => {
       learningLevel: null,
     });
     expect(users.save.mock.calls).toHaveLength(2);
+    const serialized = service.serializeUser(first);
+    expect(serialized).toMatchObject({ avatar: 'avatar-ada', birthYear: 2016 });
+    expect(serialized).not.toHaveProperty('passwordHash');
   });
 
   it('lists only KID profiles owned by the requested parent', async () => {
@@ -99,6 +100,7 @@ describe('UsersService child profiles', () => {
     const updated = await service.updateChildProfile(parent.id, child.id, {
       nickname: ' Grace ',
       avatar: ' new-avatar ',
+      birthYear: 2015,
       learningLevel: ' intermediate ',
     });
 
@@ -110,6 +112,7 @@ describe('UsersService child profiles', () => {
       nickname: 'Grace',
       displayName: 'Grace',
       avatar: 'new-avatar',
+      birthYear: 2015,
       learningLevel: 'intermediate',
     });
   });

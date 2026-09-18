@@ -66,24 +66,3 @@ export class LogoutResponseDto {
   @ApiProperty({ example: true })
   success!: boolean;
 }
-
-export class ChildInvitationResponseDto {
-  @ApiProperty({ example: 12 })
-  invitationId!: number;
-
-  @ApiProperty({ example: 'parent@example.com' })
-  parentEmail!: string;
-
-  @ApiProperty()
-  message!: string;
-
-  @ApiProperty({
-    example: {
-      subject: 'Your child would like to join CodeKids',
-      body: 'A child has requested access using your email address.',
-      ctaLabel: 'Create Child Account',
-      invitationToken: 'a'.repeat(48),
-    },
-  })
-  emailPreview!: Record<string, string>;
-}

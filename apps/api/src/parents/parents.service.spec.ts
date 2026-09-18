@@ -54,7 +54,6 @@ describe('ParentsService child profile API', () => {
         avatar: 'avatar-ada',
         birthYear: 2016,
         learningLevel: 'beginner',
-        invitationToken: undefined,
       },
     ]);
   });

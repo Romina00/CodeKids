@@ -1,8 +1,9 @@
 'use client';
 
-import { Icon, Plus, ShieldCheck, UserRound } from '@repo/ui/icon';
+import { Icon, Plus, ShieldCheck } from '@repo/ui/icon';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { ChildAvatar } from '../../components/child-avatar';
 import { LogoMark } from '../../components/logo';
 import {
   apiBaseUrl,
@@ -15,6 +16,8 @@ import styles from './select-profile.module.css';
 type Child = {
   id: number;
   nickname: string | null;
+  avatar: string | null;
+  birthYear: number | null;
   learningLevel: string | null;
 };
 type Dashboard = {
@@ -64,10 +67,16 @@ export default function SelectProfilePage() {
           {dashboard?.children.map((child) => (
             <div className={styles.profile} key={child.id}>
               <div className={styles.avatar}>
-                <Icon icon={UserRound} size="xl" />
+                <ChildAvatar
+                  avatar={child.avatar}
+                  name={child.nickname || 'Young coder'}
+                />
               </div>
               <strong>{child.nickname || 'Young coder'}</strong>
               <small>{child.learningLevel || 'Beginner'}</small>
+              {child.birthYear !== null && (
+                <small>Born in {child.birthYear}</small>
+              )}
               <EnterKidsMode childId={child.id} />
             </div>
           ))}

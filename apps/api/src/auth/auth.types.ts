@@ -36,7 +36,3 @@ export interface LoginInput {
 export interface RefreshSessionInput {
   refreshToken?: string;
 }
-
-export interface ChildInvitationInput {
-  parentEmail?: string;
-}

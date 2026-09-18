@@ -1,14 +1,10 @@
 import { DataSource } from 'typeorm';
+import { RemoveUnusedTables1721130000000 } from './migrations/1721130000000-remove-unused-tables';
 import { SeedGameLevels1721120000000 } from './migrations/1721120000000-seed-game-levels';
-import { Invitation } from './auth/entities/invitation.entity';
 import { Achievement } from './learning/entities/achievement.entity';
 import { Activity } from './learning/entities/activity.entity';
 import { Level } from './learning/entities/level.entity';
 import { Progress } from './learning/entities/progress.entity';
-import { Question } from './learning/entities/question.entity';
-import { Quiz } from './learning/entities/quiz.entity';
-import { QuizAttempt } from './learning/entities/quiz-attempt.entity';
-import { BlocklyWorkspace } from './learning/entities/blockly-workspace.entity';
 import { XpEvent } from './learning/entities/xp-event.entity';
 import { Reward } from './learning/entities/reward.entity';
 import { CreateCoreSchema1721030000000 } from './migrations/1721030000000-create-core-schema';
@@ -19,8 +15,6 @@ import { CreateBlocklyWorkspaces1721070000000 } from './migrations/1721070000000
 import { AddProgressResumeData1721080000000 } from './migrations/1721080000000-add-progress-resume-data';
 import { CreateXpEvents1721090000000 } from './migrations/1721090000000-create-xp-events';
 import { AddAdminUserControls1721100000000 } from './migrations/1721100000000-add-admin-user-controls';
-import { AdminAuditEvent } from './admin/admin-audit.entity';
-import { LandingContent } from './admin/landing-content.entity';
 import { CreateLandingContent1721110000000 } from './migrations/1721110000000-create-landing-content';
 import { User } from './users/entities/user.entity';
 
@@ -32,22 +26,7 @@ export default new DataSource({
   password: process.env.DB_PASSWORD ?? '',
   database: process.env.DB_DATABASE ?? 'code_kids',
   synchronize: false,
-  entities: [
-    User,
-    Invitation,
-    Level,
-    Activity,
-    Quiz,
-    QuizAttempt,
-    BlocklyWorkspace,
-    XpEvent,
-    AdminAuditEvent,
-    LandingContent,
-    Question,
-    Progress,
-    Achievement,
-    Reward,
-  ],
+  entities: [User, Level, Activity, XpEvent, Progress, Achievement, Reward],
   migrations: [
     CreateCoreSchema1721030000000,
     CreateLearningSchema1721040000000,
@@ -59,5 +38,6 @@ export default new DataSource({
     AddAdminUserControls1721100000000,
     CreateLandingContent1721110000000,
     SeedGameLevels1721120000000,
+    RemoveUnusedTables1721130000000,
   ],
 });

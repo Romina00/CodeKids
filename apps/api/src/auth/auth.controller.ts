@@ -14,7 +14,6 @@ import type { AuthenticatedUser } from './auth.types';
 import { RegisterParentDto } from './dto/register-parent.dto';
 import { LoginDto } from './dto/login.dto';
 import { RefreshSessionDto } from './dto/refresh-session.dto';
-import { ChildInvitationDto } from './dto/child-invitation.dto';
 import { ParentModeDto } from './dto/parent-mode.dto';
 import { ApiStandardErrors } from '../common/errors/api-standard-errors.decorator';
 import { HttpStatus } from '@nestjs/common';
@@ -27,7 +26,6 @@ import {
 } from '@nestjs/swagger';
 import {
   AuthSessionResponseDto,
-  ChildInvitationResponseDto,
   LogoutResponseDto,
   UserResponseDto,
 } from './dto/auth-response.dto';
@@ -76,13 +74,6 @@ export class AuthController {
   refresh(@Req() request: Request, @Body() input: RefreshSessionDto) {
     this.limit('refresh', request, 30);
     return this.authService.refresh(input);
-  }
-
-  @Post('kid-request')
-  @ApiOperation({ summary: 'Request a simulated parent invitation email' })
-  @ApiCreatedResponse({ type: ChildInvitationResponseDto })
-  kidRequest(@Body() input: ChildInvitationDto) {
-    return this.authService.requestChildInvitation(input);
   }
 
   @Post('logout')

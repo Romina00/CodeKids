@@ -3,9 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { Role, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
-import { Invitation } from './entities/invitation.entity';
 import { JwtTokenService } from './jwt-token.service';
-import { Repository } from 'typeorm';
 
 jest.mock('bcrypt', () => ({
   ...jest.requireActual<typeof import('bcrypt')>('bcrypt'),
@@ -28,7 +26,6 @@ describe('AuthService', () => {
   let service: AuthService;
   let users: jest.Mocked<UsersService>;
   let tokens: jest.Mocked<JwtTokenService>;
-  let invitations: jest.Mocked<Repository<Invitation>>;
 
   beforeEach(() => {
     comparePassword.mockReset();
@@ -45,15 +42,7 @@ describe('AuthService', () => {
       getAccessTokenTtl: jest.fn().mockReturnValue(900),
       getRefreshTokenTtl: jest.fn().mockReturnValue(604800),
     } as unknown as jest.Mocked<JwtTokenService>;
-    invitations = {
-      findOne: jest.fn().mockResolvedValue(null),
-      count: jest.fn().mockResolvedValue(0),
-      create: jest.fn((value) => value as Invitation),
-      save: jest.fn((value) =>
-        Promise.resolve({ id: 11, ...value } as Invitation),
-      ),
-    } as unknown as jest.Mocked<Repository<Invitation>>;
-    service = new AuthService(users, tokens, invitations);
+    service = new AuthService(users, tokens);
   });
 
   it('registers a parent and persists a refresh session', async () => {
@@ -118,43 +107,6 @@ describe('AuthService', () => {
       7,
       'refresh-token',
     ]);
-  });
-
-  it('creates a seven-day invitation and an email delivery simulation', async () => {
-    const before = Date.now();
-
-    const result = await service.requestChildInvitation({
-      parentEmail: ' Parent@Example.com ',
-    });
-
-    const created = invitations.create.mock.calls[0]?.[0];
-    expect(created?.parentEmail).toBe('parent@example.com');
-    expect(created?.token).toMatch(/^[a-f0-9]{48}$/);
-    expect((created?.expiresAt as Date).getTime()).toBeGreaterThanOrEqual(
-      before + 7 * 24 * 60 * 60 * 1000,
-    );
-    expect(result.emailPreview).toMatchObject({
-      ctaLabel: 'Create Child Account',
-      invitationToken: created?.token,
-    });
-  });
-
-  it('rate-limits repeated invitation requests during the cooldown', async () => {
-    invitations.findOne.mockResolvedValue({ id: 1 } as Invitation);
-
-    await expect(
-      service.requestChildInvitation({ parentEmail: 'parent@example.com' }),
-    ).rejects.toMatchObject({ status: 429 });
-    expect(invitations.save.mock.calls).toHaveLength(0);
-  });
-
-  it('caps invitation requests at three per rolling day', async () => {
-    invitations.count.mockResolvedValue(3);
-
-    await expect(
-      service.requestChildInvitation({ parentEmail: 'parent@example.com' }),
-    ).rejects.toMatchObject({ status: 429 });
-    expect(invitations.save.mock.calls).toHaveLength(0);
   });
 
   it('returns from Kids Mode only after verifying the parent password', async () => {

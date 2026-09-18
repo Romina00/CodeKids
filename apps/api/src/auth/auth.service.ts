@@ -1,38 +1,25 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { randomBytes } from 'crypto';
 import { UsersService } from '../users/users.service';
 import { Role, User } from '../users/entities/user.entity';
-import { Invitation, InvitationStatus } from './entities/invitation.entity';
 import {
   AuthenticatedUser,
   AuthTokens,
-  ChildInvitationInput,
   LoginInput,
   RefreshSessionInput,
   RegisterParentInput,
 } from './auth.types';
 import { JwtTokenService } from './jwt-token.service';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThan, Repository } from 'typeorm';
-
-const INVITATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
-const INVITATION_COOLDOWN_MS = 15 * 60 * 1000;
-const INVITATION_DAILY_LIMIT = 3;
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtTokenService: JwtTokenService,
-    @InjectRepository(Invitation)
-    private readonly invitationsRepository: Repository<Invitation>,
   ) {}
 
   async registerParent(input: RegisterParentInput) {
@@ -140,69 +127,6 @@ export class AuthService {
       user: this.usersService.serializeUser(parent),
       ...tokens,
       redirectTo: '/parent',
-    };
-  }
-
-  async requestChildInvitation(input: ChildInvitationInput) {
-    if (!input.parentEmail) {
-      throw new BadRequestException('Parent email is required.');
-    }
-
-    const normalizedEmail = input.parentEmail.trim().toLowerCase();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(normalizedEmail)) {
-      throw new BadRequestException('Email address format is invalid.');
-    }
-
-    const now = new Date();
-    const cooldownStartedAt = new Date(now.getTime() - INVITATION_COOLDOWN_MS);
-    const recentInvitation = await this.invitationsRepository.findOne({
-      where: {
-        parentEmail: normalizedEmail,
-        createdAt: MoreThan(cooldownStartedAt),
-      },
-      order: { createdAt: 'DESC' },
-    });
-    if (recentInvitation) {
-      throw new HttpException(
-        'Please wait before requesting another invitation.',
-        HttpStatus.TOO_MANY_REQUESTS,
-      );
-    }
-
-    const dailyRequests = await this.invitationsRepository.count({
-      where: {
-        parentEmail: normalizedEmail,
-        createdAt: MoreThan(new Date(now.getTime() - 24 * 60 * 60 * 1000)),
-      },
-    });
-    if (dailyRequests >= INVITATION_DAILY_LIMIT) {
-      throw new HttpException(
-        'Invitation request limit reached. Try again later.',
-        HttpStatus.TOO_MANY_REQUESTS,
-      );
-    }
-
-    const invitation = this.invitationsRepository.create({
-      parentEmail: normalizedEmail,
-      token: randomBytes(24).toString('hex'),
-      status: InvitationStatus.PENDING,
-      expiresAt: new Date(now.getTime() + INVITATION_TTL_MS),
-    });
-
-    const savedInvitation = await this.invitationsRepository.save(invitation);
-
-    return {
-      invitationId: savedInvitation.id,
-      parentEmail: savedInvitation.parentEmail,
-      message:
-        'Invitation recorded and ready to send to the parent email address.',
-      emailPreview: {
-        subject: 'Your child would like to join CodeKids',
-        body: 'A child has requested access using your email address.',
-        ctaLabel: 'Create Child Account',
-        invitationToken: savedInvitation.token,
-      },
     };
   }
 

@@ -1,4 +1,5 @@
 import { QueryRunner } from 'typeorm';
+import { RemoveUnusedTables1721130000000 } from './1721130000000-remove-unused-tables';
 import { CreateCoreSchema1721030000000 } from './1721030000000-create-core-schema';
 import { CreateLearningSchema1721040000000 } from './1721040000000-create-learning-schema';
 import { AddLevelPrerequisite1721050000000 } from './1721050000000-add-level-prerequisite';
@@ -100,6 +101,19 @@ describe('schema migrations', () => {
     await new CreateLandingContent1721110000000().up(captureQueries(queries));
     expect(queries[0]).toContain('updatedByAdminId');
     expect(queries[0]).toContain('version');
+  });
+  it('drops only the seven removed feature tables in dependency order', async () => {
+    const queries: string[] = [];
+    await new RemoveUnusedTables1721130000000().up(captureQueries(queries));
+    expect(queries).toEqual([
+      'DROP TABLE IF EXISTS `quiz_attempts`',
+      'DROP TABLE IF EXISTS `questions`',
+      'DROP TABLE IF EXISTS `quizzes`',
+      'DROP TABLE IF EXISTS `blockly_workspaces`',
+      'DROP TABLE IF EXISTS `invitations`',
+      'DROP TABLE IF EXISTS `admin_audit_events`',
+      'DROP TABLE IF EXISTS `landing_content`',
+    ]);
   });
 });
 

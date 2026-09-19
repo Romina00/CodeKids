@@ -34,10 +34,22 @@ function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
         <circle cx="100" cy="60" r="35" />
         <circle cx="85" cy="58" r="3" fill="currentColor" />
         <circle cx="115" cy="58" r="3" fill="currentColor" />
-        <path d="M82 72 Q100 92 118 72" />
+        <path
+          d={isCelebrating ? 'M82 72 Q100 92 118 72' : 'M85 74 Q100 82 115 74'}
+        />
         <line x1="100" y1="95" x2="100" y2="170" />
-        <line x1="100" y1="110" x2="50" y2="65" />
-        <line x1="100" y1="110" x2="150" y2="65" />
+        <line
+          x1="100"
+          y1="110"
+          x2={isCelebrating ? 50 : 65}
+          y2={isCelebrating ? 65 : 155}
+        />
+        <line
+          x1="100"
+          y1="110"
+          x2={isCelebrating ? 150 : 135}
+          y2={isCelebrating ? 65 : 155}
+        />
         <line x1="100" y1="170" x2="60" y2="225" />
         <line x1="100" y1="170" x2="140" y2="225" />
       </g>

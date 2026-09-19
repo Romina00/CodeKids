@@ -13,7 +13,7 @@ type GameGuideProps = {
   tutorial?: string[];
 };
 
-function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
+export function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
   return (
     <svg
       aria-hidden="true"

@@ -1,3 +1,4 @@
+import { SeedLearningAchievements1721140000000 } from './migrations/1721140000000-seed-learning-achievements';
 import dataSource from './data-source';
 import { SeedGameLevels1721120000000 } from './migrations/1721120000000-seed-game-levels';
 
@@ -8,6 +9,7 @@ async function seedGames() {
       if (!manager.queryRunner)
         throw new Error('Missing database transaction.');
       await new SeedGameLevels1721120000000().up(manager.queryRunner);
+      await new SeedLearningAchievements1721140000000().up(manager.queryRunner);
     });
   } finally {
     await dataSource.destroy();

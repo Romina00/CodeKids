@@ -1,3 +1,4 @@
+import { SeedLearningAchievements1721140000000 } from './migrations/1721140000000-seed-learning-achievements';
 import { DataSource } from 'typeorm';
 import { RemoveUnusedTables1721130000000 } from './migrations/1721130000000-remove-unused-tables';
 import { SeedGameLevels1721120000000 } from './migrations/1721120000000-seed-game-levels';
@@ -39,5 +40,6 @@ export default new DataSource({
     CreateLandingContent1721110000000,
     SeedGameLevels1721120000000,
     RemoveUnusedTables1721130000000,
+    SeedLearningAchievements1721140000000,
   ],
 });

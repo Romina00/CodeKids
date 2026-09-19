@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { loadGameLevels } from '../../lib/game-progress';
 import styles from './learning-path.module.css';
+import { HappyStickman } from '../../components/games/game-guide';
 
 type LevelStatus = 'available' | 'completed' | 'current' | 'locked';
 
@@ -136,6 +137,26 @@ export function LearningPath() {
         <h1 id="learning-path-title">Follow the path to become a coder</h1>
         <p>One small challenge at a time. You&apos;ve got this!</p>
       </header>
+
+      <aside
+        className="flex flex-col items-center justify-center gap-5 rounded-3xl bg-blue-50 p-5 sm:flex-row sm:gap-8 dark:bg-slate-900"
+        aria-label="A message from Milo"
+      >
+        <div className="order-2 grid shrink-0 justify-items-center text-blue-600 sm:order-1 dark:text-blue-400">
+          <HappyStickman isCelebrating={false} />
+          <span className="rounded-full bg-white px-3 py-1 text-sm font-bold dark:bg-slate-800">
+            Milo
+          </span>
+        </div>
+        <div className="relative order-1 max-w-sm rounded-2xl border-2 border-blue-200 bg-white p-5 text-slate-900 after:absolute after:-bottom-2 after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-blue-200 after:bg-white sm:order-2 sm:after:bottom-auto sm:after:-left-2 sm:after:top-1/2 sm:after:translate-x-0 sm:after:rotate-[135deg] dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:after:border-slate-600 dark:after:bg-slate-800">
+          <p className="text-2xl font-extrabold leading-snug">
+            15 levels. One coding adventure. Let&apos;s go!
+          </p>
+          <p className="mt-3 text-base text-slate-600 dark:text-slate-300">
+            Try, learn, and build something awesome. I&apos;m here to help!
+          </p>
+        </div>
+      </aside>
 
       <section className={styles.progressCard} aria-label="Level progress">
         <div className={styles.progressIcon} aria-hidden="true">

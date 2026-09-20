@@ -1,5 +1,4 @@
 import type { HTMLAttributes } from 'react';
-import styles from './components.module.css';
 
 function withClassName(base: string | undefined, className?: string) {
   return [base, className].filter(Boolean).join(' ');
@@ -7,7 +6,13 @@ function withClassName(base: string | undefined, className?: string) {
 
 export function Card({ className, ...props }: HTMLAttributes<HTMLElement>) {
   return (
-    <article className={withClassName(styles.card, className)} {...props} />
+    <article
+      className={withClassName(
+        '[overflow-x:hidden] [overflow-y:hidden] text-[color:var(--card-foreground)] bg-[var(--card-background)] border-[length:1px] border-solid border-[color:var(--card-border)] rounded-[var(--card-radius)] shadow-[var(--card-shadow)]',
+        className,
+      )}
+      {...props}
+    />
   );
 }
 
@@ -16,7 +21,13 @@ export function CardHeader({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={withClassName(styles.cardHeader, className)} {...props} />
+    <div
+      className={withClassName(
+        'pt-[var(--card-padding)] pr-[var(--card-padding)] pb-3 pl-[var(--card-padding)] grid gap-2',
+        className,
+      )}
+      {...props}
+    />
   );
 }
 
@@ -26,7 +37,13 @@ export function CardTitle({
   ...props
 }: HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h3 className={withClassName(styles.cardTitle, className)} {...props}>
+    <h3
+      className={withClassName(
+        'text-[length:var(--font-size-xl)] leading-[var(--text-heading-line-height)]',
+        className,
+      )}
+      {...props}
+    >
       {children}
     </h3>
   );
@@ -38,7 +55,10 @@ export function CardDescription({
 }: HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={withClassName(styles.cardDescription, className)}
+      className={withClassName(
+        'text-[color:var(--color-text-muted)] leading-[var(--line-height-normal)]',
+        className,
+      )}
       {...props}
     />
   );
@@ -49,7 +69,13 @@ export function CardContent({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={withClassName(styles.cardContent, className)} {...props} />
+    <div
+      className={withClassName(
+        'pt-3 pr-[var(--card-padding)] pb-3 pl-[var(--card-padding)]',
+        className,
+      )}
+      {...props}
+    />
   );
 }
 
@@ -58,6 +84,12 @@ export function CardFooter({
   ...props
 }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={withClassName(styles.cardFooter, className)} {...props} />
+    <div
+      className={withClassName(
+        'pt-3 pr-[var(--card-padding)] pb-[var(--card-padding)] pl-[var(--card-padding)] flex items-center gap-3',
+        className,
+      )}
+      {...props}
+    />
   );
 }

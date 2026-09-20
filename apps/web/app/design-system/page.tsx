@@ -26,12 +26,15 @@ import {
   NavigationItem,
   NavigationLink,
 } from '@repo/ui/navigation';
-import styles from './preview.module.css';
 
 export default function DesignSystemPreview() {
   return (
-    <main className={styles.page} id="main-content" tabIndex={-1}>
-      <header className={styles.header}>
+    <main
+      className="grid w-[min(70rem,_100%)] min-h-svh gap-8 p-8 mt-[0] mr-[auto] mb-[0] ml-[auto] max-[768px]:pt-5 max-[768px]:pr-5 max-[768px]:pb-5 max-[768px]:pl-5"
+      id="main-content"
+      tabIndex={-1}
+    >
+      <header className="grid max-w-[42rem] gap-3 [&_h1]:text-[length:clamp(var(--font-size-2xl),_5vw,_3.5rem)] [&_h1]:leading-[var(--text-heading-line-height)] [&_p]:text-[color:var(--color-text-muted)] [&_p]:leading-[var(--line-height-relaxed)]">
         <Badge variant="primary">Internal preview</Badge>
         <h1>CodeKids UI foundations</h1>
         <p>Token-based, keyboard-accessible primitives for product surfaces.</p>
@@ -51,7 +54,10 @@ export default function DesignSystemPreview() {
         </NavigationItem>
       </Navigation>
 
-      <section className={styles.grid} id="actions">
+      <section
+        className="grid grid-cols-[repeat(2,_minmax(0,_1fr))] gap-6 max-[768px]:grid-cols-[1fr]"
+        id="actions"
+      >
         <Card>
           <CardHeader>
             <CardTitle>Actions and badges</CardTitle>
@@ -59,7 +65,7 @@ export default function DesignSystemPreview() {
               Variants share focus, disabled, and active states.
             </CardDescription>
           </CardHeader>
-          <CardContent className={styles.row}>
+          <CardContent className="flex flex-wrap items-center gap-3">
             <Button>Primary</Button>
             <Button variant="secondary">Secondary</Button>
             <Button variant="outline">Outline</Button>
@@ -117,7 +123,7 @@ export default function DesignSystemPreview() {
         </Card>
       </section>
 
-      <section className={styles.stack} id="feedback">
+      <section className="grid gap-3" id="feedback">
         <Alert variant="info">
           <AlertTitle>New activity unlocked</AlertTitle>
           <AlertDescription>Your next coding puzzle is ready.</AlertDescription>

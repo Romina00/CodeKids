@@ -1,6 +1,5 @@
 import { cloneElement, isValidElement, useId } from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import styles from './components.module.css';
 
 interface FieldControlProps {
   'aria-describedby'?: string;
@@ -43,23 +42,33 @@ export function FormField({
     : children;
 
   return (
-    <div className={styles.formField}>
-      <label className={styles.label} htmlFor={controlId}>
+    <div className="grid gap-2">
+      <label
+        className="text-[color:var(--color-text)] font-semibold"
+        htmlFor={controlId}
+      >
         {label}
         {required ? (
-          <span aria-hidden="true" className={styles.requiredMarker}>
+          <span aria-hidden="true" className="text-[color:var(--color-danger)]">
             {' *'}
           </span>
         ) : null}
       </label>
       {control}
       {description ? (
-        <p className={styles.description} id={descriptionId}>
+        <p
+          className="text-[length:var(--font-size-sm)] leading-[var(--line-height-normal)] text-[color:var(--color-text-muted)]"
+          id={descriptionId}
+        >
           {description}
         </p>
       ) : null}
       {error ? (
-        <p className={styles.error} id={errorId} role="alert">
+        <p
+          className="text-[color:var(--color-danger)] text-[length:var(--font-size-sm)] leading-[var(--line-height-normal)]"
+          id={errorId}
+          role="alert"
+        >
           {error}
         </p>
       ) : null}

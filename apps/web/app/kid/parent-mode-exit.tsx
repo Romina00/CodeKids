@@ -6,7 +6,6 @@ import {
   getAccessToken,
   apiBaseUrl,
 } from '../../lib/auth-session';
-import styles from './kid-dashboard.module.css';
 
 export function ParentModeExit() {
   async function logout() {
@@ -25,11 +24,7 @@ export function ParentModeExit() {
   }
 
   return (
-    <Button
-      className={styles.parentModeButton}
-      onClick={logout}
-      variant="outline"
-    >
+    <Button className="w-full mt-3" onClick={logout} variant="outline">
       Log out of Kids Mode
     </Button>
   );

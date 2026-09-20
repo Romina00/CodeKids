@@ -20,7 +20,6 @@ import GameGL13 from '../../../../components/games/gl13';
 import GameGL14 from '../../../../components/games/gl14';
 import GameGL15 from '../../../../components/games/gl15';
 import { LevelNavigation } from './level-navigation';
-import styles from './level-page.module.css';
 
 const games = {
   1: GameGL1,
@@ -210,21 +209,21 @@ export function LevelGame({ levelId }: { levelId: number }) {
   const level = levelDetails[currentLevel as keyof typeof levelDetails];
 
   return (
-    <div className={styles.levelPage}>
-      <header className={styles.levelHeader}>
+    <div className="flex w-full min-w-0 min-h-full gap-5 p-6 bg-[var(--color-canvas)] flex-col max-[640px]:pt-4 max-[640px]:pr-4 max-[640px]:pb-4 max-[640px]:pl-4">
+      <header className="flex [align-items:end] justify-between gap-4 max-[640px]:[align-items:start] max-[640px]:flex-col [&_>_div:first-child]:grid [&_>_div:first-child]:gap-1 [&_span]:text-[color:var(--color-text-muted)] [&_span]:text-[length:var(--font-size-sm)] [&_span]:font-semibold [&_h1]:text-[length:var(--font-size-2xl)] [&_h1]:leading-[var(--text-heading-line-height)] [&_p]:text-[color:var(--color-text-muted)]">
         <div>
           <span>Level {levelId} of 15</span>
           <h1>{level.title}</h1>
           <p>{level.objective}</p>
         </div>
-        <div className={styles.levelProgress}>
+        <div className="[&_span]:text-[color:var(--color-text-muted)] grid min-w-[10rem] gap-2 text-[length:var(--font-size-sm)] font-semibold max-[640px]:w-full [&_progress]:w-full [&_progress]:h-[var(--space-3)] [&_progress]:[overflow-x:hidden] [&_progress]:[overflow-y:hidden] [&_progress]:[accent-color:var(--color-primary)] [&_progress]:rounded-[var(--radius-full)]">
           <span>Journey progress</span>
           <progress max={15} value={completedCount}>
             {completedCount} of 15
           </progress>
         </div>
       </header>
-      <div className={styles.gameFrame}>
+      <div className="min-w-0 min-h-0 [flex:1] [overflow-x:visible] [overflow-y:visible]">
         <Game
           onComplete={() => {
             void completeGame();

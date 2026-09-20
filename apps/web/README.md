@@ -7,7 +7,7 @@ Next.js frontend for the CodeKids learning platform.
 - Next.js 16
 - React 19
 - TypeScript
-- CSS Modules and global CSS
+- Tailwind CSS utilities in JSX; global CSS for fonts, design tokens, and shared base styles
 - Shared components from `@repo/ui`
 
 ## Setup
@@ -48,3 +48,11 @@ There is currently no frontend test script.
 - `eslint.config.js` composes the shared Next.js ESLint configuration.
 
 Shared UI primitives are provided by [`@repo/ui`](../../packages/ui). Project-wide setup and architecture are documented in the [root README](../../README.md).
+
+## Styling
+
+Page and component styles use Tailwind classes directly in JSX. Small local maps
+select complete class strings for button variants and colors. There are no CSS
+Modules or separate `.styles.ts` files. Shared colors, spacing, and typography
+remain in `styles/tokens/`; `app/globals.css` provides the Tailwind entry point,
+fonts, base rules, and shared logo styling.

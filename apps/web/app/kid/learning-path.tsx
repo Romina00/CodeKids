@@ -13,7 +13,7 @@ import {
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { loadGameLevels } from '../../lib/game-progress';
-import styles from './learning-path.module.css';
+
 import { HappyStickman } from '../../components/games/game-guide';
 
 type LevelStatus = 'available' | 'completed' | 'current' | 'locked';
@@ -68,10 +68,14 @@ function getStatusLabel(status: LevelStatus) {
 
 function getStatusClass(status: LevelStatus) {
   const statusClasses = {
-    available: styles.levelAvailable,
-    completed: styles.levelCompleted,
-    current: styles.levelCurrent,
-    locked: styles.levelLocked,
+    available:
+      '[&_.ck-learning-path-status]:text-[color:var(--color-primary)] [&_.ck-learning-path-pathMarker]:bg-[var(--color-primary)] [&_.ck-learning-path-levelCard]:border-[color:color-mix(_in_srgb,_var(--color-primary)_45%,_var(--color-border)_)]',
+    completed:
+      '[&_.ck-learning-path-pathMarker]:text-[color:var(--color-on-primary)] [&_.ck-learning-path-pathMarker]:bg-[var(--color-success)] [&_.ck-learning-path-levelNumber]:text-[color:var(--color-on-primary)] [&_.ck-learning-path-levelNumber]:bg-[var(--color-success)] [&_.ck-learning-path-levelCard]:border-[color:color-mix(_in_srgb,_var(--color-success)_55%,_var(--color-border)_)] [&_.ck-learning-path-status]:text-[color:var(--color-success)]',
+    current:
+      '[&_.ck-learning-path-pathMarker]:text-[color:var(--color-on-primary)] [&_.ck-learning-path-pathMarker]:bg-[var(--color-primary)] [&_.ck-learning-path-pathMarker]:shadow-[0_0_0_var(--space-2)_color-mix(in_srgb,_var(--color-primary)_18%,_transparent)] [&_.ck-learning-path-levelNumber]:text-[color:var(--color-on-primary)] [&_.ck-learning-path-levelNumber]:bg-[var(--color-primary)] [&_.ck-learning-path-levelCard]:bg-[color-mix(in_srgb,_var(--color-primary)_8%,_var(--color-surface))] [&_.ck-learning-path-levelCard]:border-[length:2px] [&_.ck-learning-path-levelCard]:border-solid [&_.ck-learning-path-levelCard]:border-[color:var(--color-primary)] [&_.ck-learning-path-levelCard]:shadow-[var(--shadow-sm)] [&_.ck-learning-path-status]:text-[color:var(--color-primary)]',
+    locked:
+      '[&_.ck-learning-path-levelCard]:text-[color:var(--color-text-muted)] [&_.ck-learning-path-levelCard]:bg-[var(--color-surface-subtle)] [&_.ck-learning-path-status]:text-[color:var(--color-text-muted)]',
   };
   return statusClasses[status];
 }
@@ -127,11 +131,11 @@ export function LearningPath() {
 
   return (
     <section
-      className={styles.learningPath}
+      className="grid w-[min(100%,_52rem)] gap-8 pb-10 mt-[0] mr-[auto] mb-[0] ml-[auto] max-[640px]:gap-6"
       aria-labelledby="learning-path-title"
     >
-      <header className={styles.heading}>
-        <span className={styles.eyebrow}>
+      <header className="grid [justify-items:center] gap-2 text-center [&_h1]:max-w-[17ch] [&_h1]:text-[length:clamp(var(--font-size-2xl),_5vw,_3rem)] [&_h1]:leading-[var(--text-heading-line-height)] [&_h1]:tracking-[-0.04em] [&_p]:text-[color:var(--color-text-muted)]">
+        <span className="inline-flex items-center gap-2 text-[color:var(--color-primary)] text-[length:var(--font-size-sm)] font-bold tracking-[0.04em] uppercase">
           <Icon icon={MapIcon} size="sm" /> Your journey
         </span>
         <h1 id="learning-path-title">Follow the path to become a coder</h1>
@@ -158,8 +162,14 @@ export function LearningPath() {
         </div>
       </aside>
 
-      <section className={styles.progressCard} aria-label="Level progress">
-        <div className={styles.progressIcon} aria-hidden="true">
+      <section
+        className="grid grid-cols-[auto_1fr_auto] items-center gap-4 pt-4 pr-5 pb-4 pl-5 text-[color:var(--color-text)] bg-[color-mix(_in_srgb,_var(--color-warning)_14%,_var(--color-surface)_)] border-[length:1px] border-solid border-[color:color-mix(in_srgb,_var(--color-warning)_40%,_var(--color-border))] rounded-[var(--radius-xl)] max-[640px]:grid-cols-[auto_1fr] [&_div:nth-child(2)]:grid [&_div:nth-child(2)]:gap-1 [&_span]:text-[color:var(--color-text-muted)] [&_span]:text-[length:var(--font-size-sm)] [&_>_svg]:text-[color:var(--color-warning)] max-[640px]:[&_>_svg]:hidden"
+        aria-label="Level progress"
+      >
+        <div
+          className="grid w-[3rem] h-[3rem] text-[color:var(--color-on-primary)] bg-[var(--color-primary)] rounded-[var(--radius-full)] place-items-center"
+          aria-hidden="true"
+        >
           <Icon icon={Rocket} size="lg" />
         </div>
         <div>
@@ -169,18 +179,23 @@ export function LearningPath() {
         <Icon icon={Trophy} size="lg" aria-hidden="true" />
       </section>
 
-      <ol className={styles.levels} aria-label="Learning levels">
+      <ol
+        className="grid gap-4 p-[0] mt-[0] mr-[0] mb-[0] ml-[0] list-none"
+        aria-label="Learning levels"
+      >
         {levels.map((level, index) => {
           const status = getLevelStatus(level, currentLevelNumber);
           const isOpen = status !== 'locked';
           const cardContent = (
             <>
-              <span className={styles.levelNumber}>{level.number}</span>
-              <span className={styles.levelCopy}>
+              <span className="ck-learning-path-levelNumber grid w-[2rem] h-[2rem] text-[color:var(--color-text-muted)] bg-[var(--color-surface-subtle)] rounded-[var(--radius-full)] text-[length:var(--font-size-sm)] font-bold place-items-center">
+                {level.number}
+              </span>
+              <span className="grid min-w-0 gap-1 [&_strong]:[overflow-x:hidden] [&_strong]:[overflow-y:hidden] [&_strong]:text-ellipsis [&_strong]:whitespace-nowrap [&_small]:[overflow-x:hidden] [&_small]:[overflow-y:hidden] [&_small]:text-ellipsis [&_small]:whitespace-nowrap [&_small]:text-[color:var(--color-text-muted)] [&_small]:text-[length:var(--font-size-xs)]">
                 <strong>{level.title}</strong>
                 <small>{level.topic}</small>
               </span>
-              <span className={styles.status}>
+              <span className="ck-learning-path-status inline-flex items-center gap-1 text-[length:var(--font-size-xs)] font-bold whitespace-nowrap max-[640px]:col-[2]">
                 <StatusIcon status={status} />
                 {getStatusLabel(status)}
               </span>
@@ -189,15 +204,18 @@ export function LearningPath() {
 
           return (
             <li
-              className={`${styles.level} ${getStatusClass(status)}`}
+              className={`relative grid grid-cols-[3rem_minmax(0,_1fr)] gap-4 max-[640px]:grid-cols-[2.5rem_minmax(0,_1fr)] max-[640px]:gap-3 [&:not(:last-child)::after]:absolute [&:not(:last-child)::after]:top-[3rem] [&:not(:last-child)::after]:bottom-[calc(var(--space-4)_*_-1)] [&:not(:last-child)::after]:left-[calc(1.5rem_-_1px)] [&:not(:last-child)::after]:border-l-[length:2px] [&:not(:last-child)::after]:border-dashed [&:not(:last-child)::after]:border-l-[color:var(--color-border)] [&:not(:last-child)::after]:[content:''] max-[640px]:[&:not(:last-child)::after]:top-[2.5rem] max-[640px]:[&:not(:last-child)::after]:left-[calc(1.25rem_-_1px)] ${getStatusClass(status)}`}
               key={level.number}
             >
-              <span className={styles.pathMarker} aria-hidden="true">
+              <span
+                className="ck-learning-path-pathMarker z-[1] grid w-[3rem] h-[3rem] text-[color:var(--color-on-primary)] bg-[var(--color-text-muted)] border-[length:4px] border-solid border-[color:var(--color-surface-subtle)] rounded-[var(--radius-full)] place-items-center max-[640px]:w-[2.5rem] max-[640px]:h-[2.5rem]"
+                aria-hidden="true"
+              >
                 {index === levels.length - 1 ? (
                   <Icon icon={Trophy} size="sm" />
                 ) : (
                   <Icon
-                    className={styles.footprints}
+                    className="[transform:rotate(180deg)]"
                     icon={Footprints}
                     size="sm"
                   />
@@ -205,14 +223,14 @@ export function LearningPath() {
               </span>
               {isOpen ? (
                 <Link
-                  className={styles.levelCard}
+                  className="ck-learning-path-levelCard grid grid-cols-[auto_minmax(0,_1fr)_auto] items-center gap-3 min-h-[4.5rem] pt-3 pr-4 pb-3 pl-4 text-[color:var(--color-text)] bg-[var(--color-surface)] border-[length:1px] border-solid border-[color:var(--color-border)] rounded-[var(--radius-lg)] max-[640px]:grid-cols-[auto_minmax(0,_1fr)] [a&:hover]:shadow-[var(--shadow-md)] [a&:hover]:[transform:translateY(-2px)] [a&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [a&:focus-visible]:outline-offset-[3px]"
                   href={`/kid/levels/${level.number}`}
                 >
                   {cardContent}
                 </Link>
               ) : (
                 <div
-                  className={styles.levelCard}
+                  className="ck-learning-path-levelCard grid grid-cols-[auto_minmax(0,_1fr)_auto] items-center gap-3 min-h-[4.5rem] pt-3 pr-4 pb-3 pl-4 text-[color:var(--color-text)] bg-[var(--color-surface)] border-[length:1px] border-solid border-[color:var(--color-border)] rounded-[var(--radius-lg)] max-[640px]:grid-cols-[auto_minmax(0,_1fr)] [a&:hover]:shadow-[var(--shadow-md)] [a&:hover]:[transform:translateY(-2px)] [a&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [a&:focus-visible]:outline-offset-[3px]"
                   aria-label={`Level ${level.number}: locked`}
                 >
                   {cardContent}
@@ -222,7 +240,7 @@ export function LearningPath() {
           );
         })}
       </ol>
-      <p className={styles.heading}>
+      <p className="grid [justify-items:center] gap-2 text-center [&_h1]:max-w-[17ch] [&_h1]:text-[length:clamp(var(--font-size-2xl),_5vw,_3rem)] [&_h1]:leading-[var(--text-heading-line-height)] [&_h1]:tracking-[-0.04em] [&_p]:text-[color:var(--color-text-muted)]">
         More levels coming soon. Your coding adventure continues!
       </p>
     </section>

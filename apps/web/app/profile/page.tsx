@@ -10,7 +10,7 @@ import {
   getAccessToken,
   getSessionUser,
 } from '../../lib/auth-session';
-import styles from './profile.module.css';
+
 import { loadGameLevels, type GameLevel } from '../../lib/game-progress';
 import { HappyStickman } from '../../components/games/game-guide';
 
@@ -99,19 +99,22 @@ export default function ProfilePage() {
     ? Math.round((completedLevels.length / levels.length) * 100)
     : 0;
   return (
-    <div className={styles.page}>
-      <header className={styles.nav}>
+    <div className="min-h-svh bg-[#deefff]">
+      <header className="flex items-center justify-between pt-[0.8rem] pr-[max(1rem,_calc((100%_-_70rem)_/_2))] pb-[0.8rem] pl-[max(1rem,_calc((100%_-_70rem)_/_2))] bg-[#fff] border-b-[length:1px] border-solid border-b-[color:#ccdae8] [&_.logoMark]:w-[2rem] [&_.logoWordmark]:text-[length:1.25rem] [&_.logoLockup]:gap-[0.6rem] [&_nav]:flex [&_nav]:items-center [&_nav]:gap-[1rem] [&_nav_a]:flex [&_nav_a]:items-center [&_nav_a]:gap-[0.4rem] [&_nav_a]:pt-[0.6rem] [&_nav_a]:pr-[1rem] [&_nav_a]:pb-[0.6rem] [&_nav_a]:pl-[1rem] max-[800px]:[&_.logoCopy]:hidden">
         <Logo showTagline={false} />
         <nav>
           <Link href="/kid">
             <Icon icon={BookOpen} size="sm" /> Learn
           </Link>
-          <Link className={styles.current} href="/profile">
+          <Link
+            className="text-[color:#fff] bg-[#5890eb] rounded-[1rem]"
+            href="/profile"
+          >
             Profile
           </Link>
         </nav>
       </header>
-      <main className={styles.main}>
+      <main className="w-[min(100%_-_2rem,_70rem)] mt-[0] mr-[auto] mb-[0] ml-[auto] pt-[2rem] pr-[0] pb-[4rem] pl-[0] [&_>_h1]:mb-[1.5rem]">
         <h1>My Profile</h1>
         {error && <p role="alert">{error}</p>}
         {loading && <p role="status">Loading your profile...</p>}
@@ -137,22 +140,22 @@ export default function ProfilePage() {
                 </p>
               </div>
             </aside>
-            <div className={styles.grid}>
-              <aside className={styles.identity}>
-                <div className={styles.bigAvatar}>
+            <div className="grid grid-cols-[22rem_1fr] gap-[1.5rem] max-[800px]:grid-cols-[1fr]">
+              <aside className="bg-[#fff] border-[length:1px] border-solid border-[color:#ccdbe9] rounded-[1.1rem] shadow-[0_2px_4px_rgb(30_60_90_/_8%)] grid [align-content:start] [justify-items:center] gap-[0.8rem] pt-[2.5rem] pr-[1.5rem] pb-[2.5rem] pl-[1.5rem] text-center [&_p]:text-[color:#667085] [&_small]:text-[color:#667085]">
+                <div className="grid w-[7rem] h-[7rem] place-items-center text-[color:var(--color-on-primary)] bg-[var(--color-primary)] rounded-[var(--radius-xl)]">
                   <ChildAvatar avatar={user?.avatar ?? null} name={name} />
                 </div>
                 <h2>{name}</h2>
                 {user?.birthYear != null && <p>Born in {user.birthYear}</p>}
                 <p>Welcome back, keep on learning!</p>
-                <span className={styles.level}>
+                <span className="flex items-center gap-[0.4rem] pt-[0.45rem] pr-[0.8rem] pb-[0.45rem] pl-[0.8rem] text-[color:#4f8ff2] bg-[#f0f5ff] rounded-[999px]">
                   <Icon icon={Award} size="sm" />{' '}
                   {allComplete
                     ? 'All levels completed!'
                     : `Level ${currentLevel?.position ?? 1}`}
                 </span>
                 <div
-                  className={styles.progress}
+                  className="w-full h-[0.65rem] mt-[0.7rem] [overflow-x:hidden] [overflow-y:hidden] bg-[#e4edfa] rounded-[999px] [&_span]:block [&_span]:h-full [&_span]:bg-[#5890eb]"
                   role="progressbar"
                   aria-label="Levels completed"
                   aria-valuemin={0}
@@ -166,8 +169,8 @@ export default function ProfilePage() {
                   {percentage}%
                 </small>
               </aside>
-              <section className={styles.details}>
-                <div className={styles.metrics}>
+              <section className="grid gap-[1.25rem]">
+                <div className="[&_article]:bg-[#fff] [&_article]:border-[length:1px] [&_article]:border-solid [&_article]:border-[color:#ccdbe9] [&_article]:rounded-[1.1rem] [&_article]:shadow-[0_2px_4px_rgb(30_60_90_/_8%)] [&_article]:grid [&_article]:[justify-items:center] [&_article]:gap-[0.35rem] [&_article]:pt-[2rem] [&_article]:pr-[1rem] [&_article]:pb-[2rem] [&_article]:pl-[1rem] grid grid-cols-[repeat(3,_1fr)] gap-[1rem] max-[800px]:grid-cols-[1fr] [&_svg]:text-[color:#5890eb] [&_strong]:text-[length:1.45rem] [&_span]:text-[color:#667085]">
                   <article>
                     <Icon icon={Award} />
                     <strong>{rewards.xp}</strong>
@@ -186,12 +189,12 @@ export default function ProfilePage() {
                     <span>Levels completed</span>
                   </article>
                 </div>
-                <article className={styles.panel}>
+                <article className="bg-[#fff] border-[length:1px] border-solid border-[color:#ccdbe9] rounded-[1.1rem] shadow-[0_2px_4px_rgb(30_60_90_/_8%)] p-[1.5rem] [&_h2]:flex [&_h2]:items-center [&_h2]:gap-[0.5rem] [&_h2]:mb-[1.2rem] [&_h2]:text-[length:1rem]">
                   <h2>
                     <Icon icon={Award} size="sm" /> Achievements
                   </h2>
                   {rewards.rewards.length ? (
-                    <div className={styles.rewardList}>
+                    <div className="grid grid-cols-[repeat(2,_1fr)] gap-[0.8rem] max-[800px]:grid-cols-[1fr] [&_>_div]:flex [&_>_div]:gap-[0.8rem] [&_>_div]:pt-[1rem] [&_>_div]:pr-[1rem] [&_>_div]:pb-[1rem] [&_>_div]:pl-[1rem] [&_>_div]:border-[length:1px] [&_>_div]:border-solid [&_>_div]:border-[color:#dce6f1] [&_>_div]:rounded-[0.9rem] [&_svg]:text-[color:#5890eb] [&_span]:grid [&_small]:text-[color:#667085]">
                       {rewards.rewards.map((reward) => (
                         <div key={reward.id}>
                           <Icon icon={Award} />
@@ -205,16 +208,16 @@ export default function ProfilePage() {
                       ))}
                     </div>
                   ) : (
-                    <p className={styles.empty}>
+                    <p className="text-[color:#667085]">
                       Your earned achievements will appear here.
                     </p>
                   )}
                 </article>
-                <article className={styles.panel}>
+                <article className="bg-[#fff] border-[length:1px] border-solid border-[color:#ccdbe9] rounded-[1.1rem] shadow-[0_2px_4px_rgb(30_60_90_/_8%)] p-[1.5rem] [&_h2]:flex [&_h2]:items-center [&_h2]:gap-[0.5rem] [&_h2]:mb-[1.2rem] [&_h2]:text-[length:1rem]">
                   <h2>
                     <Icon icon={BookOpen} size="sm" /> Learning summary
                   </h2>
-                  <p className={styles.empty}>
+                  <p className="text-[color:#667085]">
                     {progress.completedActivities
                       ? `${progress.completedActivities} activities completed.`
                       : 'Complete your first activity to start your learning history.'}
@@ -235,7 +238,7 @@ export default function ProfilePage() {
                     </ul>
                   )}
                   <Link
-                    className={styles.learnButton}
+                    className="inline-block mt-[1rem] pt-[0.65rem] pr-[1rem] pb-[0.65rem] pl-[1rem] text-[color:#fff] bg-[#5890eb] rounded-[0.7rem]"
                     href={
                       allComplete
                         ? '/kid/levels'

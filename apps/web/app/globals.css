@@ -1,5 +1,18 @@
 @import 'tailwindcss';
 @import '../styles/tokens/index.css';
+@source '../../../packages/ui/src';
+@theme {
+  --animate-badge-float: badge-float 3s ease-in-out infinite;
+  @keyframes badge-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.65rem);
+    }
+  }
+}
 
 @font-face {
   font-family: 'Nunito';
@@ -15,6 +28,10 @@
 }
 
 @layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
   html,
   body {
     max-width: 100vw;
@@ -34,66 +51,63 @@
   }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@layer components {
+  .skipLink {
+    position: fixed;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 100;
+    padding: var(--space-3) var(--space-4);
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    border-radius: var(--radius-control);
+    font-weight: var(--font-weight-semibold);
+    transform: translateY(calc(-100% - var(--space-8)));
+  }
 
-.skipLink {
-  position: fixed;
-  top: var(--space-3);
-  left: var(--space-3);
-  z-index: 100;
-  padding: var(--space-3) var(--space-4);
-  color: var(--color-on-primary);
-  background: var(--color-primary);
-  border-radius: var(--radius-control);
-  font-weight: var(--font-weight-semibold);
-  transform: translateY(calc(-100% - var(--space-8)));
-}
+  .skipLink:focus {
+    outline: 3px solid var(--color-focus-ring);
+    outline-offset: 2px;
+    transform: translateY(0);
+  }
 
-.skipLink:focus {
-  outline: 3px solid var(--color-focus-ring);
-  outline-offset: 2px;
-  transform: translateY(0);
-}
+  .logoLockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    color: currentColor;
+  }
 
-.logoLockup {
-  display: inline-flex;
-  align-items: center;
-  gap: 18px;
-  color: currentColor;
-}
+  .logoMark {
+    width: 84px;
+    flex: none;
+  }
 
-.logoMark {
-  width: 84px;
-  flex: none;
-}
+  .logoCopy {
+    display: grid;
+    gap: 6px;
+  }
 
-.logoCopy {
-  display: grid;
-  gap: 6px;
-}
+  .logoWordmark {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+  }
 
-.logoWordmark {
-  display: inline-flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  font-size: 3.5rem;
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.065em;
-}
+  .logoAccent {
+    color: var(--color-primary);
+  }
 
-.logoAccent {
-  color: var(--color-primary);
-}
-
-.logoTagline {
-  color: var(--color-text-muted);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  .logoTagline {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

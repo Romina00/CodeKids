@@ -3,7 +3,6 @@
 import { Button } from '@repo/ui/button';
 import { ArrowLeft, ArrowRight, Icon, Rocket } from '@repo/ui/icon';
 import { useRouter } from 'next/navigation';
-import styles from './level-page.module.css';
 
 type LevelNavigationProps = {
   levelId: number;
@@ -19,9 +18,12 @@ export function LevelNavigation({
   const router = useRouter();
 
   return (
-    <nav aria-label="Level navigation" className={styles.levelNavigation}>
+    <nav
+      aria-label="Level navigation"
+      className="flex w-full min-w-0 justify-between gap-3"
+    >
       <Button
-        className={styles.levelNavigationButton}
+        className="max-w-[48%] gap-2"
         disabled={levelId === 1}
         variant="outline"
         onClick={() => router.push(`/kid/levels/${levelId - 1}`)}
@@ -31,7 +33,7 @@ export function LevelNavigation({
       </Button>
 
       {levelId === totalLevels ? (
-        <p className="flex items-center gap-[var(--space-3)] rounded-[var(--radius-xl)] border-2 border-[var(--color-primary)] bg-[var(--color-surface-subtle)] px-[var(--space-5)] py-[var(--space-3)] text-[length:var(--font-size-lg)] font-[number:var(--font-weight-bold)] text-[var(--color-text)] shadow-[var(--shadow-md)]">
+        <p className="flex items-center gap-3 rounded-[var(--radius-xl)] border-2 border-[var(--color-primary)] bg-[var(--color-surface-subtle)] px-5 py-3 text-[length:var(--font-size-lg)] font-bold text-[var(--color-text)] shadow-[var(--shadow-md)]">
           <Icon
             icon={Rocket}
             size="lg"
@@ -41,7 +43,7 @@ export function LevelNavigation({
         </p>
       ) : (
         <Button
-          className={styles.levelNavigationButton}
+          className="max-w-[48%] gap-2"
           disabled={levelId === totalLevels || !nextUnlocked}
           variant="primary"
           onClick={() => router.push(`/kid/levels/${levelId + 1}`)}

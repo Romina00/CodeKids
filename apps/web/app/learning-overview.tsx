@@ -11,13 +11,15 @@ import {
   DialogTrigger,
 } from '@repo/ui/dialog';
 import { BookOpen, Icon } from '@repo/ui/icon';
-import styles from './page.module.css';
 
 export function LearningOverview() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className={styles.secondaryAction} type="button">
+        <button
+          className="inline-flex items-center justify-center min-h-[3rem] gap-[0.5rem] pt-[0.75rem] pr-[1.2rem] pb-[0.75rem] pl-[1.2rem] rounded-[0.8rem] text-[length:0.9rem] font-[number:750] [transition:transform_160ms_ease,_box-shadow_160ms_ease,_background_160ms_ease] bg-[#fff] border-[length:1px] border-solid border-[color:#cfdeed] motion-reduce:[transition:none] [&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [&:focus-visible]:outline-offset-[3px]"
+          type="button"
+        >
           <Icon icon={BookOpen} size="sm" /> Explore the learning journey
         </button>
       </DialogTrigger>
@@ -26,7 +28,7 @@ export function LearningOverview() {
         <DialogDescription>
           A parent’s guide to the 15 beginner levels for ages 10–15.
         </DialogDescription>
-        <section className={styles.overviewSection}>
+        <section className="grid gap-3 leading-[var(--line-height-relaxed)] [&_h3]:text-[length:var(--font-size-lg)] [&_h3]:font-bold [&_p]:text-[color:var(--color-text-muted)]">
           <h3>What will my child explore?</h3>
           <p>
             <strong>Levels 1–3:</strong> Put commands in order and discover
@@ -49,7 +51,7 @@ export function LearningOverview() {
             the same program with and without a key.
           </p>
         </section>
-        <section className={styles.overviewSection}>
+        <section className="grid gap-3 leading-[var(--line-height-relaxed)] [&_h3]:text-[length:var(--font-size-lg)] [&_h3]:font-bold [&_p]:text-[color:var(--color-text-muted)]">
           <h3>How does a level work?</h3>
           <p>
             Read the goal, click commands or values, then run or check the
@@ -61,7 +63,7 @@ export function LearningOverview() {
             level. Milestone badges appear on the child’s profile.
           </p>
         </section>
-        <section className={styles.overviewSection}>
+        <section className="grid gap-3 leading-[var(--line-height-relaxed)] [&_h3]:text-[length:var(--font-size-lg)] [&_h3]:font-bold [&_p]:text-[color:var(--color-text-muted)]">
           <h3>How does Milo help?</h3>
           <p>
             Milo is a game guide with written explanations and task-specific

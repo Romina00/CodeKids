@@ -1,4 +1,4 @@
-/* eslint-disable turbo/no-undeclared-env-vars -- CLI-only credentials are intentionally excluded from Turbo's shared environment. */
+// Admin credentials are supplied only when running this CLI script.
 import bcrypt from 'bcrypt';
 import dataSource from './data-source';
 import { Role, User } from './users/entities/user.entity';

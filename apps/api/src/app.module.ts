@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
 import { AppConfig } from './config/app.config';
 import { DatabaseConfig } from './config/database.config';
+import { databaseSsl } from './config/database-ssl';
 import { JwtConfig } from './config/jwt.config';
 import { AuthModule } from './auth/auth.module';
 import { LearningModule } from './learning/learning.module';
@@ -29,6 +30,7 @@ import { UsersModule } from './users/users.module';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
+        ssl: databaseSsl(),
         autoLoadEntities: true,
         entities: [User, Progress, Reward],
         synchronize: process.env.DB_SYNCHRONIZE === 'true',

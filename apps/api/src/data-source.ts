@@ -1,5 +1,6 @@
 import { SeedLearningAchievements1721140000000 } from './migrations/1721140000000-seed-learning-achievements';
 import { DataSource } from 'typeorm';
+import { databaseSsl } from './config/database-ssl';
 import { RemoveUnusedTables1721130000000 } from './migrations/1721130000000-remove-unused-tables';
 import { SeedGameLevels1721120000000 } from './migrations/1721120000000-seed-game-levels';
 import { Achievement } from './learning/entities/achievement.entity';
@@ -26,6 +27,7 @@ export default new DataSource({
   username: process.env.DB_USERNAME ?? 'root',
   password: process.env.DB_PASSWORD ?? '',
   database: process.env.DB_DATABASE ?? 'code_kids',
+  ssl: databaseSsl(),
   synchronize: false,
   entities: [User, Level, Activity, XpEvent, Progress, Achievement, Reward],
   migrations: [

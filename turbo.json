@@ -1,6 +1,7 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
+  "globalPassThroughEnv": ["ADMIN_EMAIL", "ADMIN_PASSWORD", "ADMIN_NAME"],
   "globalEnv": [
     "PORT",
     "WEB_ORIGIN",
@@ -11,6 +12,8 @@
     "DB_PASSWORD",
     "DB_DATABASE",
     "DB_SYNCHRONIZE",
+    "DB_SSL",
+    "DB_SSL_CA",
     "AVATAR_UPLOAD_DIR",
     "NODE_ENV",
     "JWT_SECRET",

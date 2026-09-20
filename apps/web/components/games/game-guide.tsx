@@ -57,7 +57,7 @@ export function HappyStickman({ isCelebrating }: { isCelebrating: boolean }) {
   );
 }
 
-function ThinkingStickman() {
+export function ThinkingStickman() {
   return (
     <svg
       aria-hidden="true"

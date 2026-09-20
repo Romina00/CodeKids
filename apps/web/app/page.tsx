@@ -28,6 +28,10 @@ import {
 } from '@repo/ui/icon';
 import Image from 'next/image';
 import { Logo } from '../components/logo';
+import {
+  HappyStickman,
+  ThinkingStickman,
+} from '../components/games/game-guide';
 import styles from './page.module.css';
 
 const paths = [
@@ -87,6 +91,27 @@ const learningPath = [
     icon: LockKeyhole,
     status: 'Unlocks later',
     tone: 'amber',
+  },
+] as const;
+
+const miloMoments = [
+  {
+    mood: 'idle',
+    title: 'Ready when you are',
+    description:
+      'Milo introduces each challenge and helps you take the first step.',
+  },
+  {
+    mood: 'thinking',
+    title: 'Stuck? Think with Milo',
+    description:
+      'A tricky puzzle is a chance to learn. Milo offers clues so you can try again.',
+  },
+  {
+    mood: 'happy',
+    title: 'Your win. A shared celebration.',
+    description:
+      'Solved it? Milo cheers you on. Every small success is a step forward.',
   },
 ] as const;
 
@@ -266,6 +291,39 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+          </div>
+        </section>
+
+        <section
+          className={styles.learningSection}
+          aria-labelledby="milo-title"
+        >
+          <div className={styles.sectionHeading}>
+            <Badge variant="primary">Meet your coding buddy</Badge>
+            <h2 id="milo-title">Small buddy. Big encouragement.</h2>
+            <p>
+              Meet Milo, your friendly guide through all 15 levels. From your
+              first puzzle to your own mini game, you have a buddy by your side.
+            </p>
+          </div>
+          <div className={styles.reviewGrid}>
+            {miloMoments.map((moment) => (
+              <Card key={moment.mood}>
+                <CardContent className={styles.miloCard}>
+                  <div
+                    className={`${styles.miloFigure} ${moment.mood === 'happy' ? styles.miloHappy : ''}`}
+                  >
+                    {moment.mood === 'thinking' ? (
+                      <ThinkingStickman />
+                    ) : (
+                      <HappyStickman isCelebrating={moment.mood === 'happy'} />
+                    )}
+                  </div>
+                  <h3>{moment.title}</h3>
+                  <p>{moment.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
 

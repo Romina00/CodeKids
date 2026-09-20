@@ -15,7 +15,6 @@ import {
   UsersRound,
 } from '@repo/ui/icon';
 import { Input } from '@repo/ui/input';
-import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { LogoMark } from '../../components/logo';
 import {
@@ -190,16 +189,12 @@ export default function AdminPanel() {
     <div className="min-h-screen bg-[var(--color-surface-subtle)] text-[var(--color-text)]">
       <aside className="border-b border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-4 lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 lg:border-r lg:border-b-0 lg:px-6 lg:py-7">
         <div className="flex items-center justify-between lg:block">
-          <Link
-            aria-label="CodeKids home"
-            className="flex items-center gap-3 font-bold"
-            href="/"
-          >
+          <div className="flex items-center gap-3 font-bold">
             <span className="w-10">
               <LogoMark title="" />
             </span>
             <span>CodeKids Admin</span>
-          </Link>
+          </div>
           <Badge variant="primary">Admin</Badge>
         </div>
         <nav

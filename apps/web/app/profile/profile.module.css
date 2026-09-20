@@ -70,12 +70,12 @@
 }
 .bigAvatar {
   display: grid;
-  width: 7.2rem;
-  height: 7.2rem;
+  width: 7rem;
+  height: 7rem;
   place-items: center;
-  color: #fff;
-  background: #5890eb;
-  border-radius: 50%;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--radius-xl);
 }
 .level {
   display: flex;

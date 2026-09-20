@@ -13,36 +13,42 @@ import {
 import { FormField } from '@repo/ui/form-field';
 import { ArrowRight, Icon } from '@repo/ui/icon';
 import { Input } from '@repo/ui/input';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, type ReactNode } from 'react';
 import {
   apiBaseUrl,
+  authorizedFetch,
   clearSession,
   getAccessToken,
   readApiError,
   saveSession,
 } from '../../lib/auth-session';
-import styles from './parent-dashboard.module.css';
 
-function authorizedHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${getAccessToken() ?? ''}`,
-  };
-}
-
-export function EnterKidsMode({ childId }: { childId: number }) {
+export function EnterKidsMode({
+  childId,
+  children,
+  className,
+  disabled,
+  onPendingChange,
+}: {
+  childId: number;
+  children?: ReactNode;
+  className?: string;
+  disabled?: boolean;
+  onPendingChange?: (pending: boolean) => void;
+}) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
 
   async function enter() {
+    if (pending || disabled) return;
     setPending(true);
+    onPendingChange?.(true);
     setError('');
     try {
-      const response = await fetch(
-        `${apiBaseUrl}/parents/children/${childId}/kids-mode`,
+      const response = await authorizedFetch(
+        `/parents/children/${childId}/kids-mode`,
         {
           method: 'POST',
-          headers: authorizedHeaders(),
         },
       );
       if (!response.ok) throw new Error(await readApiError(response));
@@ -67,22 +73,34 @@ export function EnterKidsMode({ childId }: { childId: number }) {
         reason instanceof Error ? reason.message : 'Kids Mode could not start.',
       );
       setPending(false);
+      onPendingChange?.(false);
     }
   }
 
   return (
     <div>
       <Button
-        className={styles.profileAction}
-        disabled={pending}
+        className={
+          className ??
+          'mt-5 min-h-11! gap-2 border-0! bg-transparent! p-0! text-[var(--color-primary)]! focus-visible:outline-offset-3!'
+        }
+        disabled={pending || disabled}
+        aria-busy={pending}
         onClick={enter}
         variant="ghost"
       >
-        {pending ? 'Opening…' : 'Open Kids Mode'}{' '}
-        <Icon icon={ArrowRight} size="sm" />
+        {children}
+        <span className="inline-flex items-center gap-2">
+          {pending
+            ? 'Opening…'
+            : children
+              ? 'Start learning'
+              : 'Open Kids Mode'}{' '}
+          <Icon icon={ArrowRight} size="sm" />
+        </span>
       </Button>
       {error ? (
-        <small className={styles.actionError} role="alert">
+        <small className="mt-2 block text-[var(--color-danger)]" role="alert">
           {error}
         </small>
       ) : null}
@@ -93,9 +111,11 @@ export function EnterKidsMode({ childId }: { childId: number }) {
 export function AddChildProfile({
   className,
   label = 'Add child profile',
+  children,
 }: {
   className?: string;
   label?: string;
+  children?: ReactNode;
 } = {}) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
@@ -106,9 +126,9 @@ export function AddChildProfile({
     setError('');
     const data = new FormData(event.currentTarget);
     try {
-      const response = await fetch(`${apiBaseUrl}/parents/children`, {
+      const response = await authorizedFetch('/parents/children', {
         method: 'POST',
-        headers: authorizedHeaders(),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nickname: data.get('nickname'),
           birthYear: Number(data.get('birthYear')),
@@ -131,7 +151,14 @@ export function AddChildProfile({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className={className ?? styles.addChild}>{label}</Button>
+        <Button
+          className={
+            className ??
+            'max-md:w-full border-[var(--color-primary)]! px-4! focus-visible:outline-offset-3!'
+          }
+        >
+          {children ?? label}
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Create a child profile</DialogTitle>
@@ -144,7 +171,7 @@ export function AddChildProfile({
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         ) : null}
-        <form className={styles.childForm} onSubmit={submit}>
+        <form className="grid gap-4" onSubmit={submit}>
           <FormField label="Nickname" required>
             <Input maxLength={50} name="nickname" required />
           </FormField>
@@ -161,17 +188,25 @@ export function AddChildProfile({
               type="number"
             />
           </FormField>
-          <label>
+          <label className="grid gap-2 font-semibold">
             Avatar
-            <select defaultValue="robot-blue" name="avatar">
-              <option value="robot-blue">Blue robot</option>
-              <option value="robot-green">Green robot</option>
-              <option value="robot-orange">Orange robot</option>
+            <select
+              className="min-h-11 rounded-[var(--radius-control)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 text-[var(--color-text)]"
+              defaultValue="robot-blue"
+              name="avatar"
+            >
+              <option value="robot-blue">Blue profile</option>
+              <option value="robot-green">Green profile</option>
+              <option value="robot-orange">Orange profile</option>
             </select>
           </label>
-          <label>
+          <label className="grid gap-2 font-semibold">
             Starting point
-            <select defaultValue="beginner" name="learningLevel">
+            <select
+              className="min-h-11 rounded-[var(--radius-control)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 text-[var(--color-text)]"
+              defaultValue="beginner"
+              name="learningLevel"
+            >
               <option value="beginner">New to coding</option>
               <option value="curious">Some coding experience</option>
             </select>

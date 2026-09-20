@@ -34,10 +34,10 @@ export function KidLayout({ children }: { children: ReactNode }) {
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
-        <Link aria-label="CodeKids home" className={styles.logoLink} href="/">
+        <div className={styles.logoLink}>
           <LogoMark title="" />
           <span>CodeKids</span>
-        </Link>
+        </div>
         <Navigation label="Kid dashboard">
           <NavigationItem>
             <NavigationLink current={pathname === '/kid'} href="/kid">

@@ -32,6 +32,7 @@ import {
   ThinkingStickman,
 } from '../components/games/game-guide';
 import styles from './page.module.css';
+import { LearningOverview } from './learning-overview';
 
 const paths = [
   {
@@ -125,17 +126,10 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <header className={styles.siteHeader}>
-        <a
-          aria-label="CodeKids home"
-          className={styles.brand}
-          href="#main-content"
-        >
+        <div className={styles.brand}>
           <Logo showTagline={false} />
-        </a>
+        </div>
         <nav aria-label="Primary navigation" className={styles.headerActions}>
-          <a className={styles.homeLink} href="#main-content">
-            <Icon icon={Sparkles} size="sm" /> Home
-          </a>
           <a className={styles.loginLink} href="/login">
             Log in
           </a>
@@ -146,7 +140,7 @@ export default function Home() {
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
             <Badge variant="neutral">
-              <Icon icon={Sparkles} size="sm" /> Coding made fun for ages 10–15
+              <Icon icon={UsersRound} size="lg" /> For ages 10–15 only
             </Badge>
             <h1>
               Coding feels hard.
@@ -160,12 +154,13 @@ export default function Home() {
             </p>
             <div className={styles.heroActions}>
               <a className={styles.primaryAction} href="/register">
-                <Icon icon={Rocket} size="sm" /> Create a parent account
+                <Icon icon={Rocket} size="sm" /> Get started
               </a>
-              <a className={styles.secondaryAction} href="#how-it-works">
-                <Icon icon={PlayCircle} size="sm" /> See how it works
-              </a>
+              <LearningOverview />
             </div>
+            <small className={styles.signupNote}>
+              Parents sign up first, then create a profile for their child.
+            </small>
           </div>
 
           <div
@@ -190,21 +185,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          <dl className={styles.stats}>
-            <div>
-              <dt>15</dt>
-              <dd>Playable coding levels</dd>
-            </div>
-            <div>
-              <dt>1</dt>
-              <dd>Mini game to build in the final level</dd>
-            </div>
-            <div>
-              <dt>100%</dt>
-              <dd>Ad-free & kid-safe</dd>
-            </div>
-          </dl>
         </section>
 
         <section className={styles.problemSection} id="how-it-works">
@@ -247,29 +227,30 @@ export default function Home() {
                 <div>
                   <Icon icon={PlayCircle} size="sm" />
                   <p>
-                    <strong>Short, friendly lessons</strong>
+                    <strong>Guidance from Milo</strong>
                     <span>
-                      Every idea is explained with simple words and colorful
-                      examples.
+                      Milo introduces each challenge, offers hints and
+                      celebrates your success.
                     </span>
                   </p>
                 </div>
                 <div>
                   <Icon icon={Gamepad2} size="sm" />
                   <p>
-                    <strong>Learning as puzzles</strong>
+                    <strong>Build, run and try again</strong>
                     <span>
-                      Concepts become drag-and-click challenges instead of walls
-                      of text.
+                      Click to choose commands, arrange steps and test your
+                      solution in playful coding challenges.
                     </span>
                   </p>
                 </div>
                 <div>
                   <Icon icon={Trophy} size="sm" />
                   <p>
-                    <strong>Rewards that motivate</strong>
+                    <strong>See your progress</strong>
                     <span>
-                      Points, levels and badges keep children moving forward.
+                      Complete levels to earn XP, unlock the next challenge and
+                      collect milestone badges on your profile.
                     </span>
                   </p>
                 </div>
@@ -432,12 +413,15 @@ export default function Home() {
             </p>
             <div>
               <a className={styles.ctaLight} href="/register">
-                <Icon icon={Rocket} size="sm" /> Create parent account
+                <Icon icon={Rocket} size="sm" /> Get started
               </a>
               <a className={styles.ctaGhost} href="/login">
                 I already have an account
               </a>
             </div>
+            <small>
+              Parents sign up first, then create a profile for their child.
+            </small>
             <small>
               <Icon icon={ShieldCheck} size="sm" /> Safe, ad-free and made for
               ages 10–15

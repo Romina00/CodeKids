@@ -1,99 +1,143 @@
 .page {
   min-height: 100svh;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  background: #f3f7ff;
+  padding: var(--space-8) var(--space-5);
+  color: var(--color-text);
+  background: var(--color-surface-subtle);
 }
 .content {
-  width: min(100%, 48rem);
-  text-align: center;
+  width: min(100%, 60rem);
+  margin-inline: auto;
+  display: grid;
+  gap: var(--space-10);
+}
+.header,
+.brand,
+.account,
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.header,
+.sectionHeader {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.brand {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
 }
 .logo {
-  width: 3rem;
-  margin-bottom: 1rem;
-  color: #202838;
+  width: var(--space-8);
 }
-.content h1 {
-  color: #121a2b;
-  font-size: clamp(1.8rem, 4vw, 2.35rem);
-  letter-spacing: -0.035em;
+.account,
+.intro p,
+.intro small,
+.status,
+.note {
+  color: var(--color-text-muted);
 }
-.subtitle {
-  margin-top: 0.45rem;
-  color: #667085;
+.intro {
+  display: grid;
+  gap: var(--space-3);
+  line-height: var(--line-height-relaxed);
 }
-.status {
-  margin: 1rem 0;
-  color: #667085;
+.intro h1 {
+  font-size: var(--font-size-2xl);
+  line-height: var(--line-height-tight);
+}
+.sectionHeader h2 {
+  font-size: var(--font-size-xl);
 }
 .profiles {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  gap: 2rem;
-  margin: 2.8rem 0;
+  gap: var(--space-8);
+  margin-block: var(--space-5);
 }
-.profile,
-.addProfile {
+.profiles .profile,
+.profiles .addProfile {
   display: grid;
-  justify-items: center;
   width: 9rem;
-  gap: 0.45rem;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  color: var(--color-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-lg);
+  white-space: normal;
+}
+.profiles .profile:not(:disabled):hover,
+.profiles .addProfile:hover {
+  background: transparent;
+}
+.profile:not(:disabled):hover .avatar,
+.addProfile:hover .addAvatar {
+  box-shadow: var(--shadow-md);
+}
+.profile strong {
+  font-size: var(--font-size-lg);
+  overflow-wrap: anywhere;
+}
+.profile small {
+  color: var(--color-text-muted);
+}
+.profile > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-primary);
 }
 .avatar,
-.addProfile > svg {
+.addAvatar {
   display: grid;
   width: 7rem;
   height: 7rem;
   place-items: center;
-  color: #fff;
-  background: #5890eb;
-  border-radius: 1.45rem;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  border-radius: var(--radius-xl);
 }
-.profile small {
-  color: #667085;
-}
-.profile :global(button) {
-  min-height: auto;
-  padding: 0.25rem;
-  color: #4f7fc8;
+.addAvatar {
+  color: var(--color-text-muted);
   background: transparent;
+  border: 2px dashed var(--color-border);
 }
-.addProfile > svg {
-  padding: 2.25rem;
-  color: #667085;
-  background: transparent;
-  border: 2px dashed #cedbea;
+.note {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
 }
-.addButton {
-  min-height: auto !important;
-  padding: 0.25rem !important;
-  color: #586579 !important;
-  background: transparent !important;
-}
-.parentInfo {
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  color: #667085;
-  font-size: 0.88rem;
-}
-.parentInfo span {
+.parentCard {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-xl);
 }
-.parentInfo a {
-  color: #24334b;
-  font-weight: 700;
+.parentCard > span {
+  display: grid;
+  flex: 1;
+  gap: var(--space-2);
 }
-@media (max-width: 36rem) {
-  .page {
-    padding: 1.25rem;
-  }
-  .profiles {
-    gap: 1rem;
-  }
+.parentCard small {
+  color: var(--color-text-muted);
+  line-height: var(--line-height-normal);
+}
+.parentCard > svg {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+.parentCard:hover {
+  box-shadow: var(--shadow-md);
+}
+.parentCard:focus-visible,
+.brand:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }

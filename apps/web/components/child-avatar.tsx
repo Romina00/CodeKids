@@ -1,12 +1,7 @@
-import { Bot, Icon } from '@repo/ui/icon';
+import { UserRound, Icon } from '@repo/ui/icon';
 import Image from 'next/image';
 import { apiBaseUrl } from '../lib/auth-session';
-
-const colors: Record<string, string> = {
-  'robot-blue': '#2563eb',
-  'robot-green': '#15803d',
-  'robot-orange': '#c2410c',
-};
+import styles from './child-avatar.module.css';
 
 export function ChildAvatar({
   avatar,
@@ -27,16 +22,9 @@ export function ChildAvatar({
       />
     );
   }
-  if (avatar && colors[avatar]) {
-    return (
-      <span
-        role="img"
-        aria-label={`${name}'s ${avatar.replace('-', ' ')}`}
-        style={{ color: colors[avatar] }}
-      >
-        <Icon icon={Bot} size="xl" />
-      </span>
-    );
-  }
-  return <span aria-label={`${name}'s avatar`}>{name.charAt(0)}</span>;
+  return (
+    <span className={styles.avatar} data-avatar={avatar}>
+      <Icon icon={UserRound} size="xl" label={`${name}'s avatar`} />
+    </span>
+  );
 }

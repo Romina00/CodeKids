@@ -21,6 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "create:admin": "node --env-file-if-exists=.env -r ts-node/register src/create-admin.ts",
     "db:cleanup": "node --env-file-if-exists=.env -r ts-node/register src/cleanup-unused-tables.ts",
     "seed:games": "node --env-file-if-exists=.env -r ts-node/register src/seed-games.ts",
     "migration:run": "typeorm-ts-node-esm migration:run -- -d src/data-source.ts",
@@ -40,7 +41,7 @@
     "mysql2": "^3.22.5",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "swagger-ui-express": "^5.0.1",
+    "swagger-ui-express": "^5.0.0",
     "typeorm": "^1.0.0"
   },
   "devDependencies": {

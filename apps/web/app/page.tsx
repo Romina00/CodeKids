@@ -17,7 +17,6 @@ import {
   CodeXml,
   Gamepad2,
   Icon,
-  LockKeyhole,
   PlayCircle,
   Rocket,
   ShieldCheck,
@@ -38,7 +37,7 @@ const paths = [
   {
     label: 'Total beginner',
     title: 'Never coded before?',
-    description: 'Start with pure logic thinking—no typing, no scary code.',
+    description: 'Explore coding step by step through 15 playable levels.',
     icon: BrainCircuit,
     tone: 'green',
     items: [
@@ -47,49 +46,56 @@ const paths = [
       'Build your first mini-programs',
     ],
     action: 'Start from zero',
+    planned: false,
   },
   {
-    label: 'Already curious',
+    label: 'Planned extension',
     title: 'Know some coding?',
-    description: 'Take a short check and jump ahead when you are ready.',
+    description:
+      'This bachelor’s project currently focuses on beginners. A dedicated route for children with coding experience is planned.',
     icon: Rocket,
     tone: 'blue',
     items: [
-      'Skip skills you already know',
-      'Take harder logic challenges',
-      'Move toward algorithms and programming',
+      'Planned: a check of existing skills',
+      'Planned: an entry point matching your skills',
+      'Planned: more advanced coding challenges',
     ],
-    action: 'Find my level',
+    action: 'Coming soon — not available yet',
+    planned: true,
   },
 ] as const;
 
 const learningPath = [
   {
-    title: 'Logic basics',
-    description: 'Learn logical thinking',
+    title: 'Sequences & first loops',
+    description:
+      'Guide Tom to Jerry, put pizza steps in order and repeat moves to reach treasure.',
     icon: BrainCircuit,
-    status: 'Available',
+    status: 'Levels 1–3',
     tone: 'green',
   },
   {
-    title: 'AND & OR',
-    description: 'Understand && and ||',
+    title: 'Conditions & variables',
+    description:
+      'Explore AND and OR, change a coin count, choose data types and control a robot with conditions.',
     icon: CodeXml,
-    status: 'Available',
+    status: 'Levels 4–8',
     tone: 'blue',
   },
   {
-    title: 'Algorithms',
-    description: 'Create simple workflows',
+    title: 'Loops, plans & functions',
+    description:
+      'Clean with loops, grow a grid garden, plan a delivery, arrange a mission, build castle parts and reuse a spell.',
     icon: BookOpen,
-    status: 'Unlocks next',
+    status: 'Levels 9–14',
     tone: 'mint',
   },
   {
-    title: 'Programming basics',
-    description: 'Your next step in programming',
-    icon: LockKeyhole,
-    status: 'Unlocks later',
+    title: 'Your own mini game',
+    description:
+      'Set your goal, combine moves, loops, conditions and a function, then test your treasure quest with and without a key.',
+    icon: Gamepad2,
+    status: 'Level 15',
     tone: 'amber',
   },
 ] as const;
@@ -113,24 +119,6 @@ const miloMoments = [
     description:
       'Solved it? Milo cheers you on. Every small success is a step forward.',
   },
-] as const;
-
-const reviews = [
-  [
-    'Sarah M.',
-    'Parent of an 11-year-old',
-    'My daughter used to say coding was boring. Now she asks to do one more level before dinner.',
-  ],
-  [
-    'Leo',
-    'Learner, age 12',
-    'I thought programming was only for grown-ups. The videos are short and I actually understand AND and OR now!',
-  ],
-  [
-    'Mia',
-    'Learner, age 14',
-    'I already knew a little Scratch, but here I could take my first real steps in programming. The levels kept me challenged.',
-  ],
 ] as const;
 
 export default function Home() {
@@ -178,10 +166,6 @@ export default function Home() {
                 <Icon icon={PlayCircle} size="sm" /> See how it works
               </a>
             </div>
-            <div className={styles.trustLine}>
-              <span aria-label="Five stars">★★★★★</span>
-              <small>Loved by curious kids & trusted by parents</small>
-            </div>
           </div>
 
           <div
@@ -209,12 +193,12 @@ export default function Home() {
 
           <dl className={styles.stats}>
             <div>
-              <dt>50+</dt>
-              <dd>Interactive lessons</dd>
+              <dt>15</dt>
+              <dd>Playable coding levels</dd>
             </div>
             <div>
-              <dt>4</dt>
-              <dd>Levels from zero to programming</dd>
+              <dt>1</dt>
+              <dd>Mini game to build in the final level</dd>
             </div>
             <div>
               <dt>100%</dt>
@@ -329,10 +313,10 @@ export default function Home() {
 
         <section className={styles.pathsSection}>
           <div className={styles.sectionHeading}>
-            <h2>Two starting points, one adventure</h2>
+            <h2>Start today. More adventures ahead.</h2>
             <p>
-              Whether your child is brand new or already tinkering with code,
-              there is a clear next step.
+              The beginner journey is ready to play. A separate route for
+              experienced learners is part of our future plans.
             </p>
           </div>
           <div className={styles.pathGrid}>
@@ -356,9 +340,13 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <CardFooter>
-                  <a className={styles.cardAction} href="/register">
-                    {path.action} <Icon icon={ArrowRight} size="sm" />
-                  </a>
+                  {path.planned ? (
+                    <Badge variant="neutral">{path.action}</Badge>
+                  ) : (
+                    <a className={styles.cardAction} href="/register">
+                      {path.action} <Icon icon={ArrowRight} size="sm" />
+                    </a>
+                  )}
                 </CardFooter>
               </Card>
             ))}
@@ -369,7 +357,8 @@ export default function Home() {
           <div className={styles.sectionHeading}>
             <h2>Your learning path</h2>
             <p>
-              From the basics to real programming—step by step toward the goal.
+              15 playable levels, from your first sequence to your own mini
+              game. Complete each level to unlock the next.
             </p>
           </div>
           <ol className={styles.learningGrid}>
@@ -381,42 +370,13 @@ export default function Home() {
                 </span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
-                <small className={index < 2 ? styles.available : undefined}>
-                  {index < 2 ? '▷' : '⌁'} {step.status}
-                </small>
+                <small>{step.status}</small>
               </li>
             ))}
           </ol>
           <a className={styles.primaryAction} href="/register">
             Discover all levels
           </a>
-        </section>
-
-        <section className={styles.testimonialsSection}>
-          <div className={styles.sectionHeading}>
-            <h2>Kids love it. Parents trust it.</h2>
-            <p>Real reactions from families learning with CodeKids.</p>
-          </div>
-          <div className={styles.reviewGrid}>
-            {reviews.map(([name, role, quote]) => (
-              <Card className={styles.reviewCard} key={name}>
-                <CardContent>
-                  <span className={styles.quote}>“</span>
-                  <div className={styles.stars} aria-label="Five stars">
-                    ★★★★★
-                  </div>
-                  <blockquote>{quote}</blockquote>
-                  <div className={styles.reviewer}>
-                    <span>{name[0]}</span>
-                    <p>
-                      <strong>{name}</strong>
-                      <small>{role}</small>
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </section>
 
         <section className={styles.parentSection} id="for-parents">

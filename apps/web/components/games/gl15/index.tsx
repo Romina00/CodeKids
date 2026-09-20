@@ -18,7 +18,6 @@ import {
 } from '@repo/ui/icon';
 import { useState } from 'react';
 import { GameGuide, type GuideMood } from '../game-guide';
-import styles from './game.module.css';
 
 type Block =
   'move' | 'repeat' | 'ifKey' | 'score' | 'defineFunction' | 'callFunction';
@@ -351,9 +350,7 @@ export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
   }
 
   return (
-    <main
-      className={`${styles.game} grid gap-3 rounded-3xl border border-slate-200 bg-white p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900`}
-    >
+    <main className="grid min-w-0 gap-3 rounded-3xl border border-slate-200 bg-white p-3 shadow-sm lg:grid-cols-[minmax(12rem,22%)_minmax(0,1fr)] lg:items-start [&>aside]:min-h-0 [&>aside]:content-start [&>aside]:gap-3 [&>aside>div:first-child]:min-h-0 [&>aside>div:first-child]:gap-3 [&>aside_p]:text-base [&>aside_p]:leading-normal [&>aside_button]:min-h-10 [&>aside_button]:px-3 [&>aside_button]:py-2 [&>aside_button]:text-sm dark:border-slate-700 dark:bg-slate-900">
       <GameGuide
         mood={guideMood}
         message={message}
@@ -379,7 +376,7 @@ export default function GameGL15({ onComplete }: { onComplete?: () => void }) {
           </p>
         </header>
 
-        <div className={styles.workspace}>
+        <div className="grid min-w-0 gap-3 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start">
           <div className="grid content-start gap-3 rounded-2xl border border-cyan-200 bg-slate-950 p-3 text-white">
             <div className="flex items-center justify-between">
               <h3 className="flex items-center gap-2 text-lg font-extrabold">

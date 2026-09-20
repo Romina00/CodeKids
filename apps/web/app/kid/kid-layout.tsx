@@ -32,9 +32,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div
-      className={`${styles.shell} h-svh overflow-hidden max-[1024px]:h-auto max-[1024px]:min-h-svh max-[1024px]:overflow-visible`}
-    >
+    <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link aria-label="CodeKids home" className={styles.logoLink} href="/">
           <LogoMark title="" />
@@ -71,11 +69,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
         <ParentModeExit />
       </aside>
 
-      <main
-        className={`${styles.main} min-h-0 overflow-y-auto`}
-        id="main-content"
-        tabIndex={-1}
-      >
+      <main className={styles.main} id="main-content" tabIndex={-1}>
         {children}
       </main>
     </div>

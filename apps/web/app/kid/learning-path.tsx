@@ -222,6 +222,9 @@ export function LearningPath() {
           );
         })}
       </ol>
+      <p className={styles.heading}>
+        More levels coming soon. Your coding adventure continues!
+      </p>
     </section>
   );
 }

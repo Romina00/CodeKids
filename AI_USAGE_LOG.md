@@ -211,3 +211,41 @@ The owner approved proceeding through all tasks and the required security, role,
 - Add details of the author's reported authentication review and any other adaptations or rejected suggestions where records exist, without inventing test results.
 - Assess any adopted later AI changes to independent core work by their actual scope against the agreement; do not repeat the superseded claim that the original parent dashboard was entirely AI-generated.
 - Review this disclosure before using it in the thesis; it is not a claim of exhaustive completeness.
+
+## Entry: Admin learning content management
+
+### Record details
+
+- Date: 2026-09-25 (session environment date).
+- Tool and model: OpenAI Codex, GPT-6 (session-provided identity).
+- Purpose: implement the requested administrator content management using the existing code style, documentation, and design system.
+- Type of use: repository inspection, implementation, tests, and documentation.
+- Evidence: current conversation and uncommitted workspace diff. The user explicitly selected learning levels and activities as the content scope.
+
+### Affected artifacts and contribution
+
+AI added the admin content client, catalog component, and editor under `apps/web/lib/admin-content.ts` and `apps/web/components/admin/`, and connected them to the existing admin page. Existing NestJS learning endpoints were reused. AI added duplicate-slug feedback and protection against deleting activities with progress in the learning service, plus focused authorization, validation, and service tests. AI documented the workflow and limitations in `docs/ADMIN_CONTENT_MANAGEMENT.md` and the frontend README. Earlier session edits to admin access/navigation remain separate from this content feature.
+
+The author's original game components, game-specific frontend/database integration, architecture, style guide, and design tokens were read as existing constraints and were not authored by AI in this task. The feature manages existing learning entities; it adds no schema or seed changes. Additional content does not create new playable game components.
+
+### Prompt and verification
+
+Prompt summary: implement administration of user accounts and administration content, following the existing code style, documentation, and style guide. Clarification: learning levels and activities.
+
+Checks performed: all 110 backend tests in 23 suites passed; workspace type checks and full workspace lint passed. Isolated frontend helper checks covered JSON parsing, request methods, DELETE responses, and API errors. Browser acceptance against a running database was not performed and is documented as pending manual verification. Personal review, acceptance, and further adaptation by the author have not been observed; no commit was created.
+
+## Entry: Repair missing administrator account columns
+
+- Date: 2026-09-25 (session environment date).
+- Tool/model: OpenAI Codex, GPT-6 (session-provided identity).
+- Prompt: fix the `Unknown column 'User.blockedAt'` failure when creating an administrator.
+- AI contribution: inspected the configured database schema; added a narrowly scoped, repeatable `db:repair-admin` CLI command and tests; documented its use in the root README. The command adds only the missing nullable administrator fields and does not run the full historical migration chain or alter existing account roles.
+- Execution: the approved repair added `blockedAt`, `blockedReason`, and `recoveryRequestedAt`; the existing `create:admin` command then successfully created the configured administrator account. Credentials were loaded from the existing environment file; no password was printed or included in this log.
+- Verification: three focused schema-repair tests, backend type checking, and targeted lint. Tests cover repeat execution, partially updated tables, and refusal to create a missing user table. Browser login was not tested.
+- Attribution and acceptance: AI authored the repair helper, CLI entry point, tests, and this documentation. Existing authentication, schema definitions, and prior project authorship remain unchanged. User approval covered executing the database repair and administrator creation; personal code review has not been observed.
+
+## Follow-up: Verify administrator login against the running Docker API
+
+On 2026-09-25, the user reported that login still failed after administrator creation. AI verified that the configured local database contained the account and that its password matched, but the running API returned HTTP 401. The local services on ports 3001 and 3003 were Docker services using the separate Compose database on host port 3307. The earlier repair and account creation had targeted the database in `apps/api/.env`, not the database used by the browser-facing API. AI acknowledged this missed integration check.
+
+With execution approval, AI created the configured administrator in the Compose database using the existing administrator credentials, without printing the password. Verification against the running API then returned HTTP 200 for login with role `ADMIN` and redirect `/admin`, and HTTP 200 for `/admin`, `/admin/users`, and `/learning/levels`. No browser interaction was performed. The difference between local CLI and Docker database configuration is now documented in the administration guide.

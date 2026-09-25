@@ -75,7 +75,18 @@ export function clearSession() {
   window.sessionStorage.removeItem('codekids_refresh_token');
 }
 
-async function refreshSession(): Promise<string | null> {
+let pendingRefresh: Promise<string | null> | null = null;
+
+export function refreshSession(): Promise<string | null> {
+  if (!pendingRefresh) {
+    pendingRefresh = requestSessionRefresh().finally(() => {
+      pendingRefresh = null;
+    });
+  }
+  return pendingRefresh;
+}
+
+async function requestSessionRefresh(): Promise<string | null> {
   const refreshToken = getRefreshToken();
   if (!refreshToken) return null;
 
@@ -85,8 +96,11 @@ async function refreshSession(): Promise<string | null> {
     body: JSON.stringify({ refreshToken }),
   });
   if (!response.ok) {
-    clearSession();
-    return null;
+    if (response.status === 401 || response.status === 403) {
+      clearSession();
+      return null;
+    }
+    throw new Error(await readApiError(response));
   }
 
   const session = (await response.json()) as AuthSession;

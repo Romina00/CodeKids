@@ -181,3 +181,21 @@ npm run seed:games --workspace @codekids/backend
 ```
 
 This command uses `apps/api/.env`, is safe to repeat, and keeps existing progress.
+
+## Repair missing administrator columns
+
+If `create:admin` reports `Unknown column 'User.blockedAt'`, an existing
+`users` table is missing the administrator account-control columns. Run from
+the repository root:
+
+```bash
+npm run db:repair-admin --workspace @codekids/backend
+npm run create:admin --workspace @codekids/backend
+```
+
+Both commands load `apps/api/.env`. The repair adds only missing nullable
+`blockedAt`, `blockedReason`, and `recoveryRequestedAt` columns. It preserves
+existing columns and account records and can be repeated. It does not run
+unrelated migrations, recreate removed tables, or mark historical migrations
+as applied. It requires an existing `users` table and is not a replacement
+for the full schema setup on a new database.

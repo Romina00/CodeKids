@@ -127,6 +127,56 @@ describe('LevelsService', () => {
     });
   });
 
+  it('lists drafts for administrators without requesting child progress', async () => {
+    levels.find.mockResolvedValue([{ id: 1, published: false }] as Level[]);
+    await expect(service.findAll()).resolves.toEqual([
+      { id: 1, published: false },
+    ]);
+    expect(levels.find.mock.calls[0]?.[0]).toEqual(
+      expect.objectContaining({ where: {} }),
+    );
+    expect(progress.find.mock.calls).toHaveLength(0);
+  });
+
+  it('rejects duplicate slugs without saving', async () => {
+    levels.findOne.mockResolvedValue({ id: 1, slug: 'loops' } as Level);
+    await expect(
+      service.create({
+        slug: 'loops',
+        title: 'Loops',
+        position: 1,
+        published: false,
+      }),
+    ).rejects.toThrow('slug already exists');
+    expect(levels.save.mock.calls).toHaveLength(0);
+  });
+
+  it('preserves activity progress by rejecting deletion of used activities', async () => {
+    activities.findOneBy.mockResolvedValue({ id: 30, levelId: 3 } as Activity);
+    progress.existsBy.mockResolvedValue(true);
+    await expect(service.removeActivity(3, 30)).rejects.toThrow(
+      'Unpublish its level instead',
+    );
+    expect(activities.remove.mock.calls).toHaveLength(0);
+  });
+
+  it('unpublishes a level without deleting its activities or progress', async () => {
+    levels.findOneBy.mockResolvedValue({
+      id: 3,
+      published: true,
+      prerequisiteLevelId: null,
+    } as Level);
+    levels.merge.mockImplementation((target, changes) =>
+      Object.assign(target, changes),
+    );
+    levels.save.mockImplementation((level) => Promise.resolve(level as Level));
+    await expect(
+      service.update(3, { published: false }),
+    ).resolves.toMatchObject({ id: 3, published: false });
+    expect(activities.remove.mock.calls).toHaveLength(0);
+    expect(progress.remove.mock.calls).toHaveLength(0);
+  });
+
   it('returns not found for unknown levels and cross-level activities', async () => {
     levels.findOne.mockResolvedValue(null);
     activities.findOneBy.mockResolvedValue(null);
@@ -145,6 +195,7 @@ function repositoryMock<T extends ObjectLiteral>(): jest.Mocked<Repository<T>> {
     findOne: jest.fn(),
     findOneBy: jest.fn(),
     merge: jest.fn(),
+    existsBy: jest.fn().mockResolvedValue(false),
     remove: jest.fn().mockResolvedValue(undefined),
   } as unknown as jest.Mocked<Repository<T>>;
 }

@@ -56,3 +56,10 @@ select complete class strings for button variants and colors. There are no CSS
 Modules or separate `.styles.ts` files. Shared colors, spacing, and typography
 remain in `styles/tokens/`; `app/globals.css` provides the Tailwind entry point,
 fonts, base rules, and shared logo styling.
+
+## Admin content management
+
+Administrators can manage learning levels and activities in `/admin` → **Content**.
+The feature reuses the learning API and shared UI components. See
+[Administration and Content Management](../../docs/ADMIN_CONTENT_MANAGEMENT.md)
+for supported operations, the existing game-catalog boundary, and verification steps.

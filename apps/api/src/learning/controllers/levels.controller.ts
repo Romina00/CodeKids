@@ -42,6 +42,7 @@ import { LevelsService } from '../services/levels.service';
   HttpStatus.UNAUTHORIZED,
   HttpStatus.FORBIDDEN,
   HttpStatus.NOT_FOUND,
+  HttpStatus.CONFLICT,
   HttpStatus.INTERNAL_SERVER_ERROR,
 )
 export class LevelsController {

@@ -19,7 +19,11 @@ export class AdminService {
     const byRole = (role: Role) =>
       users
         .filter((user) => user.role === role)
-        .map((user) => this.usersService.serializeUser(user));
+        .map((user) => ({
+          ...this.usersService.serializeUser(user),
+          blockedAt: user.blockedAt,
+          blockedReason: user.blockedReason,
+        }));
     const parents = byRole(Role.PARENT),
       children = byRole(Role.KID),
       admins = byRole(Role.ADMIN);

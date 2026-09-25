@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -25,6 +26,7 @@ export class LevelsService {
   ) {}
 
   async create(dto: CreateLevelDto) {
+    await this.validateSlug(dto.slug);
     await this.validatePrerequisite(null, dto.prerequisiteLevelId ?? null);
     return this.levels.save(this.levels.create(dto));
   }
@@ -51,6 +53,7 @@ export class LevelsService {
 
   async update(id: number, dto: UpdateLevelDto) {
     const level = await this.requireLevel(id);
+    if (dto.slug !== undefined) await this.validateSlug(dto.slug, id);
     const prerequisiteId =
       dto.prerequisiteLevelId === undefined
         ? level.prerequisiteLevelId
@@ -81,6 +84,11 @@ export class LevelsService {
 
   async removeActivity(levelId: number, activityId: number) {
     const activity = await this.requireActivity(levelId, activityId);
+    if (await this.progress.existsBy({ activityId: activity.id })) {
+      throw new ConflictException(
+        'This activity has learning progress and cannot be deleted. Unpublish its level instead.',
+      );
+    }
     await this.activities.remove(activity);
     return { deleted: true, id: activityId };
   }
@@ -121,6 +129,13 @@ export class LevelsService {
           completed: completedActivityIds.has(activity.id),
         })),
     }));
+  }
+
+  private async validateSlug(slug: string, levelId?: number) {
+    const existing = await this.levels.findOne({ where: { slug } });
+    if (existing && existing.id !== levelId) {
+      throw new ConflictException('A level with this slug already exists.');
+    }
   }
 
   private async requireLevel(id: number) {

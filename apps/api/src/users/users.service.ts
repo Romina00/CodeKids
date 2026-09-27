@@ -218,6 +218,10 @@ export class UsersService {
     return this.usersRepository.save(child);
   }
 
+  getChildForParent(parentId: number, childId: number): Promise<User> {
+    return this.getOwnedChild(parentId, childId);
+  }
+
   async listChildrenForParent(parentId: number): Promise<User[]> {
     await this.getOwnedParent(parentId);
     return this.usersRepository.find({

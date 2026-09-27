@@ -87,6 +87,26 @@ export class ParentsController {
     return this.parentsService.updateChild(user.sub, childId, body);
   }
 
+  @Get('children/:childId/levels')
+  @ApiOperation({ summary: 'Read an owned child learning path' })
+  @ApiOkResponse({ description: 'Learning levels with child progress state' })
+  getChildLevels(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('childId', ParseIntPipe) childId: number,
+  ) {
+    return this.parentsService.getChildLevels(user.sub, childId);
+  }
+
+  @Get('children/:childId/rewards')
+  @ApiOperation({ summary: 'Read an owned child rewards summary' })
+  @ApiOkResponse({ description: 'XP events and rewards for the child' })
+  getChildRewards(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('childId', ParseIntPipe) childId: number,
+  ) {
+    return this.parentsService.getChildRewards(user.sub, childId);
+  }
+
   @Post('children/:childId/kids-mode')
   @ApiOperation({
     summary: 'Select a child and start a restricted Kids Mode session',

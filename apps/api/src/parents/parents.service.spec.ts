@@ -1,4 +1,6 @@
 import { AuthService } from '../auth/auth.service';
+import { LevelsService } from '../learning/services/levels.service';
+import { RewardsService } from '../learning/services/rewards.service';
 import { Role, User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { ParentsService } from './parents.service';
@@ -6,6 +8,8 @@ import { ParentsService } from './parents.service';
 describe('ParentsService child profile API', () => {
   let service: ParentsService;
   let users: jest.Mocked<UsersService>;
+  let levels: jest.Mocked<LevelsService>;
+  let rewards: jest.Mocked<RewardsService>;
 
   beforeEach(() => {
     users = {
@@ -15,6 +19,7 @@ describe('ParentsService child profile API', () => {
       markChildKidsMode: jest.fn(),
       updateParentProfile: jest.fn(),
       changeParentPassword: jest.fn(),
+      getChildForParent: jest.fn(),
       serializeUser: jest.fn((user: User) => ({
         id: user.id,
         role: user.role,
@@ -22,7 +27,13 @@ describe('ParentsService child profile API', () => {
         parentId: user.parentId,
       })),
     } as unknown as jest.Mocked<UsersService>;
-    service = new ParentsService(users, {} as AuthService);
+    levels = {
+      findAll: jest.fn(),
+    } as unknown as jest.Mocked<LevelsService>;
+    rewards = {
+      summary: jest.fn(),
+    } as unknown as jest.Mocked<RewardsService>;
+    service = new ParentsService(users, {} as AuthService, levels, rewards);
   });
 
   it('maps the create-child API input and returns a safe serialization', async () => {
@@ -86,7 +97,7 @@ describe('ParentsService child profile API', () => {
         refreshToken: 'kid-refresh',
       }),
     } as unknown as jest.Mocked<AuthService>;
-    service = new ParentsService(users, auth);
+    service = new ParentsService(users, auth, levels, rewards);
 
     const result = await service.openKidsMode(10, 20);
 
@@ -136,5 +147,34 @@ describe('ParentsService child profile API', () => {
       'Current1',
       'Updated1',
     ]);
+  });
+
+  it('loads a child learning path only after checking parent ownership', async () => {
+    users.getChildForParent.mockResolvedValue({
+      id: 20,
+      role: Role.KID,
+      parentId: 10,
+    } as User);
+    levels.findAll.mockResolvedValue([{ id: 1 }] as never);
+
+    await expect(service.getChildLevels(10, 20)).resolves.toEqual([{ id: 1 }]);
+    expect(users.getChildForParent.mock.calls[0]).toEqual([10, 20]);
+    expect(levels.findAll.mock.calls[0]).toEqual([20]);
+  });
+
+  it('loads child rewards only after checking parent ownership', async () => {
+    users.getChildForParent.mockResolvedValue({
+      id: 20,
+      role: Role.KID,
+      parentId: 10,
+    } as User);
+    rewards.summary.mockResolvedValue({ xp: 10, rewards: [] } as never);
+
+    await expect(service.getChildRewards(10, 20)).resolves.toEqual({
+      xp: 10,
+      rewards: [],
+    });
+    expect(users.getChildForParent.mock.calls[0]).toEqual([10, 20]);
+    expect(rewards.summary.mock.calls[0]).toEqual([20]);
   });
 });

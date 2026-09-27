@@ -26,6 +26,8 @@ type LearningLevel = {
   unlocked: boolean;
 };
 
+export type LearningPathLevel = LearningLevel;
+
 const LEVEL_DETAILS = [
   { number: 1, title: 'Tom & Jerry', topic: 'Sequences' },
   { number: 2, title: 'Pizza order', topic: 'Sequences' },
@@ -59,10 +61,10 @@ function getLevelStatus(
   return level.unlocked ? 'available' : 'locked';
 }
 
-function getStatusLabel(status: LevelStatus) {
+function getStatusLabel(status: LevelStatus, readOnly: boolean) {
   if (status === 'completed') return 'Completed';
-  if (status === 'current') return 'Play next';
-  if (status === 'available') return 'Open';
+  if (status === 'current') return readOnly ? 'Current' : 'Play next';
+  if (status === 'available') return readOnly ? 'Unlocked' : 'Open';
   return 'Locked';
 }
 
@@ -121,13 +123,25 @@ export function LearningPath() {
     };
   }, []);
 
+  if (loading || error)
+    return <p role="status">{error || 'Loading your progress...'}</p>;
+
+  return <LearningPathView levels={levels} />;
+}
+
+export function LearningPathView({
+  levels,
+  readOnly = false,
+  childName,
+}: {
+  levels: LearningPathLevel[];
+  readOnly?: boolean;
+  childName?: string;
+}) {
   const completedCount = levels.filter((level) => level.completed).length;
   const currentLevelNumber = levels.find(
     (level) => level.unlocked && !level.completed,
   )?.number;
-
-  if (loading || error)
-    return <p role="status">{error || 'Loading your progress...'}</p>;
 
   return (
     <section
@@ -136,31 +150,42 @@ export function LearningPath() {
     >
       <header className="grid [justify-items:center] gap-2 text-center [&_h1]:max-w-[17ch] [&_h1]:text-[length:clamp(var(--font-size-2xl),_5vw,_3rem)] [&_h1]:leading-[var(--text-heading-line-height)] [&_h1]:tracking-[-0.04em] [&_p]:text-[color:var(--color-text-muted)]">
         <span className="inline-flex items-center gap-2 text-[color:var(--color-primary)] text-[length:var(--font-size-sm)] font-bold tracking-[0.04em] uppercase">
-          <Icon icon={MapIcon} size="sm" /> Your journey
+          <Icon icon={MapIcon} size="sm" />{' '}
+          {readOnly ? 'Child journey' : 'Your journey'}
         </span>
-        <h1 id="learning-path-title">Follow the path to become a coder</h1>
-        <p>One small challenge at a time. You&apos;ve got this!</p>
+        <h1 id="learning-path-title">
+          {readOnly
+            ? `${childName || 'This child'} learning path`
+            : 'Follow the path to become a coder'}
+        </h1>
+        <p>
+          {readOnly
+            ? 'Read-only progress view for parents.'
+            : "One small challenge at a time. You've got this!"}
+        </p>
       </header>
 
-      <aside
-        className="flex flex-col items-center justify-center gap-5 rounded-3xl bg-blue-50 p-5 sm:flex-row sm:gap-8 dark:bg-slate-900"
-        aria-label="A message from Milo"
-      >
-        <div className="order-2 grid shrink-0 justify-items-center text-blue-600 sm:order-1 dark:text-blue-400">
-          <HappyStickman isCelebrating={false} />
-          <span className="rounded-full bg-white px-3 py-1 text-sm font-bold dark:bg-slate-800">
-            Milo
-          </span>
-        </div>
-        <div className="relative order-1 max-w-sm rounded-2xl border-2 border-blue-200 bg-white p-5 text-slate-900 after:absolute after:-bottom-2 after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-blue-200 after:bg-white sm:order-2 sm:after:bottom-auto sm:after:-left-2 sm:after:top-1/2 sm:after:translate-x-0 sm:after:rotate-[135deg] dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:after:border-slate-600 dark:after:bg-slate-800">
-          <p className="text-2xl font-extrabold leading-snug">
-            15 levels. One coding adventure. Let&apos;s go!
-          </p>
-          <p className="mt-3 text-base text-slate-600 dark:text-slate-300">
-            Try, learn, and build something awesome. I&apos;m here to help!
-          </p>
-        </div>
-      </aside>
+      {!readOnly ? (
+        <aside
+          className="flex flex-col items-center justify-center gap-5 rounded-3xl bg-blue-50 p-5 sm:flex-row sm:gap-8 dark:bg-slate-900"
+          aria-label="A message from Milo"
+        >
+          <div className="order-2 grid shrink-0 justify-items-center text-blue-600 sm:order-1 dark:text-blue-400">
+            <HappyStickman isCelebrating={false} />
+            <span className="rounded-full bg-white px-3 py-1 text-sm font-bold dark:bg-slate-800">
+              Milo
+            </span>
+          </div>
+          <div className="relative order-1 max-w-sm rounded-2xl border-2 border-blue-200 bg-white p-5 text-slate-900 after:absolute after:-bottom-2 after:left-1/2 after:size-3 after:-translate-x-1/2 after:rotate-45 after:border-b-2 after:border-r-2 after:border-blue-200 after:bg-white sm:order-2 sm:after:bottom-auto sm:after:-left-2 sm:after:top-1/2 sm:after:translate-x-0 sm:after:rotate-[135deg] dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:after:border-slate-600 dark:after:bg-slate-800">
+            <p className="text-2xl font-extrabold leading-snug">
+              15 levels. One coding adventure. Let&apos;s go!
+            </p>
+            <p className="mt-3 text-base text-slate-600 dark:text-slate-300">
+              Try, learn, and build something awesome. I&apos;m here to help!
+            </p>
+          </div>
+        </aside>
+      ) : null}
 
       <section
         className="grid grid-cols-[auto_1fr_auto] items-center gap-4 pt-4 pr-5 pb-4 pl-5 text-[color:var(--color-text)] bg-[color-mix(_in_srgb,_var(--color-warning)_14%,_var(--color-surface)_)] border-[length:1px] border-solid border-[color:color-mix(in_srgb,_var(--color-warning)_40%,_var(--color-border))] rounded-[var(--radius-xl)] max-[640px]:grid-cols-[auto_1fr] [&_div:nth-child(2)]:grid [&_div:nth-child(2)]:gap-1 [&_span]:text-[color:var(--color-text-muted)] [&_span]:text-[length:var(--font-size-sm)] [&_>_svg]:text-[color:var(--color-warning)] max-[640px]:[&_>_svg]:hidden"
@@ -185,7 +210,7 @@ export function LearningPath() {
       >
         {levels.map((level, index) => {
           const status = getLevelStatus(level, currentLevelNumber);
-          const isOpen = status !== 'locked';
+          const isOpen = status !== 'locked' && !readOnly;
           const cardContent = (
             <>
               <span className="ck-learning-path-levelNumber grid w-[2rem] h-[2rem] text-[color:var(--color-text-muted)] bg-[var(--color-surface-subtle)] rounded-[var(--radius-full)] text-[length:var(--font-size-sm)] font-bold place-items-center">
@@ -197,7 +222,7 @@ export function LearningPath() {
               </span>
               <span className="ck-learning-path-status inline-flex items-center gap-1 text-[length:var(--font-size-xs)] font-bold whitespace-nowrap max-[640px]:col-[2]">
                 <StatusIcon status={status} />
-                {getStatusLabel(status)}
+                {getStatusLabel(status, readOnly)}
               </span>
             </>
           );
@@ -231,7 +256,10 @@ export function LearningPath() {
               ) : (
                 <div
                   className="ck-learning-path-levelCard grid grid-cols-[auto_minmax(0,_1fr)_auto] items-center gap-3 min-h-[4.5rem] pt-3 pr-4 pb-3 pl-4 text-[color:var(--color-text)] bg-[var(--color-surface)] border-[length:1px] border-solid border-[color:var(--color-border)] rounded-[var(--radius-lg)] max-[640px]:grid-cols-[auto_minmax(0,_1fr)] [a&:hover]:shadow-[var(--shadow-md)] [a&:hover]:[transform:translateY(-2px)] [a&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [a&:focus-visible]:outline-offset-[3px]"
-                  aria-label={`Level ${level.number}: locked`}
+                  aria-label={`Level ${level.number}: ${getStatusLabel(
+                    status,
+                    readOnly,
+                  )}`}
                 >
                   {cardContent}
                 </div>

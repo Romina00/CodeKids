@@ -1,6 +1,6 @@
-import { Badge } from '@repo/ui/badge';
 import { ArrowRight, Icon, Settings, ShieldCheck } from '@repo/ui/icon';
 import { LogoMark } from '../../components/logo';
+import { DashboardOverview } from './dashboard-overview';
 import { AddChildProfile, ParentLogout } from './profile-actions';
 import { ChildProfiles } from './child-profiles';
 
@@ -38,16 +38,7 @@ export default function ParentDashboard() {
         tabIndex={-1}
       >
         <section className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start">
-          <div className="grid min-w-0 gap-2 max-md:w-full">
-            <Badge variant="primary">Family overview</Badge>
-            <h1 className="mt-2 text-[clamp(var(--font-size-2xl),5vw,3.25rem)] leading-[var(--text-heading-line-height)]">
-              Welcome back.
-            </h1>
-            <p className="text-[var(--color-text-muted)] leading-[var(--line-height-relaxed)]">
-              Here is a calm snapshot of how learning is going—without rankings
-              or pressure.
-            </p>
-          </div>
+          <DashboardOverview />
           <AddChildProfile />
         </section>
 
@@ -77,7 +68,7 @@ export default function ParentDashboard() {
               Family controls
             </h2>
             <p className="text-[var(--color-text-muted)] leading-[var(--line-height-relaxed)]">
-              Manage child profiles, privacy choices, and account security in
+              Manage child profiles, account details, and password security in
               one place.
             </p>
           </div>

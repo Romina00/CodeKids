@@ -28,5 +28,6 @@ import { XpEvent } from './entities/xp-event.entity';
   ],
   controllers: [LevelsController, ProgressController, RewardsController],
   providers: [LevelsService, ProgressService, RewardsService],
+  exports: [LevelsService, RewardsService],
 })
 export class LearningModule {}

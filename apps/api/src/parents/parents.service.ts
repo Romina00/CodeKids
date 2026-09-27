@@ -1,5 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
+import { RewardsService } from '../learning/services/rewards.service';
+import { LevelsService } from '../learning/services/levels.service';
 import { UsersService } from '../users/users.service';
 import { CreateChildDto } from './dto/create-child.dto';
 import { UpdateChildDto } from './dto/update-child.dto';
@@ -11,6 +13,8 @@ export class ParentsService {
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
+    private readonly levelsService: LevelsService,
+    private readonly rewardsService: RewardsService,
   ) {}
 
   getDashboard(parentId: number) {
@@ -40,6 +44,16 @@ export class ParentsService {
     return this.usersService
       .updateChildProfile(parentId, childId, body)
       .then((child) => this.usersService.serializeUser(child));
+  }
+
+  async getChildLevels(parentId: number, childId: number) {
+    await this.usersService.getChildForParent(parentId, childId);
+    return this.levelsService.findAll(childId);
+  }
+
+  async getChildRewards(parentId: number, childId: number) {
+    await this.usersService.getChildForParent(parentId, childId);
+    return this.rewardsService.summary(childId);
   }
 
   async openKidsMode(parentId: number, childId: number) {

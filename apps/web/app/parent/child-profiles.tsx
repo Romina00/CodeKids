@@ -8,14 +8,20 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
-import { useEffect, useState } from 'react';
+import { ArrowRight, Icon } from '@repo/ui/icon';
+import Link from 'next/link';
+import { useCallback, useEffect, useState } from 'react';
 import { ChildAvatar } from '../../components/child-avatar';
 import {
   authorizedFetch,
   getAccessToken,
   readApiError,
 } from '../../lib/auth-session';
-import { EnterKidsMode } from './profile-actions';
+import {
+  AddChildProfile,
+  EditChildProfile,
+  EnterKidsMode,
+} from './profile-actions';
 
 type ChildSummary = {
   id: number;
@@ -23,16 +29,29 @@ type ChildSummary = {
   avatar: string | null;
   birthYear: number | null;
   learningLevel: string | null;
+  lastKidsModeAt: string | null;
+  completedLevels: number;
+  earnedRewards: number;
+  timeSpentMinutes: number;
   learningStatistics: { averageScore: number };
 };
 
-type Dashboard = { children: ChildSummary[] };
+type Dashboard = {
+  children: ChildSummary[];
+  totals: {
+    children: number;
+    completedLevels: number;
+    rewards: number;
+    timeSpentMinutes: number;
+  };
+};
 
 export function ChildProfiles() {
   const [children, setChildren] = useState<ChildSummary[]>([]);
+  const [totals, setTotals] = useState<Dashboard['totals'] | null>(null);
   const [status, setStatus] = useState('Loading profiles…');
 
-  useEffect(() => {
+  const loadDashboard = useCallback(() => {
     const token = getAccessToken();
     if (!token) {
       setStatus('Please sign in to view child profiles.');
@@ -46,6 +65,7 @@ export function ChildProfiles() {
       })
       .then((dashboard) => {
         setChildren(dashboard.children);
+        setTotals(dashboard.totals);
         setStatus(
           dashboard.children.length
             ? ''
@@ -61,6 +81,16 @@ export function ChildProfiles() {
       });
   }, []);
 
+  useEffect(() => {
+    loadDashboard();
+  }, [loadDashboard]);
+
+  const lastViewedChildId = children
+    .filter((child) => child.lastKidsModeAt)
+    .sort((left, right) =>
+      String(right.lastKidsModeAt).localeCompare(String(left.lastKidsModeAt)),
+    )[0]?.id;
+
   return (
     <>
       <div className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start">
@@ -75,11 +105,31 @@ export function ChildProfiles() {
             Children
           </h2>
         </div>
-        <span className="text-[var(--color-text-muted)]">
-          {children.length} profiles
-        </span>
+        <AddChildProfile label="Add profile" onCreated={loadDashboard} />
       </div>
       {status ? <p role="status">{status}</p> : null}
+      {totals ? (
+        <div className="grid grid-cols-4 gap-3 max-md:grid-cols-2">
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <strong>{totals.children}</strong>
+            <p className="text-sm text-[var(--color-text-muted)]">Children</p>
+          </div>
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <strong>{totals.completedLevels}</strong>
+            <p className="text-sm text-[var(--color-text-muted)]">
+              Levels done
+            </p>
+          </div>
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <strong>{totals.rewards}</strong>
+            <p className="text-sm text-[var(--color-text-muted)]">Rewards</p>
+          </div>
+          <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <strong>{totals.timeSpentMinutes}</strong>
+            <p className="text-sm text-[var(--color-text-muted)]">Minutes</p>
+          </div>
+        </div>
+      ) : null}
       <div className="grid grid-cols-2 gap-5 max-md:grid-cols-1">
         {children.map((child, index) => {
           const name = child.nickname || 'Young coder';
@@ -105,10 +155,32 @@ export function ChildProfiles() {
                     </CardDescription>
                   </span>
                 </div>
-                {index === 0 ? <Badge variant="success">Viewing</Badge> : null}
+                {child.id === lastViewedChildId ? (
+                  <Badge variant="success">Last opened</Badge>
+                ) : null}
               </CardHeader>
               <CardContent>
                 {child.birthYear !== null && <p>Born in {child.birthYear}</p>}
+                <div className="mb-4 mt-2 grid grid-cols-3 gap-2 text-sm">
+                  <span>
+                    <strong>{child.completedLevels}</strong>
+                    <small className="block text-[var(--color-text-muted)]">
+                      Levels
+                    </small>
+                  </span>
+                  <span>
+                    <strong>{child.earnedRewards}</strong>
+                    <small className="block text-[var(--color-text-muted)]">
+                      Rewards
+                    </small>
+                  </span>
+                  <span>
+                    <strong>{child.timeSpentMinutes}</strong>
+                    <small className="block text-[var(--color-text-muted)]">
+                      Minutes
+                    </small>
+                  </span>
+                </div>
                 <div className="mb-2 flex items-center justify-between text-sm">
                   <span>Overall progress</span>
                   <strong>{progress}%</strong>
@@ -126,7 +198,14 @@ export function ChildProfiles() {
                     style={{ width: `${progress}%` }}
                   />
                 </div>
+                <Link
+                  className="mt-5 flex min-h-11 items-center gap-2 font-semibold text-[var(--color-primary)] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--color-focus-ring)]"
+                  href={`/parent/children/${child.id}`}
+                >
+                  View learning path <Icon icon={ArrowRight} size="sm" />
+                </Link>
                 <EnterKidsMode childId={child.id} />
+                <EditChildProfile child={child} onSaved={loadDashboard} />
               </CardContent>
             </Card>
           );

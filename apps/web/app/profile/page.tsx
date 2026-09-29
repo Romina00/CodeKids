@@ -8,7 +8,7 @@ import { ChildAvatar } from '../../components/child-avatar';
 import {
   authorizedFetch,
   getAccessToken,
-  getSessionUser,
+  getUserSession,
 } from '../../lib/auth-session';
 
 import { loadGameLevels, type GameLevel } from '../../lib/game-progress';
@@ -42,7 +42,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const token = getAccessToken();
-    if (!token || getSessionUser()?.role !== 'kid')
+    if (!token || getUserSession()?.role !== 'kid')
       return window.location.assign('/login');
     async function read<T>(path: string): Promise<T> {
       const response = await authorizedFetch(path, {

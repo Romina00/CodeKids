@@ -28,7 +28,7 @@ type LearningLevel = {
 
 export type LearningPathLevel = LearningLevel;
 
-const LEVEL_DETAILS = [
+const LEVEL_DATA = [
   { number: 1, title: 'Tom & Jerry', topic: 'Sequences' },
   { number: 2, title: 'Pizza order', topic: 'Sequences' },
   { number: 3, title: 'Treasure loop', topic: 'Loops' },
@@ -46,7 +46,7 @@ const LEVEL_DETAILS = [
   { number: 15, title: 'Build Your Own Mini Game', topic: 'Create' },
 ];
 
-const initialLevels: LearningLevel[] = LEVEL_DETAILS.map((level) => ({
+const initLevels: LearningLevel[] = LEVEL_DATA.map((level) => ({
   ...level,
   completed: false,
   unlocked: false,
@@ -61,7 +61,7 @@ function getLevelStatus(
   return level.unlocked ? 'available' : 'locked';
 }
 
-function getStatusLabel(status: LevelStatus, readOnly: boolean) {
+function getStatusText(status: LevelStatus, readOnly: boolean) {
   if (status === 'completed') return 'Completed';
   if (status === 'current') return readOnly ? 'Current' : 'Play next';
   if (status === 'available') return readOnly ? 'Unlocked' : 'Open';
@@ -82,14 +82,14 @@ function getStatusClass(status: LevelStatus) {
   return statusClasses[status];
 }
 
-function StatusIcon({ status }: { status: LevelStatus }) {
+function GetStatusIcon({ status }: { status: LevelStatus }) {
   if (status === 'completed') return <Icon icon={Check} size="sm" />;
   if (status === 'locked') return <Icon icon={LockKeyhole} size="sm" />;
   return <Icon icon={Play} size="sm" />;
 }
 
 export function LearningPath() {
-  const [levels, setLevels] = useState(initialLevels);
+  const [levels, setLevels] = useState(initLevels);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -221,8 +221,8 @@ export function LearningPathView({
                 <small>{level.topic}</small>
               </span>
               <span className="ck-learning-path-status inline-flex items-center gap-1 text-[length:var(--font-size-xs)] font-bold whitespace-nowrap max-[640px]:col-[2]">
-                <StatusIcon status={status} />
-                {getStatusLabel(status, readOnly)}
+                <GetStatusIcon status={status} />
+                {getStatusText(status, readOnly)}
               </span>
             </>
           );
@@ -256,7 +256,7 @@ export function LearningPathView({
               ) : (
                 <div
                   className="ck-learning-path-levelCard grid grid-cols-[auto_minmax(0,_1fr)_auto] items-center gap-3 min-h-[4.5rem] pt-3 pr-4 pb-3 pl-4 text-[color:var(--color-text)] bg-[var(--color-surface)] border-[length:1px] border-solid border-[color:var(--color-border)] rounded-[var(--radius-lg)] max-[640px]:grid-cols-[auto_minmax(0,_1fr)] [a&:hover]:shadow-[var(--shadow-md)] [a&:hover]:[transform:translateY(-2px)] [a&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [a&:focus-visible]:outline-offset-[3px]"
-                  aria-label={`Level ${level.number}: ${getStatusLabel(
+                  aria-label={`Level ${level.number}: ${getStatusText(
                     status,
                     readOnly,
                   )}`}
@@ -268,6 +268,7 @@ export function LearningPathView({
           );
         })}
       </ol>
+
       <p className="grid [justify-items:center] gap-2 text-center [&_h1]:max-w-[17ch] [&_h1]:text-[length:clamp(var(--font-size-2xl),_5vw,_3rem)] [&_h1]:leading-[var(--text-heading-line-height)] [&_h1]:tracking-[-0.04em] [&_p]:text-[color:var(--color-text-muted)]">
         More levels coming soon. Your coding adventure continues!
       </p>

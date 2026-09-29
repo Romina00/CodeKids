@@ -1,7 +1,7 @@
 import {
   authorizedFetch,
   getAccessToken,
-  getSessionUser,
+  getUserSession,
 } from './auth-session';
 
 export type GameLevel = {
@@ -21,7 +21,7 @@ export type GameLevel = {
 export async function loadGameLevels(): Promise<GameLevel[]> {
   const token = getAccessToken();
   if (!token) throw new Error('Please log in again.');
-  if (getSessionUser()?.role !== 'kid') {
+  if (getUserSession()?.role !== 'kid') {
     window.location.assign('/select-profile');
     throw new Error('Please choose a child profile first.');
   }

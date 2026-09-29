@@ -35,7 +35,7 @@ export default function KidDashboard() {
       >
         <div>
           <Badge variant="primary">Your coding space</Badge>
-          <h1>Ready for your next coding adventure?</h1>
+          <h1>Are You Ready for your next coding adventure?</h1>
           <p>
             Choose a level, solve the challenge, and see your ideas come to
             life.

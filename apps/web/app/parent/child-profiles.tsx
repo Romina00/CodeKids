@@ -48,7 +48,7 @@ type Dashboard = {
 
 export function ChildProfiles() {
   const [children, setChildren] = useState<ChildSummary[]>([]);
-  const [totals, setTotals] = useState<Dashboard['totals'] | null>(null);
+  const [total, setTotals] = useState<Dashboard['totals'] | null>(null);
   const [status, setStatus] = useState('Loading profiles…');
 
   const loadDashboard = useCallback(() => {
@@ -85,7 +85,7 @@ export function ChildProfiles() {
     loadDashboard();
   }, [loadDashboard]);
 
-  const lastViewedChildId = children
+  const fintLastViewedChildId = children
     .filter((child) => child.lastKidsModeAt)
     .sort((left, right) =>
       String(right.lastKidsModeAt).localeCompare(String(left.lastKidsModeAt)),
@@ -108,24 +108,24 @@ export function ChildProfiles() {
         <AddChildProfile label="Add profile" onCreated={loadDashboard} />
       </div>
       {status ? <p role="status">{status}</p> : null}
-      {totals ? (
+      {total ? (
         <div className="grid grid-cols-4 gap-3 max-md:grid-cols-2">
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <strong>{totals.children}</strong>
+            <strong>{total.children}</strong>
             <p className="text-sm text-[var(--color-text-muted)]">Children</p>
           </div>
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <strong>{totals.completedLevels}</strong>
+            <strong>{total.completedLevels}</strong>
             <p className="text-sm text-[var(--color-text-muted)]">
               Levels done
             </p>
           </div>
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <strong>{totals.rewards}</strong>
+            <strong>{total.rewards}</strong>
             <p className="text-sm text-[var(--color-text-muted)]">Rewards</p>
           </div>
           <div className="rounded-[var(--radius-lg)] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-            <strong>{totals.timeSpentMinutes}</strong>
+            <strong>{total.timeSpentMinutes}</strong>
             <p className="text-sm text-[var(--color-text-muted)]">Minutes</p>
           </div>
         </div>
@@ -155,7 +155,7 @@ export function ChildProfiles() {
                     </CardDescription>
                   </span>
                 </div>
-                {child.id === lastViewedChildId ? (
+                {child.id === fintLastViewedChildId ? (
                   <Badge variant="success">Last opened</Badge>
                 ) : null}
               </CardHeader>

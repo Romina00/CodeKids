@@ -110,7 +110,7 @@ export function EnterKidsMode({
 
 export function AddChildProfile({
   className,
-  label = 'Add child profile',
+  label = 'Add child profile ',
   children,
   onCreated,
 }: {
@@ -119,8 +119,8 @@ export function AddChildProfile({
   children?: ReactNode;
   onCreated?: () => void;
 } = {}) {
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState('');
+  const [pendingStatus, setPending] = useState(false);
+  const [eroor, setError] = useState('');
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -169,9 +169,9 @@ export function AddChildProfile({
           Children do not need an email or password. This private profile stays
           under your parent account.
         </DialogDescription>
-        {error ? (
+        {eroor ? (
           <Alert variant="danger">
-            <AlertDescription>{error}</AlertDescription>
+            <AlertDescription>{eroor}</AlertDescription>
           </Alert>
         ) : null}
         <form className="grid gap-4" onSubmit={submit}>
@@ -215,8 +215,8 @@ export function AddChildProfile({
             </select>
           </label>
           <DialogActions>
-            <Button disabled={pending} type="submit">
-              {pending ? 'Creating…' : 'Create profile'}
+            <Button disabled={pendingStatus} type="submit">
+              {pendingStatus ? 'Creating…' : 'Create profile'}
             </Button>
           </DialogActions>
         </form>

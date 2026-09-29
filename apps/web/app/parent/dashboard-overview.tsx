@@ -25,7 +25,7 @@ export function DashboardOverview() {
 
   return (
     <div className="grid min-w-0 gap-2 max-md:w-full">
-      <Badge variant="primary">Family overview</Badge>
+      <Badge variant="primary">Family overview </Badge>
       <h1 className="mt-2 text-[clamp(var(--font-size-2xl),5vw,3.25rem)] leading-[var(--text-heading-line-height)]">
         {name ? `Welcome back, ${name}.` : 'Welcome back.'}
       </h1>

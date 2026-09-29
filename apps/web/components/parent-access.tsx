@@ -5,7 +5,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import {
   authorizedFetch,
   getAccessToken,
-  getSessionUser,
+  getUserSession,
 } from '../lib/auth-session';
 import { Logo } from './logo';
 
@@ -17,7 +17,7 @@ export function ParentAccess({ children }: { children: ReactNode }) {
     let active = true;
     async function checkAccess() {
       setAllowed(false);
-      if (!getAccessToken() || getSessionUser()?.role !== 'parent') {
+      if (!getAccessToken() || getUserSession()?.role !== 'parent') {
         setMessage(
           'Sign in with your parent account to view or add child profiles. Kids Mode cannot manage profiles.',
         );

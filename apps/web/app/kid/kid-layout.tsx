@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
 import { LogoMark } from '../../components/logo';
-import { getAccessToken, getSessionUser } from '../../lib/auth-session';
+import { getAccessToken, getUserSession } from '../../lib/auth-session';
 
 import { ParentModeExit } from './parent-mode-exit';
 
@@ -19,7 +19,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const user = getSessionUser();
+    const user = getUserSession();
     if (!getAccessToken()) {
       window.location.assign('/login');
       return;
@@ -38,6 +38,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
           <LogoMark title="" />
           <span>CodeKids</span>
         </div>
+
         <Navigation label="Kid dashboard">
           <NavigationItem>
             <NavigationLink current={pathname === '/kid'} href="/kid">
@@ -58,6 +59,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
             </NavigationLink>
           </NavigationItem>
         </Navigation>
+
         <Link
           className="grid grid-cols-[auto_1fr_auto] items-center gap-3 p-3 mt-[auto] border-[length:1px] border-solid border-[color:var(--color-border)] rounded-[var(--radius-lg)] max-[1024px]:hidden max-[1024px]:mt-6 [&_>_span:nth-child(2)]:grid [&_small]:text-[color:var(--color-text-muted)] [&:focus-visible]:[outline:3px_solid_var(--color-focus-ring)] [&:focus-visible]:outline-offset-[3px]"
           href="/profile"
@@ -71,6 +73,7 @@ export function KidLayout({ children }: { children: ReactNode }) {
           </span>
           <Icon icon={Settings} size="sm" />
         </Link>
+
         <ParentModeExit />
       </aside>
 

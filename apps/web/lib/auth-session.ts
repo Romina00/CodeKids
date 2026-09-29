@@ -56,7 +56,7 @@ function getRefreshToken() {
   return window.sessionStorage.getItem(REFRESH_TOKEN);
 }
 
-export function getSessionUser(): SessionUser | null {
+export function getUserSession(): SessionUser | null {
   const value = window.sessionStorage.getItem(USER);
   if (!value) return null;
   try {

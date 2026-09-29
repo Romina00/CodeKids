@@ -21,7 +21,7 @@ import { LogoMark } from '../../components/logo';
 import {
   authorizedFetch,
   clearSession,
-  getSessionUser,
+  getUserSession,
   readApiError,
   refreshSession,
 } from '../../lib/auth-session';
@@ -106,7 +106,7 @@ export default function AdminPanel() {
       try {
         const token = await refreshSession();
         if (!active) return;
-        if (!token || getSessionUser()?.role !== 'admin') {
+        if (!token || getUserSession()?.role !== 'admin') {
           setAccess('denied');
           setMessage(
             'Please sign in with an administrator account. This session does not have administrator access.',

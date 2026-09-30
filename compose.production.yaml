@@ -11,7 +11,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      WEB_ORIGIN: http://localhost:3003
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3003}
       DB_SYNCHRONIZE: 'false'
       JWT_SECRET: local-codekids-access-secret-change-for-production
       JWT_REFRESH_SECRET: local-codekids-refresh-secret-change-for-production
@@ -41,7 +41,7 @@ services:
       context: .
       target: web
       args:
-        NEXT_PUBLIC_CODEKIDS_API_URL: http://localhost:3001
+        NEXT_PUBLIC_CODEKIDS_API_URL: ${NEXT_PUBLIC_CODEKIDS_API_URL:-http://localhost:3001}
     environment:
       NODE_ENV: production
       PORT: 3003
